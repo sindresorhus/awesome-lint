@@ -2,9 +2,6 @@
 const visit = require('unist-util-visit');
 
 module.exports = (ast, file, language, done) => {
-	// TODO: because of https://github.com/wooorm/vfile/issues/5
-	file.quiet = true;
-
 	visit(ast, 'heading', (node, index) => {
 		if (index > 0) {
 			return;

@@ -1,9 +1,9 @@
 'use strict';
-const fs = require('fs');
 const remark = require('remark');
 const remarkLint = require('remark-lint');
 const globby = require('globby');
 const pify = require('pify');
+const toVfile = require('to-vfile');
 const vfileReporter = require('vfile-reporter');
 const config = require('./config');
 
@@ -19,8 +19,12 @@ const m = module.exports = opts => {
 	}
 
 	const run = remark().use(remarkLint, config).process;
+	const file = toVfile.readSync(readmeFile);
 
-	return pify(run)(fs.readFileSync(readmeFile, 'utf8'));
+	// TODO: because of https://github.com/wooorm/vfile/issues/5
+	file.quiet = true;
+
+	return pify(run)(file);
 };
 
 m.report = opts => m(opts).then(file => {
@@ -31,7 +35,6 @@ m.report = opts => m(opts).then(file => {
 	}
 
 	messages.forEach(x => {
-		x.file = opts.filename; // TODO: figure out how to set the filename in the remark() options
 		x.fatal = true; // TODO: because of https://github.com/wooorm/remark-lint/issues/65
 	});
 
