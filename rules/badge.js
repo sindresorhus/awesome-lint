@@ -17,7 +17,7 @@ module.exports = (ast, file, language, done) => {
 				for (const child2 of child.children) {
 					if (child2.type === 'image') {
 						if (child2.url !== badgeSrcUrl) {
-							file.fail('Incorrect badge source', child2);
+							file.warn('Incorrect badge source', child2);
 							return;
 						}
 
@@ -28,7 +28,7 @@ module.exports = (ast, file, language, done) => {
 		}
 
 		if (!hasBadge) {
-			file.fail('Missing Awesome badge after the main heading', node);
+			file.warn('Missing Awesome badge after the main heading', node);
 		}
 	});
 

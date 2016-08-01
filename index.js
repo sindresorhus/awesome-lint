@@ -21,9 +21,6 @@ const m = module.exports = opts => {
 	const run = remark().use(remarkLint, config).process;
 	const file = toVfile.readSync(readmeFile);
 
-	// TODO: because of https://github.com/wooorm/vfile/issues/5
-	file.quiet = true;
-
 	return pify(run)(file);
 };
 
