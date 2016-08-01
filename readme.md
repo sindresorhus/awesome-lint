@@ -8,7 +8,7 @@
 
 > Linter for [Awesome](https://awesome.re) lists
 
-[![Build Status](https://travis-ci.org/sindresorhus/awesome-lint.svg?branch=master)](https://travis-ci.org/sindresorhus/awesome-lint)
+[![Build Status](https://travis-ci.org/sindresorhus/awesome-lint.svg?branch=master)](https://travis-ci.org/sindresorhus/awesome-lint) [![Gitter](https://badges.gitter.im/join_chat.svg)](https://gitter.im/sindresorhus/awesome)
 
 Intended to make it easier to create and maintain Awesome lists.
 
