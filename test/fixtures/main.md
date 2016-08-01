@@ -1,0 +1,37 @@
+# Awesome Node.js
+
+> A curated list of delightful Node.js [packages](#packages) and [resources](#resources).
+
+## Contents
+
+- [Packages](#packages)
+	- [Mad science](#mad-science)
+	- [Command-line apps](#command-line-apps)
+	- [Functional programming](#functional-programming)
+	- [HTTP](#http)
+	- [Debugging / Profiling](#debugging--profiling)
+	- [Logging](#logging)
+	- [Command-line utilities](#command-line-utilities)
+	- [Build tools](#build-tools)
+	- [Hardware](#hardware)
+	- [Templating](#templating)
+	- [Web frameworks](#web-frameworks)
+	- [Documentation](#documentation)
+	- [Filesystem](#filesystem)
+	- [Control flow](#control-flow)
+	- [Streams](#streams)
+	- [Real-time](#real-time)
+	- [Image](#image)
+	- [Text](#text)
+	- [Number](#number)
+	- [Math](#math)
+	- [Date](#date)
+	- [URL](#url)
+	- [Data validation](#data-validation)
+	- [Parsing](#parsing)
+	- [Humanize](#humanize)
+	- [Compression](#compression)
+	- [Network](#network)
+	- [Database](#database)
+	- [Testing](#testing)
+	- [Security](#security)

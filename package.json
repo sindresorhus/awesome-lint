@@ -1,0 +1,52 @@
+{
+  "name": "awesome-lint",
+  "version": "0.0.0",
+  "description": "Linter for Awesome lists",
+  "license": "MIT",
+  "repository": "sindresorhus/awesome-lint",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js",
+    "config.js",
+    "cli.js",
+    "rules"
+  ],
+  "keywords": [
+    "awesome",
+    "lint",
+    "linter",
+    "markdown",
+    "md",
+    "remark",
+    "remark-lint",
+    "cli-app",
+    "cli"
+  ],
+  "dependencies": {
+    "globby": "^6.0.0",
+    "meow": "^3.7.0",
+    "pify": "^2.3.0",
+    "remark": "^5.0.1",
+    "remark-lint": "^4.0.2",
+    "remark-lint-no-empty-sections": "^1.0.0",
+    "remark-lint-no-url-trailing-slash": "^2.0.0",
+    "unist-util-visit": "^1.1.0",
+    "vfile-reporter": "^2.1.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "execa": "^0.4.0",
+    "xo": "*"
+  }
+}
