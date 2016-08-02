@@ -35,7 +35,7 @@ module.exports = (ast, file, language, done) => {
 					file.warn('The description must end with a \'.\' or \'!\'', position);
 				}
 			} catch (err) {
-				if (!/Cannot read property '(\w\w+)' of undefined/.test(err.message)) {
+				if (!/Cannot read property '\w+' of undefined/.test(err.message)) {
 					throw err;
 				}
 			}
