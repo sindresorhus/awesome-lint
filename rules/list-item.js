@@ -1,4 +1,5 @@
 'use strict';
+const caseOf = require('case').of;
 const visit = require('unist-util-visit');
 
 module.exports = (ast, file, language, done) => {
@@ -21,6 +22,13 @@ module.exports = (ast, file, language, done) => {
 
 				if (!description.startsWith(' - ')) {
 					file.warn('Items must have a \'-\' between the link and the description', position);
+				}
+
+				const firstWorld = description.split(' ')[2];
+				if (['camel', 'capital', 'constant'].indexOf(caseOf(firstWorld)) === -1) {
+					if (!firstWorld.startsWith('`')) {
+						file.warn('The description must start with an uppercase, camelCase world or `code`', position);
+					}
 				}
 			} catch (err) {
 				if (!/Cannot read property '(\w\w+)' of undefined/.test(err.message)) {

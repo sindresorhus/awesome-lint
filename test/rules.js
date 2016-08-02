@@ -28,3 +28,11 @@ test('list-item - missing dash between link and description', async t => {
 		t.is(result.message, 'Items must have a \'-\' between the link and the description');
 	}
 });
+
+test('list-item - description does not starts with camelCase, uppercase or `code`', async t => {
+	const results = (await m({filename: 'fixtures/list-item/3.md'})).messages;
+	for (const result of results) {
+		t.is(result.ruleId, 'awesome-list-item');
+		t.is(result.message, 'The description must start with an uppercase, camelCase world or `code`');
+	}
+});

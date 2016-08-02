@@ -34,6 +34,7 @@
     "cli"
   ],
   "dependencies": {
+    "case": "^1.4.1",
     "globby": "^6.0.0",
     "meow": "^3.7.0",
     "pify": "^2.3.0",
