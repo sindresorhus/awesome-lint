@@ -12,12 +12,18 @@ module.exports = (ast, file, language, done) => {
 			}
 
 			try { // TODO: seems like unist-util-visit does not supports sublists
-				const description = item.children[0].children[1].value;
+				const description = item.children[0].children.slice(1).reduce((prev, cur) => {
+					if (cur.type === 'inlineCode') {
+						return prev + `\`${cur.value}\``;
+					}
+					return prev + cur.value;
+				}, '');
+
 				if (!description.startsWith(' - ')) {
 					file.warn('Items must have a \'-\' between the link and the description', position);
 				}
 			} catch (err) {
-				if (err.message !== 'Cannot read property \'value\' of undefined') {
+				if (!/Cannot read property '(\w\w+)' of undefined/.test(err.message)) {
 					throw err;
 				}
 			}
