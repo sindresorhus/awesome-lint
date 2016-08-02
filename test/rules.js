@@ -12,3 +12,11 @@ test('badge - incorrect source', async t => {
 	t.is(result.ruleId, 'awesome-badge');
 	t.is(result.message, 'Incorrect badge source');
 });
+
+test('list-item - incorrect item prefix', async t => {
+	const results = (await m({filename: 'fixtures/list-item/1.md'})).messages;
+	for (const result of results) {
+		t.is(result.ruleId, 'awesome-list-item');
+		t.is(result.message, 'Items must start with \'- [name][link]\'');
+	}
+});
