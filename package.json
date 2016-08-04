@@ -38,7 +38,7 @@
     "meow": "^3.7.0",
     "pify": "^2.3.0",
     "remark": "^5.0.1",
-    "remark-lint": "^4.0.2",
+    "remark-lint": "^4.1.0",
     "remark-lint-no-empty-sections": "^1.0.0",
     "remark-lint-no-url-trailing-slash": "^2.0.0",
     "to-vfile": "^1.0.0",

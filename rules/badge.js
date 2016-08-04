@@ -1,7 +1,7 @@
 'use strict';
 const visit = require('unist-util-visit');
 
-module.exports = (ast, file, language, done) => {
+module.exports = (ast, file) => {
 	visit(ast, 'heading', (node, index) => {
 		if (index > 0) {
 			return;
@@ -31,6 +31,4 @@ module.exports = (ast, file, language, done) => {
 			file.warn('Missing Awesome badge after the main heading', node);
 		}
 	});
-
-	done();
 };
