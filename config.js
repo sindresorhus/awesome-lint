@@ -75,5 +75,6 @@ module.exports = {
 	// 	// allowRedirects: false,
 	// 	timeout: 2000
 	// },
-	'awesome-badge': true
+	'awesome-badge': true,
+	'awesome-table-of-contents': true
 };

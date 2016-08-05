@@ -34,6 +34,7 @@
     "cli"
   ],
   "dependencies": {
+    "chalk": "^1.1.3",
     "globby": "^6.0.0",
     "meow": "^3.7.0",
     "pify": "^2.3.0",
