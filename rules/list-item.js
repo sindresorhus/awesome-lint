@@ -9,7 +9,7 @@ module.exports = (ast, file, language, done) => {
 			position = JSON.parse(JSON.stringify(item.position));
 			if (position.start.line !== position.end.line) {
 				position.start.line++;
-				file.warn('Items must start with \'- [name][link]\'', position);
+				file.warn('List items must start with `- [name](link)`', position);
 			}
 
 			try { // TODO: seems like unist-util-visit does not supports sublists
@@ -21,7 +21,7 @@ module.exports = (ast, file, language, done) => {
 				}, '');
 
 				if (!description.startsWith(' - ')) {
-					file.warn('Items must have a \'-\' between the link and the description', position);
+					file.warn('List items must have a ` - ` between the link and the description', position);
 				}
 
 				const firstWorld = description.split(' ')[2];
@@ -32,7 +32,7 @@ module.exports = (ast, file, language, done) => {
 				}
 
 				if (!description.endsWith('.') && !description.endsWith('!')) {
-					file.warn('The description must end with a \'.\' or \'!\'', position);
+					file.warn('The description of a list item must end with `.` or `!`', position);
 				}
 			} catch (err) {
 				if (!/Cannot read property '\w+' of undefined/.test(err.message)) {

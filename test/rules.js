@@ -17,7 +17,7 @@ test('list-item - incorrect item prefix', async t => {
 	const results = (await m({filename: 'fixtures/list-item/1.md'})).messages;
 	for (const result of results) {
 		t.is(result.ruleId, 'awesome-list-item');
-		t.is(result.message, 'Items must start with \'- [name][link]\'');
+		t.is(result.message, 'List items must start with `- [name](link)`');
 	}
 });
 
@@ -25,7 +25,7 @@ test('list-item - missing dash between link and description', async t => {
 	const results = (await m({filename: 'fixtures/list-item/2.md'})).messages;
 	for (const result of results) {
 		t.is(result.ruleId, 'awesome-list-item');
-		t.is(result.message, 'Items must have a \'-\' between the link and the description');
+		t.is(result.message, 'List items must have a ` - ` between the link and the description');
 	}
 });
 
@@ -41,6 +41,6 @@ test('list-item – description must end with a . or !', async t => {
 	const results = (await m({filename: 'fixtures/list-item/4.md'})).messages;
 	for (const result of results) {
 		t.is(result.ruleId, 'awesome-list-item');
-		t.is(result.message, 'The description must end with a \'.\' or \'!\'');
+		t.is(result.message, 'The description of a list item must end with `.` or `!`');
 	}
 });
