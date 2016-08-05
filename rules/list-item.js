@@ -2,7 +2,7 @@
 const caseOf = require('case').of;
 const visit = require('unist-util-visit');
 
-module.exports = (ast, file, language, done) => {
+module.exports = (ast, file) => {
 	visit(ast, 'list', list => {
 		let position;
 		for (const item of list.children) {
@@ -41,5 +41,4 @@ module.exports = (ast, file, language, done) => {
 			}
 		}
 	});
-	done();
 };
