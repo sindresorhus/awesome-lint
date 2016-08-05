@@ -24,10 +24,10 @@ module.exports = (ast, file, language, done) => {
 					file.warn('List items must have a ` - ` between the link and the description', position);
 				}
 
-				const firstWorld = description.split(' ')[2];
-				if (['camel', 'capital', 'constant'].indexOf(caseOf(firstWorld)) === -1) {
-					if (!firstWorld.startsWith('`')) {
-						file.warn('The description must start with an uppercase, camelCase world or `code`', position);
+				const firstWord = description.split(' ')[2];
+				if (['camel', 'capital', 'constant'].indexOf(caseOf(firstWord)) === -1) {
+					if (!firstWord.startsWith('`')) {
+						file.warn('The description must start with an uppercase, camelCase word or `code`', position);
 					}
 				}
 

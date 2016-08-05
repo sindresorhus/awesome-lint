@@ -31,7 +31,7 @@ test('list-item - description does not starts with camelCase, uppercase or `code
 	t.plan(2);
 	let messages = (await m({filename: 'fixtures/list-item/3.md'})).messages;
 	messages = messages.filter(message => message.ruleId === 'awesome-list-item');
-	messages.forEach(message => t.is(message.message, 'The description must start with an uppercase, camelCase world or `code`'));
+	messages.forEach(message => t.is(message.message, 'The description must start with an uppercase, camelCase word or `code`'));
 });
 
 test('list-item – description must end with a . or !', async t => {
