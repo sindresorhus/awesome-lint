@@ -21,6 +21,11 @@ const m = module.exports = opts => {
 	const run = remark().use(remarkLint, config).process;
 	const file = toVfile.readSync(readmeFile);
 
+	// TODO: temporary workaround for https://github.com/wooorm/remark/issues/198
+	file.contents = file.contents.replace(/^(\t+)- /gm, (_, tabs) => {
+		return `${'  '.repeat(tabs.length)}- `;
+	});
+
 	return pify(run)(file);
 };
 

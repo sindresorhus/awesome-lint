@@ -40,3 +40,22 @@ test('list-item – description must end with a . or !', async t => {
 	messages = messages.filter(message => message.ruleId === 'awesome-list-item');
 	messages.forEach(message => t.is(message.message, 'The description of a list item must end with `.` or `!`'));
 });
+
+test('list-item – nested lists', async t => {
+	let messages = (await m({filename: 'fixtures/list-item/5.md'})).messages;
+	messages = messages.filter(message => message.ruleId === 'awesome-list-item');
+	t.is(messages.length, 0);
+});
+
+test('list-item – `Contents` section', async t => {
+	let messages = (await m({filename: 'fixtures/list-item/6.md'})).messages;
+	messages = messages.filter(message => message.ruleId === 'awesome-list-item');
+	t.is(messages.length, 0);
+});
+
+test('list-item – item w/o description', async t => {
+	t.plan(2);
+	let messages = (await m({filename: 'fixtures/list-item/7.md'})).messages;
+	messages = messages.filter(message => message.ruleId === 'awesome-list-item');
+	messages.forEach(message => t.is(message.message, 'List items must have a description'));
+});

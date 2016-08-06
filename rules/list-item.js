@@ -2,24 +2,48 @@
 const caseOf = require('case').of;
 const visit = require('unist-util-visit');
 
+const util = require('./util');
+
 module.exports = (ast, file) => {
 	visit(ast, 'list', list => {
+		let hasDescriptions = false;
 		let position;
 		for (const item of list.children) {
 			position = JSON.parse(JSON.stringify(item.position));
 			if (position.start.line !== position.end.line) {
-				position.start.line++;
-				file.warn('List items must start with `- [name](link)`', position);
+				try {
+					const child = item.children && item.children[1];
+					if (child.type !== 'list') {
+						// TODO: check if the execution somehow reaches this line
+						// probably it will always fall into the catch
+						position.start.line++;
+						file.warn('List items must start with `- [name](link)`', position);
+					}
+				} catch (err) {
+					position.start.line++;
+					file.warn('List items must start with `- [name](link)`', position);
+				}
 			}
 
-			try { // TODO: seems like unist-util-visit does not supports sublists
-				const description = item.children[0].children.slice(1).reduce((prev, cur) => {
-					if (cur.type === 'inlineCode') {
-						return prev + `\`${cur.value}\``;
-					}
-					return prev + cur.value;
-				}, '');
+			const description = item.children[0].children.slice(1).reduce((prev, cur) => {
+				if (cur.type === 'inlineCode') {
+					return prev + `\`${cur.value}\``;
+				}
+				return prev + cur.value;
+			}, '');
 
+			if (description.length === 0) {
+				const link = util.getUrlFromItem(item);
+				if (link && link.startsWith('#') && !hasDescriptions) {
+					// If the execution get here in the first list item, it will assume
+					// that the list is a `Contents` section
+					// It will not happen to an item other than the first – we check if
+					// the list has any items with descriptions.
+					return false; // stops the `visit` for this list
+				}
+				file.warn('List items must have a description', position);
+			} else {
+				hasDescriptions = true;
 				if (!description.startsWith(' - ')) {
 					file.warn('List items must have a ` - ` between the link and the description', position);
 				}
@@ -33,10 +57,6 @@ module.exports = (ast, file) => {
 
 				if (!description.endsWith('.') && !description.endsWith('!')) {
 					file.warn('The description of a list item must end with `.` or `!`', position);
-				}
-			} catch (err) {
-				if (!/Cannot read property '\w+' of undefined/.test(err.message)) {
-					throw err;
 				}
 			}
 		}
