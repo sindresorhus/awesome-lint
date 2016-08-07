@@ -15,4 +15,4 @@ function getUrlFromItem(node) {
 	}
 }
 
-module.exports.getUrlFromItem = getUrlFromItem;
+exports.getUrlFromItem = getUrlFromItem;
