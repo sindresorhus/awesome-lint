@@ -7,9 +7,8 @@ const util = require('./util');
 module.exports = (ast, file) => {
 	visit(ast, 'list', list => {
 		let hasDescriptions = false;
-		let position;
 		for (const item of list.children) {
-			position = JSON.parse(JSON.stringify(item.position));
+			let position = item.position;
 			if (position.start.line !== position.end.line) {
 				try {
 					const child = item.children && item.children[1];
