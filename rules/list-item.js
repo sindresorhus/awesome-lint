@@ -9,18 +9,10 @@ module.exports = (ast, file) => {
 		for (const item of list.children) {
 			let position = item.position;
 			if (position.start.line !== position.end.line) {
-				try {
-					const child = item.children && item.children[1];
-					if (child.type !== 'list') {
-						// TODO: check if the execution somehow reaches this line
-						// probably it will always fall into the catch
-						position.start.line++;
-						file.warn('List items must start with `- [name](link)`', position);
-					}
-				} catch (err) {
+				if (item.children.length === 1) { // children === [{type: 'paragraph'...}]
 					position.start.line++;
 					file.warn('List items must start with `- [name](link)`', position);
-				}
+				} // else: children === [{type: 'paragraph'...}, {type: 'list'...}] (item with a sublist)
 			}
 			const description = item.children[0].children.slice(1).reduce((prev, cur) => {
 				// we need to `slice(1)` the children so we can discard the link (`[name](link)`)
