@@ -59,14 +59,14 @@ test('list-item – nested lists', async t => {
 	t.is(results.length, 0);
 });
 
-test('list-item – `Contents` section', async t => {
+test('list-item – list with all items with no description', async t => {
 	const results = await run('fixtures/list-item/6.md', 'awesome-list-item');
 	t.is(results.length, 0);
 });
 
 test('list-item – item without description', async t => {
 	const results = await run('fixtures/list-item/7.md', 'awesome-list-item');
-	t.is(results.length, 2);
+	t.is(results.length, 1);
 	for (const result of results) {
 		t.is(result.message, 'List items must have a description');
 	}

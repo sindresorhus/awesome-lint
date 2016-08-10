@@ -3,11 +3,9 @@ const caseOf = require('case').of;
 const visit = require('unist-util-visit');
 const nodeToString = require('mdast-util-to-string');
 
-const util = require('./util');
-
 module.exports = (ast, file) => {
 	visit(ast, 'list', list => {
-		let hasDescriptions = false;
+		let listHasDescriptions = false;
 		for (const item of list.children) {
 			let position = item.position;
 			if (position.start.line !== position.end.line) {
@@ -36,17 +34,13 @@ module.exports = (ast, file) => {
 			}, '');
 
 			if (description.length === 0) {
-				const link = util.getUrlFromItem(item);
-				if (link && link.startsWith('#') && !hasDescriptions) {
-					// If the execution get here in the first list item, it will assume
-					// that the list is a `Contents` section
-					// It will not happen to an item other than the first – we check if
-					// the list has any items with descriptions.
-					return false; // stops the `visit` for this list
+				if (listHasDescriptions) {
+					// if any other list in this item have a description, the current one
+					// must have too
+					file.warn('List items must have a description', position);
 				}
-				file.warn('List items must have a description', position);
 			} else {
-				hasDescriptions = true;
+				listHasDescriptions = true;
 				if (!description.startsWith(' - ')) {
 					file.warn('List items must have a ` - ` between the link and the description', position);
 				}
