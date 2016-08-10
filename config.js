@@ -31,7 +31,8 @@ module.exports = {
 	'no-auto-link-without-protocol': true,
 	'no-blockquote-without-caret': true,
 	'no-duplicate-definitions': true,
-	'no-duplicate-headings': true,
+	// TODO: because of https://github.com/wooorm/remark-lint/issues/84
+	// 'no-duplicate-headings': true,
 	'no-emphasis-as-heading': true,
 	'no-file-name-articles': true,
 	'no-file-name-consecutive-dashes': true,
@@ -74,6 +75,6 @@ module.exports = {
 	// 	// allowRedirects: false,
 	// 	timeout: 2000
 	// },
-	'awesome-badge': true,
-	'awesome-list-item': true
+	'awesome/badge': true,
+	'awesome/list-item': true
 };

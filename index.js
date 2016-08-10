@@ -4,7 +4,7 @@ const remarkLint = require('remark-lint');
 const globby = require('globby');
 const pify = require('pify');
 const toVfile = require('to-vfile');
-const vfileReporter = require('vfile-reporter');
+const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
 const m = module.exports = opts => {
@@ -40,5 +40,5 @@ m.report = opts => m(opts).then(file => {
 
 	process.exitCode = 1;
 
-	console.log(vfileReporter(file));
+	console.log(vfileReporterPretty([file]));
 });
