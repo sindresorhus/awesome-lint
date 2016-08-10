@@ -26,7 +26,7 @@ test('list-item - incorrect item prefix', async t => {
 		'The description of a list item must contain only plain text and/or `code`'
 	];
 	for (const result of results) {
-		t.true(expected.includes(result.message));
+		t.true(expected.indexOf(result.message) !== -1);
 	}
 });
 
