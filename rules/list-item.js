@@ -51,7 +51,12 @@ module.exports = (ast, file) => {
 					file.warn('List items must have a ` - ` between the link and the description', position);
 				}
 
-				const firstWord = description.split(' ')[2];
+				let firstWord = description.split(' ')[2]; // ` - desc`.split(' ') === ['', '-', 'desc']
+				if (firstWord === undefined) {
+					// when link and description are separated with only a ` ` && the description
+					// has only one word
+					firstWord = description.split(' ')[1]; // ` desc`.split(' ') === ['', 'desc']
+				}
 				if (['camel', 'capital', 'constant'].indexOf(caseOf(firstWord)) === -1) {
 					if (!firstWord.startsWith('`')) {
 						file.warn('The description must start with an uppercase, camelCase word or `code`', position);

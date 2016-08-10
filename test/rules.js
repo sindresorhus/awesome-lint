@@ -79,3 +79,7 @@ test('list-item – only allow plain text and `code` in the description', async 
 		t.is(result.message, 'The description of a list item must contain only plain text and/or `code`');
 	}
 });
+
+test('list-item – do not throw when `- [name](link) description`', async t => {
+	t.notThrows(m({filename: 'fixtures/list-item/9.md'}));
+});
