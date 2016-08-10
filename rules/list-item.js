@@ -57,7 +57,7 @@ module.exports = (ast, file) => {
 					// has only one word
 					firstWord = description.split(' ')[1]; // ` desc`.split(' ') === ['', 'desc']
 				}
-				if (['camel', 'capital', 'constant'].indexOf(caseOf(firstWord)) === -1) {
+				if (['camel', 'capital', 'constant', 'pascal'].indexOf(caseOf(firstWord)) === -1) {
 					if (!firstWord.startsWith('`')) {
 						file.warn('The description must start with an uppercase, camelCase word or `code`', position);
 					}
