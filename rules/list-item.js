@@ -1,6 +1,7 @@
 'use strict';
 const caseOf = require('case').of;
 const visit = require('unist-util-visit');
+const nodeToString = require('mdast-util-to-string');
 
 const util = require('./util');
 
@@ -23,12 +24,15 @@ module.exports = (ast, file) => {
 					file.warn('List items must start with `- [name](link)`', position);
 				}
 			}
-
 			const description = item.children[0].children.slice(1).reduce((prev, cur) => {
+				// we need to `slice(1)` the children so we can discard the link (`[name](link)`)
 				if (cur.type === 'inlineCode') {
-					return prev + `\`${cur.value}\``;
+					return `${prev}\`${cur.value}\``;
 				}
-				return prev + cur.value;
+				if (cur.type !== 'text') {
+					file.warn('The description of a list item must contain only plain text and/or `code`', position);
+				}
+				return prev + nodeToString(cur);
 			}, '');
 
 			if (description.length === 0) {

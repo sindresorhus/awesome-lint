@@ -36,6 +36,7 @@
   "dependencies": {
     "case": "^1.4.1",
     "globby": "^6.0.0",
+    "mdast-util-to-string": "^1.0.2",
     "meow": "^3.7.0",
     "pify": "^2.3.0",
     "remark": "^5.0.1",

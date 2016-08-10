@@ -20,9 +20,13 @@ test('badge - incorrect source', async t => {
 
 test('list-item - incorrect item prefix', async t => {
 	const results = await run('fixtures/list-item/1.md', 'awesome-list-item');
-	t.is(results.length, 2);
+	t.is(results.length, 4);
+	const expected = [
+		'List items must start with `- [name](link)`',
+		'The description of a list item must contain only plain text and/or `code`'
+	];
 	for (const result of results) {
-		t.is(result.message, 'List items must start with `- [name](link)`');
+		t.true(expected.includes(result.message));
 	}
 });
 
@@ -65,5 +69,13 @@ test('list-item – item without description', async t => {
 	t.is(results.length, 2);
 	for (const result of results) {
 		t.is(result.message, 'List items must have a description');
+	}
+});
+
+test('list-item – only allow plain text and `code` in the description', async t => {
+	const results = await run('fixtures/list-item/8.md', 'awesome-list-item');
+	t.is(results.length, 1);
+	for (const result of results) {
+		t.is(result.message, 'The description of a list item must contain only plain text and/or `code`');
 	}
 });
