@@ -12,3 +12,8 @@ test('badge - incorrect source', async t => {
 	t.is(result.ruleId, 'awesome/badge');
 	t.is(result.message, 'Incorrect badge source');
 });
+
+test('trailing slash - does not throw', async t => {
+	const result = (await m({filename: 'fixtxures/trailing-slash.md'})).messages[0];
+	t.is(result.ruleId, 'awesome/badge');
+});
