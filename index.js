@@ -7,7 +7,7 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
-const m = module.exports = opts => {
+const m = opts => {
 	opts = Object.assign({
 		filename: 'readme.md'
 	}, opts);
@@ -39,3 +39,5 @@ m.report = opts => m(opts).then(file => {
 
 	console.log(vfileReporterPretty([file]));
 });
+
+module.exports = m;

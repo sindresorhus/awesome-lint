@@ -1,10 +1,10 @@
 'use strict';
 const path = require('path');
 
-// rules per remark-lint 4.0.2
+// Rules per remark-lint 4.0.2
 
 module.exports = {
-	'reset': true,
+	reset: true,
 	'blockquote-indentation': 2,
 	'checkbox-character-style': {
 		checked: 'x',
@@ -60,8 +60,8 @@ module.exports = {
 	'table-pipes': true,
 	'unordered-list-marker-style': '-',
 
-	// plugins
-	'external': [
+	// Plugins
+	external: [
 		'remark-lint-no-empty-sections',
 		'remark-lint-no-url-trailing-slash',
 		// 'remark-lint-are-links-valid',
