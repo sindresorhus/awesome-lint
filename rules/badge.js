@@ -7,8 +7,8 @@ module.exports = (ast, file) => {
 			return;
 		}
 
-		const badgeUrl = 'https://github.com/sindresorhus/awesome';
-		const badgeSrcUrl = 'https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg';
+		const badgeUrl = 'https://awesome.re';
+		const badgeSrcUrl = 'https://awesome.re/badge.svg';
 
 		let hasBadge = false;
 
