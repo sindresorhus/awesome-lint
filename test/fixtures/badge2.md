@@ -1,3 +1,3 @@
-# Foo [![Awesome](incorrect-src.svg)](https://github.com/sindresorhus/awesome)
+# Foo [![Awesome](incorrect-src.svg)](https://awesome.re)
 
 > Bar
