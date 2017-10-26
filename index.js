@@ -1,8 +1,10 @@
 'use strict';
-const remark = require('remark');
-const remarkLint = require('remark-lint');
 const globby = require('globby');
 const pify = require('pify');
+const pkgConf = require('pkg-conf');
+const merge = require('lodash.merge');
+const remark = require('remark');
+const remarkLint = require('remark-lint');
 const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
@@ -18,7 +20,8 @@ const m = opts => {
 		return Promise.reject(new Error(`Couldn't find the file ${opts.filename}`));
 	}
 
-	const run = remark().use(remarkLint, config).process;
+	const projectConfig = merge(config, pkgConf.sync('awesome-lint') || config);
+	const run = remark().use(remarkLint, projectConfig).process;
 	const file = toVfile.readSync(readmeFile);
 
 	return pify(run)(file);

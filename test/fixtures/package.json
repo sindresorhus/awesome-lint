@@ -1,0 +1,5 @@
+{
+  "awesome-lint": {
+    "trailing-slash": false
+  }
+}
