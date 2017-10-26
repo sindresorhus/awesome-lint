@@ -36,7 +36,7 @@
   "dependencies": {
     "globby": "^6.0.0",
     "meow": "^3.7.0",
-    "pify": "^2.3.0",
+    "pify": "^3.0.0",
     "remark": "^5.0.1",
     "remark-lint": "^4.1.0",
     "remark-lint-no-empty-sections": "^1.0.0",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "ava": "*",
-    "execa": "^0.4.0",
+    "execa": "^0.8.0",
     "xo": "*"
   }
 }
