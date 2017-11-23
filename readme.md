@@ -16,8 +16,6 @@ Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awe
 
 ![](screenshot.png)
 
-[example.com](http://example.com/)
-
 
 ## CLI
 

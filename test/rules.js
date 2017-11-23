@@ -13,7 +13,20 @@ test('badge - incorrect source', async t => {
 	t.is(result.message, 'Incorrect badge source');
 });
 
-test('trailing slash - does not throw', async t => {
-	const result = (await m({filename: 'fixtxures/trailing-slash.md'})).messages[0];
+process.chdir('package-default');
+test.serial('default package - trailing slashes not allowed', async t => {
+	const result = (await m({filename: 'fixtures/trailing-slash.md'})).messages[0];
+	t.is(result.ruleId, 'awesome/badge');
+});
+
+process.chdir('package-no-trailing-slash');
+test.serial('package with {"trailing-slash": false} - trailing slashes not allowed', async t => {
+	const result = (await m({filename: 'fixtures/trailing-slash.md'})).messages[0];
+	t.is(result.ruleId, 'awesome/badge');
+});
+
+process.chdir('package-trailing-slash');
+test.serial('package with {"trailing-slash": true} - trailing slashes allowed', async t => {
+	const result = (await m({filename: 'fixtures/trailing-slash.md'})).messages[0];
 	t.is(result.ruleId, 'awesome/badge');
 });
