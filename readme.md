@@ -1,6 +1,6 @@
 <h1 align="center">
 	<br>
-	<img width="400" src="https://cdn.rawgit.com/sindresorhus/awesome-lint/master/media/logo.svg" alt="awesome-lint">
+	<img width="500" src="media/logo.svg" alt="awesome-lint">
 	<br>
 	<br>
 	<br>
