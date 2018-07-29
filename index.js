@@ -1,6 +1,5 @@
 'use strict';
 const remark = require('remark');
-const remarkLint = require('remark-lint');
 const globby = require('globby');
 const pify = require('pify');
 const toVfile = require('to-vfile');
@@ -18,14 +17,14 @@ const m = opts => {
 		return Promise.reject(new Error(`Couldn't find the file ${opts.filename}`));
 	}
 
-	const run = remark().use(remarkLint, config).process;
+	const run = remark().use(config).process;
 	const file = toVfile.readSync(readmeFile);
 
 	return pify(run)(file);
 };
 
 m.report = opts => m(opts).then(file => {
-	const messages = file.messages;
+	const {messages} = file;
 
 	if (messages.length === 0) {
 		return;

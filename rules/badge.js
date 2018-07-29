@@ -1,7 +1,8 @@
 'use strict';
+const rule = require('unified-lint-rule');
 const visit = require('unist-util-visit');
 
-module.exports = (ast, file) => {
+module.exports = rule('remark-lint:awesome/badge', (ast, file) => {
 	visit(ast, 'heading', (node, index) => {
 		if (index > 0) {
 			return;
@@ -17,7 +18,7 @@ module.exports = (ast, file) => {
 				for (const child2 of child.children) {
 					if (child2.type === 'image') {
 						if (child2.url !== badgeSrcUrl) {
-							file.warn('Incorrect badge source', child2);
+							file.message('Incorrect badge source', child2);
 							return;
 						}
 
@@ -28,7 +29,7 @@ module.exports = (ast, file) => {
 		}
 
 		if (!hasBadge) {
-			file.warn('Missing Awesome badge after the main heading', node);
+			file.message('Missing Awesome badge after the main heading', node);
 		}
 	});
-};
+});
