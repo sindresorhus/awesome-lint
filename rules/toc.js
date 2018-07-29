@@ -15,7 +15,7 @@ const maxListItemDepth = 1;
 module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	slugger.reset();
 
-	// Heading links are order-dependent, so it's important to gather them up front.
+	// Heading links are order-dependent, so it's important to gather them up front
 	const headingLinks = buildHeadingLinks(ast);
 
 	const toc = find(ast, node => (
