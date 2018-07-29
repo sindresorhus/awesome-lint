@@ -3,5 +3,6 @@
 module.exports = [
 	require('./badge'),
 	require('./list-item'),
-	require('./license')
+	require('./license'),
+	require('./toc')
 ];
