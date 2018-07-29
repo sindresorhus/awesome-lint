@@ -8,6 +8,7 @@ const config = require('./config');
 
 const m = options => {
 	options = Object.assign({
+		config,
 		filename: 'readme.md'
 	}, options);
 
@@ -17,7 +18,7 @@ const m = options => {
 		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
 	}
 
-	const run = remark().use(config).process;
+	const run = remark().use(options.config).process;
 	const file = toVfile.readSync(readmeFile);
 
 	return pify(run)(file);
