@@ -27,3 +27,9 @@ test('toc - missing items', async t => {
 	t.is(messages[2].ruleId, 'awesome/toc');
 	t.is(messages[2].message, 'ToC missing item for "Baz"');
 });
+
+test('toc - exceed max depth', async t => {
+	const result = (await m({filename: 'test/fixtures/toc4.md'})).messages[0];
+	t.is(result.ruleId, 'awesome/toc');
+	t.is(result.message, 'Exceeded max depth of 2 levels');
+});

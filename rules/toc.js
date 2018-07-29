@@ -128,19 +128,19 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 				return;
 			}
 
-			if (depth < maxListItemDepth) {
-				const nextHeading = headings[index + 1];
-				const subHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
-					type: 'heading',
-					depth: depth + 3
-				}) : findAllAfter(ast, heading, {
-					type: 'heading',
-					depth: depth + 3
-				});
+			const subList = find(listItem, n => n.type === 'list');
 
-				const subList = find(listItem, n => n.type === 'list');
+			if (subList) {
+				if (depth < maxListItemDepth) {
+					const nextHeading = headings[index + 1];
+					const subHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
+						type: 'heading',
+						depth: depth + 3
+					}) : findAllAfter(ast, heading, {
+						type: 'heading',
+						depth: depth + 3
+					});
 
-				if (subList) {
 					validateListItems({
 						ast,
 						file,
@@ -149,6 +149,8 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 						headings: subHeadings,
 						depth: depth + 1
 					});
+				} else {
+					file.message(`Exceeded max depth of ${maxListItemDepth + 1} levels`);
 				}
 			}
 		}
