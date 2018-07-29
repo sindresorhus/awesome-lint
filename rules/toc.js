@@ -161,8 +161,8 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 	}
 
 	if (index < headings.length) {
-		for (let i = index; i < headings.length; ++i) {
-			const heading = headings[i];
+		for (; index < headings.length; ++index) {
+			const heading = headings[index];
 			file.message(`ToC missing item for "${toString(heading)}"`, list);
 		}
 	}
