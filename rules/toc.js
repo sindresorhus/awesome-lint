@@ -120,11 +120,14 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			const headingLink = headingLinks[url];
 
 			if (headingLink) {
+				// Remember that we've referenced this link previously
 				headingLinks[url] = false;
 			} else if (headingLink === undefined) {
+				// This link doesn't exist as a section in the content
 				file.message(`ToC item "${text}" link "${url}" not found`, listItem);
 				return;
 			} else {
+				// This link was used previously, so it must be a duplicate
 				file.message(`ToC item "${text}" has duplicate link "${url}"`, listItem);
 				return;
 			}
