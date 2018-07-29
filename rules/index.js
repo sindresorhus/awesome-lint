@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = {
-	'awesome/badge': require('./badge')
-};
+module.exports = [
+	require('./badge')
+];
