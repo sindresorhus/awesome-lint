@@ -15,6 +15,7 @@ const maxListItemDepth = 1;
 module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	slugger.reset();
 
+	// Heading links are order-dependent, so it's important to gather them up front.
 	const headingLinks = buildHeadingLinks(ast);
 
 	const toc = find(ast, node => (
@@ -57,7 +58,7 @@ module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	} else {
 		const tocList = tocLists[0];
 
-		// Validate list items recursively
+		// Validate list items against heading sections recursively
 		validateListItems({
 			ast,
 			file,
@@ -152,6 +153,9 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 				} else {
 					file.message(`Exceeded max depth of ${maxListItemDepth + 1} levels`);
 				}
+			} else {
+				// No need to enforce the existence of a subList, even if there are corresponding
+				// subHeadings.
 			}
 		}
 	}
