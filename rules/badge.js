@@ -14,16 +14,18 @@ module.exports = rule('remark-lint:awesome/badge', (ast, file) => {
 		let hasBadge = false;
 
 		for (const child of node.children) {
-			if (node.depth === 1 && child.type === 'link' && child.url === badgeUrl) {
-				for (const child2 of child.children) {
-					if (child2.type === 'image') {
-						if (child2.url !== badgeSrcUrl) {
-							file.message('Incorrect badge source', child2);
-							return;
-						}
+			if (node.depth !== 1 || child.type !== 'link' || child.url !== badgeUrl) {
+				continue;
+			}
 
-						hasBadge = true;
+			for (const child2 of child.children) {
+				if (child2.type === 'image') {
+					if (child2.url !== badgeSrcUrl) {
+						file.message('Incorrect badge source', child2);
+						return;
 					}
+
+					hasBadge = true;
 				}
 			}
 		}

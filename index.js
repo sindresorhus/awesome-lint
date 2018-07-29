@@ -31,7 +31,7 @@ m.report = opts => m(opts).then(file => {
 	}
 
 	messages.forEach(x => {
-		x.fatal = true; // TODO: because of https://github.com/wooorm/remark-lint/issues/65
+		x.fatal = true; // eslint-ignore-line TODO: because of https://github.com/wooorm/remark-lint/issues/65
 	});
 
 	process.exitCode = 1;

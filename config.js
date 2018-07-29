@@ -3,7 +3,7 @@
 exports.plugins = [
 	require('remark-lint'),
 
-	// official plugins
+	// Official plugins
 	[require('remark-lint-blockquote-indentation'), 2],
 	[require('remark-lint-checkbox-character-style'), {
 		checked: 'x',
@@ -50,10 +50,10 @@ exports.plugins = [
 	require('remark-lint-table-pipes'),
 	[require('remark-lint-unordered-list-marker-style'), '-'],
 
-	// third-party plugins
+	// Third-party plugins
 	require('remark-lint-no-empty-sections'),
 	require('remark-lint-no-url-trailing-slash'),
 
-	// custom plugins
+	// Custom plugins
 	...require('./rules')
-]
+];

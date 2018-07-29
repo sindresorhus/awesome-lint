@@ -92,11 +92,5 @@
 		"ava": "*",
 		"execa": "^0.10.0",
 		"xo": "*"
-	},
-	"xo": {
-		"rules": {
-			"no-warning-comments": "off",
-			"max-depth": "off"
-		}
 	}
 }
