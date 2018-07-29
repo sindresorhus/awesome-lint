@@ -42,14 +42,9 @@ function findAllLists(ast) {
 
 function validateList(list, file) {
 	for (const listItem of list.children) {
-		if (listItem.children.length !== 1) {
-			file.message('Invalid list item', listItem);
-			continue;
-		}
-
 		const [paragraph] = listItem.children;
 
-		if (paragraph.type !== 'paragraph' || paragraph.children.length < 2) {
+		if (!paragraph || paragraph.type !== 'paragraph' || paragraph.children.length < 2) {
 			file.message('Invalid list item', paragraph);
 			continue;
 		}

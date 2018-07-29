@@ -47,6 +47,14 @@ test('list-item - invalid', async t => {
 		{
 			ruleId: 'awesome/list-item',
 			message: 'Invalid list item link'
+		},
+		{
+			ruleId: 'awesome/list-item',
+			message: 'List item description must start with valid casing'
+		},
+		{
+			ruleId: 'awesome/list-item',
+			message: 'List item description must start with valid casing'
 		}
 	]);
 });
