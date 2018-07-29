@@ -6,15 +6,15 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
-const m = opts => {
-	opts = Object.assign({
+const m = options => {
+	options = Object.assign({
 		filename: 'readme.md'
-	}, opts);
+	}, options);
 
-	const readmeFile = globby.sync(opts.filename, {nocase: true})[0];
+	const readmeFile = globby.sync(options.filename, {nocase: true})[0];
 
 	if (!readmeFile) {
-		return Promise.reject(new Error(`Couldn't find the file ${opts.filename}`));
+		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
 	}
 
 	const run = remark().use(config).process;
@@ -23,16 +23,16 @@ const m = opts => {
 	return pify(run)(file);
 };
 
-m.report = opts => m(opts).then(file => {
+m.report = options => m(options).then(file => {
 	const {messages} = file;
 
 	if (messages.length === 0) {
 		return;
 	}
 
-	messages.forEach(x => {
-		x.fatal = true; // eslint-ignore-line TODO: because of https://github.com/wooorm/remark-lint/issues/65
-	});
+	for (const message of messages) {
+		message.fatal = true; // TODO: because of https://github.com/wooorm/remark-lint/issues/65
+	}
 
 	process.exitCode = 1;
 
