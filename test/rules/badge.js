@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '..';
+import m from '../..';
 
 test('badge - missing', async t => {
 	const result = (await m({filename: 'test/fixtures/badge.md'})).messages[0];
