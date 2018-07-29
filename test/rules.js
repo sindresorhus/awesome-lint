@@ -15,12 +15,12 @@ test('badge - incorrect source', async t => {
 
 test('badge - success (short)', async t => {
 	const result = (await m({filename: 'test/fixtures/badge-success0.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/toc');
-	t.is(result.message, 'Missing or invalid Table of Contents');
+	t.is(result, undefined);
+	t.is(result, undefined);
 });
 
 test('badge - success (long)', async t => {
 	const result = (await m({filename: 'test/fixtures/badge-success1.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/toc');
-	t.is(result.message, 'Missing or invalid Table of Contents');
+	t.is(result, undefined);
+	t.is(result, undefined);
 });
