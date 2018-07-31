@@ -7,12 +7,16 @@ const toString = require('mdast-util-to-string');
 module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	const license = find(ast, node => (
 		node.type === 'heading' &&
-		node.depth === 2 &&
 		toString(node) === 'License'
 	));
 
 	if (!license) {
 		file.message('Missing License section', ast);
+		return;
+	}
+
+	if (license.depth !== 2) {
+		file.message('License section must be at heading depth 2', ast);
 		return;
 	}
 

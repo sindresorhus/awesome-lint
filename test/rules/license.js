@@ -41,6 +41,16 @@ test('license - not last section', async t => {
 	]);
 });
 
+test('license - incorrect heading depth', async t => {
+	const messages = await m({config, filename: 'test/fixtures/license/error3.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/license',
+			message: 'License section must be at heading depth 2'
+		}
+	]);
+});
+
 test('license - success', async t => {
 	const messages = await m({config, filename: 'test/fixtures/license/success0.md'});
 	t.deepEqual(messages, []);

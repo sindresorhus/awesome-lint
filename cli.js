@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 'use strict';
-const awesomeLint = require('.');
-const findReadmeFile = require('./lib/find-readme-file');
 const gitClone = require('git-clone');
 const isUrl = require('is-url-superb');
 const meow = require('meow');
 const pify = require('pify');
 const rmfr = require('rmfr');
 const tempy = require('tempy');
+
+const findReadmeFile = require('./lib/find-readme-file');
+const awesomeLint = require('.');
 
 const main = async () => {
 	const cli = meow(`

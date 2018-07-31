@@ -2,7 +2,7 @@
 
 module.exports = [
 	require('./badge'),
-	require('./list-item'),
 	require('./license'),
+	require('./list-item'),
 	require('./toc')
 ];
