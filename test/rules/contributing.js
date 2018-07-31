@@ -35,6 +35,5 @@ test('contributing - valid CONTRIBUTING.md', async t => {
 
 test('contributing - valid contributing.md', async t => {
 	const messages = await m({config, filename: 'test/fixtures/contributing/valid1/readme.md'});
-	console.log(messages);
 	t.deepEqual(messages, []);
 });

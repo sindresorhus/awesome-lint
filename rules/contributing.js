@@ -7,7 +7,8 @@ const rule = require('unified-lint-rule');
 module.exports = rule('remark-lint:awesome/contributing', (ast, file) => {
 	const {dirname} = file;
 
-	const contributingFile = globby.sync('contributing.md', {nocase: true, cwd: dirname})[0];
+	console.log(dirname);
+	const contributingFile = globby.sync('contributing.md', {nocase: false, cwd: dirname})[0];
 
 	if (!contributingFile) {
 		file.message('Missing file contributing.md');
