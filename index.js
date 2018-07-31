@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const remark = require('remark');
 const globby = require('globby');
 const pify = require('pify');
@@ -19,7 +20,7 @@ const m = options => {
 	}
 
 	const run = remark().use(options.config).process;
-	const file = toVfile.readSync(readmeFile);
+	const file = toVfile.readSync(path.resolve(readmeFile));
 
 	return pify(run)(file);
 };
