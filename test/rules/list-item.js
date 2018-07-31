@@ -1,10 +1,10 @@
 import test from 'ava';
-import m from '..';
+import m from '../..';
 
 const config = {
 	plugins: [
 		require('remark-lint'),
-		require('../rules/list-item')
+		require('../../rules/list-item')
 	]
 };
 
