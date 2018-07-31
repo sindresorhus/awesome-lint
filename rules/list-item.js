@@ -136,7 +136,7 @@ function validateListItemDescription(description, file) {
 
 function validateListItemPrefixCasing(prefix, file) {
 	const strippedPrefix = prefix.value.slice(3);
-	const [firstWord] = strippedPrefix.split(' ');
+	const [firstWord] = strippedPrefix.split(/[ -./]/);
 
 	if (!firstWord) {
 		file.message('List item description must start with a non-empty string', prefix);
@@ -144,8 +144,10 @@ function validateListItemPrefixCasing(prefix, file) {
 	}
 
 	if (!listItemPrefixCaseWhitelist.has(caseOf(firstWord))) {
-		file.message('List item description must start with valid casing', prefix);
-		return false;
+		if (!/\d/.test(firstWord)) {
+			file.message('List item description must start with valid casing', prefix);
+			return false;
+		}
 	}
 
 	return true;
