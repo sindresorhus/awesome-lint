@@ -27,13 +27,14 @@ const listItemDescriptionNodeWhitelist = new Set([
 ]);
 
 module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
+	let lists = findAllLists(ast);
+
 	const toc = find(ast, node => (
 		node.type === 'heading' &&
 		node.depth === 2 &&
 		toString(node) === 'Contents'
 	));
 
-	let lists = findAllLists(ast);
 	if (toc) {
 		const postContentsHeading = findAllAfter(ast, toc, {
 			type: 'heading'
@@ -63,12 +64,12 @@ function validateList(list, file) {
 	for (const listItem of list.children) {
 		const [paragraph] = listItem.children;
 
-		if (!paragraph || paragraph.type !== 'paragraph' || paragraph.children.length < 2) {
+		if (!paragraph || paragraph.type !== 'paragraph' || paragraph.children.length === 0) {
 			file.message('Invalid list item', paragraph);
 			continue;
 		}
 
-		const [link, ...content] = paragraph.children;
+		const [link, ...description] = paragraph.children;
 
 		if (link.type !== 'link' || link.children.length !== 1) {
 			file.message('Invalid list item link', link);
@@ -86,13 +87,18 @@ function validateList(list, file) {
 			continue;
 		}
 
-		validateListItemDescription(content, file);
+		validateListItemDescription(description, file);
 	}
 }
 
-function validateListItemDescription(content, file) {
-	const prefix = content[0];
-	const suffix = content[content.length - 1];
+function validateListItemDescription(description, file) {
+	if (description.length === 0) {
+		// In certain, rare cases it's okay to leave off an item's description.
+		return;
+	}
+
+	const prefix = description[0];
+	const suffix = description[description.length - 1];
 
 	// Ensure description starts with a dash separator
 	if (prefix.type !== 'text' || !prefix.value.startsWith(' - ')) {
@@ -113,7 +119,7 @@ function validateListItemDescription(content, file) {
 		}
 	} else {
 		// Description contains mixed node types
-		for (const node of content) {
+		for (const node of description) {
 			if (!listItemDescriptionNodeWhitelist.has(node.type)) {
 				file.message('List item description contains invalid markdown', node);
 				return false;
