@@ -35,6 +35,7 @@
 	],
 	"dependencies": {
 		"case": "^1.5.5",
+		"execa": "^0.10.0",
 		"git-clone": "^0.1.0",
 		"github-slugger": "^1.2.0",
 		"globby": "^8.0.1",
@@ -102,7 +103,7 @@
 	},
 	"devDependencies": {
 		"ava": "*",
-		"execa": "^0.10.0",
+		"sinon": "^6.1.4",
 		"xo": "*"
 	}
 }
