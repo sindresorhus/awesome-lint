@@ -7,11 +7,23 @@ const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 
+// Valid casings for first text word in list item descriptions
 const listItemPrefixCaseWhitelist = new Set([
 	'camel',
 	'capital',
 	'constant',
 	'pascal'
+]);
+
+// Valid node types in list item descriptions
+const listItemDescriptionNodeWhitelist = new Set([
+	'emphasis',
+	'footnoteReference',
+	'inlineCode',
+	'link',
+	'linkReference',
+	'strong',
+	'text'
 ]);
 
 module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
@@ -88,17 +100,17 @@ function validateListItemDescription(content, file) {
 	}
 
 	if (prefix === suffix) {
-		// Simple case with pure text description
+		// Description contains pure text
 		if (!validateListItemPrefixCasing(prefix, file)) {
 			return false;
 		}
 	} else {
-		// Complex case with inline code and/or other nodes
-		const second = content[1];
-
-		if (second.type !== 'inlineCode') {
-			file.message('List item description contains invalid markdown', second);
-			return false;
+		// Description contains mixed node types
+		for (const node of content) {
+			if (!listItemDescriptionNodeWhitelist.has(node.type)) {
+				file.message('List item description contains invalid markdown', node);
+				return false;
+			}
 		}
 
 		if (prefix.length > 3 && !validateListItemPrefixCasing(prefix, file)) {

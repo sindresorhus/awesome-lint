@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../..';
+import m from '../_lint';
 
 const config = {
 	plugins: [
@@ -9,34 +9,49 @@ const config = {
 };
 
 test('toc - success basic', async t => {
-	const result = (await m({config, filename: 'test/fixtures/toc/0.md'})).messages;
-	t.deepEqual(result, []);
+	const messages = await m({config, filename: 'test/fixtures/toc/0.md'});
+	t.deepEqual(messages, []);
 });
 
 test('toc - success sub-lists', async t => {
-	const result = (await m({config, filename: 'test/fixtures/toc/1.md'})).messages;
-	t.deepEqual(result, []);
+	const messages = await m({config, filename: 'test/fixtures/toc/1.md'});
+	t.deepEqual(messages, []);
 });
 
 test('toc - missing', async t => {
-	const result = (await m({config, filename: 'test/fixtures/toc/2.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/toc');
-	t.is(result.message, 'Missing or invalid Table of Contents');
+	const messages = await m({config, filename: 'test/fixtures/toc/2.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/toc',
+			message: 'Missing or invalid Table of Contents'
+		}
+	]);
 });
 
 test('toc - missing items', async t => {
-	const {messages} = await m({config, filename: 'test/fixtures/toc/3.md'});
-	t.is(messages.length, 3);
-	t.is(messages[0].ruleId, 'awesome/toc');
-	t.is(messages[0].message, 'ToC missing item for "Foo B"');
-	t.is(messages[1].ruleId, 'awesome/toc');
-	t.is(messages[1].message, 'ToC item "Bar" does not match corresponding heading "Bar A"');
-	t.is(messages[2].ruleId, 'awesome/toc');
-	t.is(messages[2].message, 'ToC missing item for "Baz"');
+	const messages = await m({config, filename: 'test/fixtures/toc/3.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/toc',
+			message: 'ToC missing item for "Foo B"'
+		},
+		{
+			ruleId: 'awesome/toc',
+			message: 'ToC item "Bar" does not match corresponding heading "Bar A"'
+		},
+		{
+			ruleId: 'awesome/toc',
+			message: 'ToC missing item for "Baz"'
+		}
+	]);
 });
 
 test('toc - exceed max depth', async t => {
-	const result = (await m({config, filename: 'test/fixtures/toc/4.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/toc');
-	t.is(result.message, 'Exceeded max depth of 2 levels');
+	const messages = await m({config, filename: 'test/fixtures/toc/4.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/toc',
+			message: 'Exceeded max depth of 2 levels'
+		}
+	]);
 });

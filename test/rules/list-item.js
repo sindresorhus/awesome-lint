@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../..';
+import m from '../_lint';
 
 const config = {
 	plugins: [
@@ -9,13 +9,13 @@ const config = {
 };
 
 test('list-item - valid', async t => {
-	const {messages} = (await m({config, filename: 'test/fixtures/list-item/0.md'}));
-	t.is(messages.length, 0);
+	const messages = await m({config, filename: 'test/fixtures/list-item/0.md'});
+	t.deepEqual(messages, []);
 });
 
 test('list-item - invalid', async t => {
-	const {messages} = (await m({config, filename: 'test/fixtures/list-item/1.md'}));
-	t.deepEqual(messages.map(err => ({ruleId: err.ruleId, message: err.message})), [
+	const messages = await m({config, filename: 'test/fixtures/list-item/1.md'});
+	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/list-item',
 			message: 'List item description must start with valid casing'

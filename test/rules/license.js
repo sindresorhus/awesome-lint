@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../..';
+import m from '../_lint';
 
 const config = {
 	plugins: [
@@ -12,24 +12,36 @@ const config = {
 };
 
 test('license - missing', async t => {
-	const result = (await m({config, filename: 'test/fixtures/license/error0.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/license');
-	t.is(result.message, 'Missing License section');
+	const messages = await m({config, filename: 'test/fixtures/license/error0.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/license',
+			message: 'Missing License section'
+		}
+	]);
 });
 
 test('license - empty', async t => {
-	const result = (await m({config, filename: 'test/fixtures/license/error1.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/license');
-	t.is(result.message, 'License must not be empty');
+	const messages = await m({config, filename: 'test/fixtures/license/error1.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/license',
+			message: 'License must not be empty'
+		}
+	]);
 });
 
 test('license - not last section', async t => {
-	const result = (await m({config, filename: 'test/fixtures/license/error2.md'})).messages[0];
-	t.is(result.ruleId, 'awesome/license');
-	t.is(result.message, 'License must be the last section');
+	const messages = await m({config, filename: 'test/fixtures/license/error2.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/license',
+			message: 'License must be the last section'
+		}
+	]);
 });
 
 test('license - success', async t => {
-	const {messages} = (await m({config, filename: 'test/fixtures/license/success0.md'}));
-	t.falsy(messages.find(message => message.ruleId === 'awesome/license'));
+	const messages = await m({config, filename: 'test/fixtures/license/success0.md'});
+	t.deepEqual(messages, []);
 });
