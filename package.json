@@ -35,6 +35,7 @@
 	],
 	"dependencies": {
 		"case": "^1.5.5",
+		"git-clone": "^0.1.0",
 		"github-slugger": "^1.2.0",
 		"globby": "^8.0.1",
 		"is-url-superb": "^2.0.0",
@@ -87,6 +88,8 @@
 		"remark-lint-table-pipe-alignment": "^1.0.2",
 		"remark-lint-table-pipes": "^1.0.2",
 		"remark-lint-unordered-list-marker-style": "^1.0.2",
+		"rmfr": "^2.0.0",
+		"tempy": "^0.2.1",
 		"to-vfile": "^5.0.0",
 		"unified-lint-rule": "^1.0.3",
 		"unist-util-find": "^1.0.1",
