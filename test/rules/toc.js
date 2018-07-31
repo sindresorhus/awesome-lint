@@ -55,3 +55,8 @@ test('toc - exceed max depth', async t => {
 		}
 	]);
 });
+
+test('toc - success ignore contributing section', async t => {
+	const messages = await m({config, filename: 'test/fixtures/toc/5.md'});
+	t.deepEqual(messages, []);
+});

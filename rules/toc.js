@@ -12,6 +12,12 @@ const slugger = new GitHubSlugger();
 
 const maxListItemDepth = 1;
 
+const sectionHeadingBlacklist = new Set([
+	'Contribute',
+	'Contributing',
+	'License'
+]);
+
 module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	slugger.reset();
 
@@ -42,7 +48,7 @@ module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	const headingsPost = findAllAfter(ast, toc, {
 		type: 'heading',
 		depth: 2
-	}).filter(node => toString(node) !== 'License');
+	}).filter(node => !sectionHeadingBlacklist.has(toString(node)));
 
 	if (headingsPost.length === 0) {
 		file.message('Missing content headers', ast);
