@@ -58,3 +58,8 @@ test('list-item - invalid', async t => {
 		}
 	]);
 });
+
+test('list-item - valid ignoring Contents section', async t => {
+	const messages = await m({config, filename: 'test/fixtures/list-item/2.md'});
+	t.deepEqual(messages, []);
+});

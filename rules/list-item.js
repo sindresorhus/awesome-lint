@@ -33,11 +33,18 @@ module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
 		toString(node) === 'Contents'
 	));
 
-	const lists = toc ? (
-		findAllAfter(ast, toc, {type: 'list'})
-	) : (
-		findAllLists(ast)
-	);
+	let lists = findAllLists(ast);
+	if (toc) {
+		const postContentsHeading = findAllAfter(ast, toc, {
+			type: 'heading'
+		})[0];
+
+		if (!postContentsHeading) {
+			return;
+		}
+
+		lists = findAllAfter(ast, postContentsHeading, {type: 'list'});
+	}
 
 	for (const list of lists) {
 		validateList(list, file);
