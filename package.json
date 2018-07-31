@@ -11,7 +11,7 @@
 	},
 	"bin": "cli.js",
 	"engines": {
-		"node": ">=6"
+		"node": ">=8"
 	},
 	"scripts": {
 		"test": "xo && ava"
