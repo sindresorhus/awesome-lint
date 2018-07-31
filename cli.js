@@ -23,7 +23,7 @@ const main = async () => {
 	if (input) {
 		if (isUrl(input)) {
 			temp = tempy.directory();
-			await pify(gitClone)(input, temp, {shallow: true});
+			await pify(gitClone)(input, temp);
 
 			const readme = findReadmeFile(temp);
 			if (!readme) {

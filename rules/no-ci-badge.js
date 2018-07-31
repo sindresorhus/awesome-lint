@@ -6,7 +6,7 @@ module.exports = rule('remark-lint:awesome/no-ci-badge', (ast, file) => {
 	visit(ast, 'image', node => {
 		if (/build status|travis|circleci/i.test(node.title)) {
 			file.message('Readme must not contain CI badge', node);
-		} else if (/travis|circleci|img\.shields\.io/i.test(node.url)) {
+		} else if (/travis|circleci/i.test(node.url)) {
 			file.message('Readme must not contain CI badge', node);
 		}
 	});
