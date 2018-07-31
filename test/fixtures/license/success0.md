@@ -6,7 +6,7 @@
 
 ## Foo
 
-non-empty
+This license section below is 100% valid.
 
 ## License
 

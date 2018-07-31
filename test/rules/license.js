@@ -4,8 +4,6 @@ import m from '../_lint';
 const config = {
 	plugins: [
 		require('remark-lint'),
-		// TODO: remark-lint-no-empty-sections doesn't handle empty last section
-		// https://github.com/vhf/remark-lint-no-empty-sections/issues/3
 		require('remark-lint-no-empty-sections'),
 		require('../../rules/license')
 	]
@@ -24,6 +22,10 @@ test('license - missing', async t => {
 test('license - empty', async t => {
 	const messages = await m({config, filename: 'test/fixtures/license/error1.md'});
 	t.deepEqual(messages, [
+		{
+			ruleId: 'no-empty-sections',
+			message: 'Remove empty section: "License"'
+		},
 		{
 			ruleId: 'awesome/license',
 			message: 'License must not be empty'
