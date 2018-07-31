@@ -3,6 +3,7 @@ const find = require('unist-util-find');
 const findAllAfter = require('unist-util-find-all-after');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
+const visit = require('unist-util-visit');
 
 module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	const license = find(ast, node => (
@@ -21,8 +22,7 @@ module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	}
 
 	const headingsPost = findAllAfter(ast, license, {
-		type: 'heading',
-		depth: 2
+		type: 'heading'
 	});
 
 	if (headingsPost.length > 0) {
@@ -31,9 +31,17 @@ module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	}
 
 	const children = findAllAfter(ast, license, () => true);
-	const content = toString({type: 'root', children});
+	const content = {type: 'root', children};
+	const value = toString(content);
 
-	if (!content) {
+	if (!value) {
 		file.message('License must not be empty', license);
 	}
+
+	visit(content, 'image', node => {
+		if (/\.png/i.test(node.url)) {
+			file.message('License image must be svg', node);
+			return false;
+		}
+	});
 });

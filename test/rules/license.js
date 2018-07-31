@@ -51,6 +51,16 @@ test('license - incorrect heading depth', async t => {
 	]);
 });
 
+test('license - png image', async t => {
+	const messages = await m({config, filename: 'test/fixtures/license/error4.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/license',
+			message: 'License image must be svg'
+		}
+	]);
+});
+
 test('license - success', async t => {
 	const messages = await m({config, filename: 'test/fixtures/license/success0.md'});
 	t.deepEqual(messages, []);
