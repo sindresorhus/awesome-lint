@@ -24,7 +24,8 @@ const m = options => {
 	return pify(run)(file);
 };
 
-m.report = options => m(options).then(file => {
+m.report = async options => {
+	const file = await m(options);
 	const {messages} = file;
 
 	if (messages.length === 0) {
@@ -38,6 +39,6 @@ m.report = options => m(options).then(file => {
 	process.exitCode = 1;
 
 	console.log(vfileReporterPretty([file]));
-});
+};
 
 module.exports = m;
