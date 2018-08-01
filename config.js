@@ -5,15 +5,12 @@ exports.plugins = [
 
 	// Official plugins
 	[require('remark-lint-blockquote-indentation'), 2],
-	[require('remark-lint-checkbox-character-style'), {
-		checked: 'x',
-		unchecked: ' '
-	}],
+	[require('remark-lint-checkbox-character-style'), 'consistent'],
 	require('remark-lint-checkbox-content-indent'),
 	[require('remark-lint-code-block-style'), 'fenced'],
 	require('remark-lint-definition-case'),
 	require('remark-lint-definition-spacing'),
-	[require('remark-lint-emphasis-marker'), '*'],
+	[require('remark-lint-emphasis-marker'), 'consistent'],
 	[require('remark-lint-fenced-code-marker'), '`'],
 	require('remark-lint-file-extension'),
 	require('remark-lint-final-newline'),
@@ -41,18 +38,17 @@ exports.plugins = [
 	require('remark-lint-no-table-indentation'),
 	require('remark-lint-no-undefined-references'),
 	require('remark-lint-no-unused-definitions'),
-	[require('remark-lint-ordered-list-marker-style'), '.'],
+	[require('remark-lint-ordered-list-marker-style'), 'consistent'],
 	[require('remark-lint-ordered-list-marker-value'), 'ordered'],
 	[require('remark-lint-rule-style'), '---'],
-	[require('remark-lint-strong-marker'), '*'],
-	[require('remark-lint-table-cell-padding'), 'padded'],
+	[require('remark-lint-strong-marker'), 'consistent'],
+	[require('remark-lint-table-cell-padding'), 'consistent'],
 	require('remark-lint-table-pipe-alignment'),
 	require('remark-lint-table-pipes'),
-	[require('remark-lint-unordered-list-marker-style'), '-'],
+	[require('remark-lint-unordered-list-marker-style'), 'consistent'],
 
 	// Third-party plugins
 	require('remark-lint-no-empty-sections'),
-	require('remark-lint-no-url-trailing-slash'),
 
 	// Custom plugins
 	...require('./rules')

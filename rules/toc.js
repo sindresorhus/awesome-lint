@@ -114,7 +114,12 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			}
 
 			if (!headingText) {
-				file.message(`ToC item "${text}" missing corresponding heading`, listItem);
+				if (sectionHeadingBlacklist.has(text)) {
+					file.message(`ToC should not contain section "${text}"`, listItem);
+				} else {
+					file.message(`ToC item "${text}" missing corresponding heading`, listItem);
+				}
+
 				return;
 			}
 
