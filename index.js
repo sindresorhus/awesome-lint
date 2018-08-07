@@ -40,6 +40,7 @@ m.report = async options => {
 
 	process.exitCode = 1;
 
+	file.path = path.basename(file.path);
 	console.log(vfileReporterPretty([file]));
 };
 

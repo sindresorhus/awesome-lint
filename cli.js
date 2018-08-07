@@ -39,7 +39,7 @@ const main = async () => {
 		options.filename = 'readme.md';
 	}
 
-	awesomeLint.report(options);
+	await awesomeLint.report(options);
 
 	if (temp) {
 		await rmfr(temp);
