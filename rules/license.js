@@ -40,7 +40,7 @@ module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 
 	visit(content, 'image', node => {
 		if (/\.png/i.test(node.url)) {
-			file.message('License image must be svg', node);
+			file.message('License image must be SVG', node);
 			return false;
 		}
 	});

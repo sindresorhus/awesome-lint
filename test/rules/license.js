@@ -58,7 +58,7 @@ test('license - png image', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/license',
-			message: 'License image must be svg'
+			message: 'License image must be SVG'
 		}
 	]);
 });
