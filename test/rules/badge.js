@@ -28,6 +28,16 @@ test('badge - incorrect source', async t => {
 	]);
 });
 
+test('badge - incorrect source raw git', async t => {
+	const messages = await m({config, filename: 'test/fixtures/badge/error2.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/badge',
+			message: 'Invalid badge source'
+		}
+	]);
+});
+
 test('badge - success (short)', async t => {
 	const messages = await m({config, filename: 'test/fixtures/badge/success0.md'});
 	t.deepEqual(messages, []);

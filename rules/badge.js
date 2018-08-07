@@ -2,8 +2,6 @@
 const rule = require('unified-lint-rule');
 const visit = require('unist-util-visit');
 
-const badgeSrcRe = /^https:\/\/cdn\.rawgit\.com\/sindresorhus\/awesome\/\w*\/media\/badge.svg$/i;
-
 const badgeUrlWhitelist = new Set([
 	'https://awesome.re',
 	'https://github.com/sindresorhus/awesome'
@@ -50,5 +48,5 @@ function isValidBadgeUrl(url) {
 }
 
 function isValidBadgeSrcUrl(url) {
-	return badgeSrcUrlWhitelist.has(url) || badgeSrcRe.test(url);
+	return badgeSrcUrlWhitelist.has(url);
 }
