@@ -5,15 +5,26 @@ const rule = require('unified-lint-rule');
 const minGitRepoAgeDays = 30;
 const minGitRepoAgeMs = minGitRepoAgeDays * 24 * 60 * 60 * 1000;
 
-module.exports = rule('remark-lint:awesome/git-repo-age', (ast, file) => {
+module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 	const {dirname} = file;
 
 	try {
-		const {stdout: firstCommitHash} = execa.shellSync('git rev-list --max-parents=0 HEAD', {
+		const firstCommitHash = await execa.stdout('git', [
+			'rev-list',
+			'--max-parents=0',
+			'HEAD'
+		], {
 			cwd: dirname
 		});
 
-		const {stdout: firstCommitDate} = execa.shellSync(`git show -s --format=%ci "${firstCommitHash}"`, {cwd: dirname});
+		const firstCommitDate = await execa.stdout('git', [
+			'show',
+			'-s',
+			'--format=%ci',
+			firstCommitHash
+		], {
+			cwd: dirname
+		});
 
 		const date = new Date(firstCommitDate);
 		const now = new Date();

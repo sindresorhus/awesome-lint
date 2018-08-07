@@ -21,9 +21,9 @@ test.afterEach.always(() => {
 });
 
 test.serial('git-repo-age - error invalid git repo', async t => {
-	const shellSyncStub = sandbox.stub(gitRepoAge.execa, 'shellSync');
+	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
 
-	shellSyncStub
+	execaStub
 		.throws(new Error('"git" command not found'));
 
 	const messages = await m({config, filename: 'test/fixtures/git-repo-age/0.md'});
@@ -36,15 +36,15 @@ test.serial('git-repo-age - error invalid git repo', async t => {
 });
 
 test.serial('git-repo-age - error repo is not old enough', async t => {
-	const shellSyncStub = sandbox.stub(gitRepoAge.execa, 'shellSync');
+	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
 
-	shellSyncStub
-		.withArgs('git rev-list --max-parents=0 HEAD')
-		.returns({stdout: '14fc116c8ff54fc8a13c4a3b7527eb95fb87d400'});
+	execaStub
+		.withArgs('git', ['rev-list', '--max-parents=0', 'HEAD'])
+		.returns('14fc116c8ff54fc8a13c4a3b7527eb95fb87d400');
 
-	shellSyncStub
-		.withArgs('git show -s --format=%ci "14fc116c8ff54fc8a13c4a3b7527eb95fb87d400"')
-		.returns({stdout: '2030-08-01 12:55:53 +0200'});
+	execaStub
+		.withArgs('git', ['show', '-s', '--format=%ci', '14fc116c8ff54fc8a13c4a3b7527eb95fb87d400'])
+		.returns('2030-08-01 12:55:53 +0200');
 
 	const messages = await m({config, filename: 'test/fixtures/git-repo-age/0.md'});
 	t.deepEqual(messages, [
@@ -56,15 +56,15 @@ test.serial('git-repo-age - error repo is not old enough', async t => {
 });
 
 test.serial('git-repo-age - valid repo is old enough', async t => {
-	const shellSyncStub = sandbox.stub(gitRepoAge.execa, 'shellSync');
+	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
 
-	shellSyncStub
-		.withArgs('git rev-list --max-parents=0 HEAD')
-		.returns({stdout: '14fc116c8ff54fc8a13c4a3b7527eb95fb87d400'});
+	execaStub
+		.withArgs('git', ['rev-list', '--max-parents=0', 'HEAD'])
+		.returns('14fc116c8ff54fc8a13c4a3b7527eb95fb87d400');
 
-	shellSyncStub
-		.withArgs('git show -s --format=%ci "14fc116c8ff54fc8a13c4a3b7527eb95fb87d400"')
-		.returns({stdout: '2016-08-01 12:55:53 +0200'});
+	execaStub
+		.withArgs('git', ['show', '-s', '--format=%ci', '14fc116c8ff54fc8a13c4a3b7527eb95fb87d400'])
+		.returns('2016-08-01 12:55:53 +0200');
 
 	const messages = await m({config, filename: 'test/fixtures/git-repo-age/0.md'});
 	t.deepEqual(messages, []);
