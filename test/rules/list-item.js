@@ -46,7 +46,7 @@ test('list-item - invalid', async t => {
 		},
 		{
 			ruleId: 'awesome/list-item',
-			message: 'Invalid list item link'
+			message: 'Invalid list item link text'
 		},
 		{
 			ruleId: 'awesome/list-item',

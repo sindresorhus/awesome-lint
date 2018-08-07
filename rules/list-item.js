@@ -1,5 +1,6 @@
 'use strict';
 const caseOf = require('case').of;
+const emojiRegex = require('emoji-regex');
 const find = require('unist-util-find');
 const findAllAfter = require('unist-util-find-all-after');
 const isUrl = require('is-url-superb');
@@ -15,6 +16,12 @@ const listItemPrefixCaseWhitelist = new Set([
 	'pascal'
 ]);
 
+// Valid node types in list item link
+const listItemLinkNodeWhitelist = new Set([
+	'inlineCode',
+	'text'
+]);
+
 // Valid node types in list item descriptions
 const listItemDescriptionNodeWhitelist = new Set([
 	'emphasis',
@@ -22,6 +29,14 @@ const listItemDescriptionNodeWhitelist = new Set([
 	'inlineCode',
 	'link',
 	'linkReference',
+	'strong',
+	'text'
+]);
+
+// Valid node types in list item description suffix
+const listItemDescriptionSuffixNodeWhitelist = new Set([
+	'emphasis',
+	'link',
 	'strong',
 	'text'
 ]);
@@ -71,24 +86,39 @@ function validateList(list, file) {
 
 		const [link, ...description] = paragraph.children;
 
-		if (link.type !== 'link' || link.children.length !== 1) {
-			file.message('Invalid list item link', link);
-			continue;
-		}
-
-		if (!isUrl(link.url)) {
-			file.message('Invalid list item link URL', link);
-			continue;
-		}
-
-		const [linkText] = link.children;
-		if (!linkText) {
-			file.message('Invalid list item link text', link);
+		if (!validateListItemLink(link, file)) {
 			continue;
 		}
 
 		validateListItemDescription(description, file);
 	}
+}
+
+function validateListItemLink(link, file) {
+	if (link.type !== 'link') {
+		file.message('Invalid list item link', link);
+		return false;
+	}
+
+	if (!isUrl(link.url)) {
+		file.message('Invalid list item link URL', link);
+		return false;
+	}
+
+	const linkText = toString(link);
+	if (!linkText) {
+		file.message('Invalid list item link text', link);
+		return false;
+	}
+
+	for (const node of link.children) {
+		if (!listItemLinkNodeWhitelist.has(node.type)) {
+			file.message('Invalid list item link', node);
+			return false;
+		}
+	}
+
+	return true;
 }
 
 function validateListItemDescription(description, file) {
@@ -100,14 +130,29 @@ function validateListItemDescription(description, file) {
 	const prefix = description[0];
 	const suffix = description[description.length - 1];
 
-	// Ensure description starts with a dash separator
-	if (prefix.type !== 'text' || !prefix.value.startsWith(' - ')) {
+	const descriptionText = toString({type: 'root', children: description});
+	const prefixText = toString(prefix);
+	const suffixText = toString(suffix);
+
+	// Check for special-cases with simple descriptions
+	if (validateListItemSpecialCases(description, descriptionText)) {
+		return true;
+	}
+
+	// Ensure description starts with a dash separator or an acceptable special-case
+	if (prefix.type !== 'text' || !validateListItemPrefix(descriptionText, prefixText)) {
 		file.message('List item link and description must be separated with a dash', prefix);
 		return false;
 	}
 
-	// Ensure description ends with '.' or '!'
-	if (suffix.type !== 'text' || !/[.!]$/.test(suffix.value)) {
+	// Ensure description ends with acceptable node type
+	if (!listItemDescriptionSuffixNodeWhitelist.has(suffix.type)) {
+		file.message('List item description must end with proper punctuation', suffix);
+		return false;
+	}
+
+	// Ensure description ends with '.' or '!' or an acceptable special-case
+	if (!validateListItemSuffix(descriptionText, suffixText)) {
 		file.message('List item description must end with proper punctuation', suffix);
 		return false;
 	}
@@ -134,9 +179,40 @@ function validateListItemDescription(description, file) {
 	return true;
 }
 
+function validateListItemSpecialCases(description, descriptionText) {
+	if (descriptionText.startsWith(' - ')) {
+		return false;
+	}
+
+	const text = descriptionText
+		.replace(emojiRegex(), '')
+		.trim();
+
+	if (!text) {
+		// Description contains only emoji and spaces
+		return true;
+	}
+
+	if (/^\s\([^)]+\)\s*$/.test(descriptionText)) {
+		// Description contains only a parenthetical
+		return true;
+	}
+
+	if (/^\([^)]+\)$/.test(text)) {
+		// Description contains only a parenthetical and emojis
+		return true;
+	}
+
+	return false;
+}
+
+function tokenizeWords(text) {
+	return text.split(/[- ;./]/).filter(Boolean);
+}
+
 function validateListItemPrefixCasing(prefix, file) {
 	const strippedPrefix = prefix.value.slice(3);
-	const [firstWord] = strippedPrefix.split(/[ -./]/);
+	const [firstWord] = tokenizeWords(strippedPrefix);
 
 	if (!firstWord) {
 		file.message('List item description must start with a non-empty string', prefix);
@@ -144,11 +220,72 @@ function validateListItemPrefixCasing(prefix, file) {
 	}
 
 	if (!listItemPrefixCaseWhitelist.has(caseOf(firstWord))) {
-		if (!/\d/.test(firstWord)) {
+		if (!/\d/.test(firstWord) && !/^["'(]/.test(firstWord)) {
 			file.message('List item description must start with valid casing', prefix);
 			return false;
 		}
 	}
 
 	return true;
+}
+
+function validateListItemPrefix(descriptionText, prefixText) {
+	if (prefixText.startsWith(' - ')) {
+		// Description starts with a dash
+		return true;
+	}
+
+	if (textEndsWithEmoji(prefixText) && descriptionText === prefixText) {
+		// Description ends with an emojii
+		return true;
+	}
+
+	return false;
+}
+
+function validateListItemSuffix(descriptionText, suffixText) {
+	if (/[.!]\s*$/.test(suffixText)) {
+		// Description ends with '.' or '!'
+		return true;
+	}
+
+	if (!/[.!]/.test(descriptionText)) {
+		// Description contains no punctuation
+		const tokens = tokenizeWords(descriptionText);
+		if (tokens.length > 2 || !textEndsWithEmoji(tokens[tokens.length - 1])) {
+			return false;
+		}
+	}
+
+	if (/\)\s*$/.test(suffixText)) {
+		// Description contains punctuation and ends with a parenthesis
+		return true;
+	}
+
+	if (textEndsWithEmoji(suffixText)) {
+		// Description contains punctuation and ends with an emoji
+		return true;
+	}
+
+	return false;
+}
+
+function textEndsWithEmoji(text) {
+	const regex = emojiRegex();
+	let match;
+	let emoji;
+	let emojiIndex;
+
+	// Find last emoji in text (if any exist)
+	while ((match = regex.exec(text))) {
+		const {index} = match;
+		emoji = match[0];
+		emojiIndex = index;
+	}
+
+	if (emoji && emoji.length + emojiIndex >= text.length) {
+		return true;
+	}
+
+	return false;
 }

@@ -35,6 +35,7 @@
 	],
 	"dependencies": {
 		"case": "^1.5.5",
+		"emoji-regex": "^7.0.0",
 		"execa": "^0.10.0",
 		"git-clone": "^0.1.0",
 		"github-slugger": "^1.2.0",
