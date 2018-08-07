@@ -8,10 +8,11 @@ const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
 const m = options => {
-	options = Object.assign({
+	options = {
 		config,
-		filename: 'readme.md'
-	}, options);
+		filename: 'readme.md',
+		...options
+	};
 
 	const readmeFile = globby.sync(options.filename, {nocase: true})[0];
 
