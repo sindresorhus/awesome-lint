@@ -146,7 +146,7 @@ function validateListItemDescription(description, file) {
 		return false;
 	}
 
-	// Ensure description ends with acceptable node type
+	// Ensure description ends with an acceptable node type
 	if (!listItemDescriptionSuffixNodeWhitelist.has(suffix.type)) {
 		file.message('List item description must end with proper punctuation', suffix);
 		return false;

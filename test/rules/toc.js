@@ -60,3 +60,8 @@ test('toc - success ignore contributing section', async t => {
 	const messages = await m({config, filename: 'test/fixtures/toc/5.md'});
 	t.deepEqual(messages, []);
 });
+
+test('toc - success html intro', async t => {
+	const messages = await m({config, filename: 'test/fixtures/toc/6.md'});
+	t.deepEqual(messages, []);
+});

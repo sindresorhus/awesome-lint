@@ -39,9 +39,13 @@ module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 		type: 'heading'
 	});
 
+	const htmlPre = findAllBefore(ast, toc, {
+		type: 'html'
+	});
+
 	if (headingsPre.length > 1) {
 		file.message('Table of Contents must be the first section', toc);
-	} else if (headingsPre.length === 0) {
+	} else if (headingsPre.length === 0 && htmlPre.length === 0) {
 		file.message('First heading should be name of awesome list', toc);
 	}
 
