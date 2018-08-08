@@ -7,6 +7,7 @@ const isUrl = require('is-url-superb');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
+const identifierWhitelist = require('../lib/identifier-whitelist');
 
 // Valid casings for first text word in list item descriptions
 const listItemPrefixCaseWhitelist = new Set([
@@ -221,8 +222,10 @@ function validateListItemPrefixCasing(prefix, file) {
 
 	if (!listItemPrefixCaseWhitelist.has(caseOf(firstWord))) {
 		if (!/\d/.test(firstWord) && !/^["'(]/.test(firstWord)) {
-			file.message('List item description must start with valid casing', prefix);
-			return false;
+			if (!identifierWhitelist.has(firstWord)) {
+				file.message('List item description must start with valid casing', prefix);
+				return false;
+			}
 		}
 	}
 
