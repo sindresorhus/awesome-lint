@@ -3,7 +3,6 @@ const caseOf = require('case').of;
 const emojiRegex = require('emoji-regex');
 const find = require('unist-util-find');
 const findAllAfter = require('unist-util-find-all-after');
-const inspect = require('unist-util-inspect');
 const isUrl = require('is-url-superb');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
@@ -128,8 +127,6 @@ function validateListItemDescription(description, file) {
 		// In certain, rare cases it's okay to leave off an item's description.
 		return;
 	}
-
-	// console.log(inspect(description));
 
 	const prefix = description[0];
 	const suffix = description[description.length - 1];
