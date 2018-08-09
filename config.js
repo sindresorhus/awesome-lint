@@ -18,7 +18,8 @@ exports.plugins = [
 	[require('remark-lint-heading-style'), 'atx'],
 	[require('remark-lint-link-title-style'), '\''],
 	require('remark-lint-list-item-bullet-indent'),
-	require('remark-lint-list-item-content-indent'),
+	// TODO: this rule doesn't properly handle tab indents
+	// require('remark-lint-list-item-content-indent'),
 	[require('remark-lint-list-item-indent'), 'space'],
 	require('remark-lint-no-auto-link-without-protocol'),
 	require('remark-lint-no-blockquote-without-marker'),

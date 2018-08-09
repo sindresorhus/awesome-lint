@@ -50,6 +50,14 @@ test('list-item - invalid', async t => {
 		},
 		{
 			ruleId: 'awesome/list-item',
+			message: 'List item link and description separated by invalid whitespace'
+		},
+		{
+			ruleId: 'awesome/list-item',
+			message: 'List item link and description separated by invalid en-dash'
+		},
+		{
+			ruleId: 'awesome/list-item',
 			message: 'List item description must start with valid casing'
 		},
 		{

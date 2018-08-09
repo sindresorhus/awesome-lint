@@ -3,6 +3,7 @@ const caseOf = require('case').of;
 const emojiRegex = require('emoji-regex');
 const find = require('unist-util-find');
 const findAllAfter = require('unist-util-find-all-after');
+const inspect = require('unist-util-inspect');
 const isUrl = require('is-url-superb');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
@@ -128,6 +129,8 @@ function validateListItemDescription(description, file) {
 		return;
 	}
 
+	// console.log(inspect(description));
+
 	const prefix = description[0];
 	const suffix = description[description.length - 1];
 
@@ -142,6 +145,16 @@ function validateListItemDescription(description, file) {
 
 	// Ensure description starts with a dash separator or an acceptable special-case
 	if (prefix.type !== 'text' || !validateListItemPrefix(descriptionText, prefixText)) {
+		if (/^[\s\u00A0]-[\s\u00A0]/.test(prefixText)) {
+			file.message('List item link and description separated by invalid whitespace', prefix);
+			return false;
+		}
+
+		if (/^\s*—/.test(prefixText)) {
+			file.message('List item link and description separated by invalid en-dash', prefix);
+			return false;
+		}
+
 		file.message('List item link and description must be separated with a dash', prefix);
 		return false;
 	}
