@@ -91,6 +91,12 @@ Returns a `Promise` for a [`VFile`](https://github.com/wooorm/vfile).
 Show the lint output.
 
 
+## Maintainers
+
+- [Sindre Sorhus](http://github.com/sindresorhus)
+- [Travis Fischer](https://github.com/transitive-bullshit)
+
+
 ## License
 
-MIT © [Sindre Sorhus](https://sindresorhus.com)
+MIT
