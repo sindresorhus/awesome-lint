@@ -28,7 +28,7 @@ const main = async () => {
 			const readme = findReadmeFile(temp);
 			if (!readme) {
 				await rmfr(temp);
-				throw new Error(`unable to find valid readme for "${input}"`);
+				throw new Error(`Unable to find valid readme for "${input}"`);
 			}
 
 			options.filename = readme;

@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../_lint';
+import lint from '../_lint';
 
 const config = {
 	plugins: [
@@ -10,7 +10,7 @@ const config = {
 };
 
 test('license - missing', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/error0.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/error0.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/license',
@@ -20,7 +20,7 @@ test('license - missing', async t => {
 });
 
 test('license - empty', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/error1.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/error1.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'no-empty-sections',
@@ -34,7 +34,7 @@ test('license - empty', async t => {
 });
 
 test('license - not last section', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/error2.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/error2.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/license',
@@ -44,7 +44,7 @@ test('license - not last section', async t => {
 });
 
 test('license - incorrect heading depth', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/error3.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/error3.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/license',
@@ -54,7 +54,7 @@ test('license - incorrect heading depth', async t => {
 });
 
 test('license - png image', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/error4.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/error4.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/license',
@@ -64,6 +64,6 @@ test('license - png image', async t => {
 });
 
 test('license - success', async t => {
-	const messages = await m({config, filename: 'test/fixtures/license/success0.md'});
+	const messages = await lint({config, filename: 'test/fixtures/license/success0.md'});
 	t.deepEqual(messages, []);
 });

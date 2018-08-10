@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../_lint';
+import lint from '../_lint';
 
 const config = {
 	plugins: [
@@ -8,7 +8,7 @@ const config = {
 };
 
 test('contributing - missing', async t => {
-	const messages = await m({config, filename: 'test/fixtures/contributing/error0/readme.md'});
+	const messages = await lint({config, filename: 'test/fixtures/contributing/error0/readme.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/contributing',
@@ -18,7 +18,7 @@ test('contributing - missing', async t => {
 });
 
 test('contributing - empty', async t => {
-	const messages = await m({config, filename: 'test/fixtures/contributing/error1/readme.md'});
+	const messages = await lint({config, filename: 'test/fixtures/contributing/error1/readme.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/contributing',
@@ -36,6 +36,6 @@ test('contributing - valid CONTRIBUTING.md', async t => {
 */
 
 test('contributing - valid contributing.md', async t => {
-	const messages = await m({config, filename: 'test/fixtures/contributing/valid1/readme.md'});
+	const messages = await lint({config, filename: 'test/fixtures/contributing/valid1/readme.md'});
 	t.deepEqual(messages, []);
 });

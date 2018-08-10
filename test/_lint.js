@@ -1,9 +1,9 @@
-import m from '..';
+import lint from '..';
 
 export default async options => {
-	const result = await m(options);
-	return result.messages.map(err => ({
-		ruleId: err.ruleId,
-		message: err.message
+	const result = await lint(options);
+	return result.messages.map(error => ({
+		ruleId: error.ruleId,
+		message: error.message
 	}));
 };

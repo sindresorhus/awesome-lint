@@ -2,8 +2,10 @@
 const execa = require('execa');
 const rule = require('unified-lint-rule');
 
+const oneDay = 24 * 60 * 60 * 1000;
+
 const minGitRepoAgeDays = 30;
-const minGitRepoAgeMs = minGitRepoAgeDays * 24 * 60 * 60 * 1000;
+const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
 
 module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 	const {dirname} = file;
@@ -32,8 +34,8 @@ module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 		if (now - date < minGitRepoAgeMs) {
 			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
 		}
-	} catch (err) {
-		// Most likely not a git repository
+	} catch (_) {
+		// Most likely not a Git repository
 		file.message(`Awesome list must reside in a valid git repository`);
 	}
 });

@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../_lint';
+import lint from '../_lint';
 
 const config = {
 	plugins: [
@@ -9,7 +9,7 @@ const config = {
 };
 
 test('badge - missing', async t => {
-	const messages = await m({config, filename: 'test/fixtures/badge/error0.md'});
+	const messages = await lint({config, filename: 'test/fixtures/badge/error0.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/badge',
@@ -19,7 +19,7 @@ test('badge - missing', async t => {
 });
 
 test('badge - incorrect source', async t => {
-	const messages = await m({config, filename: 'test/fixtures/badge/error1.md'});
+	const messages = await lint({config, filename: 'test/fixtures/badge/error1.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/badge',
@@ -29,7 +29,7 @@ test('badge - incorrect source', async t => {
 });
 
 test('badge - incorrect source raw git', async t => {
-	const messages = await m({config, filename: 'test/fixtures/badge/error2.md'});
+	const messages = await lint({config, filename: 'test/fixtures/badge/error2.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/badge',
@@ -39,11 +39,11 @@ test('badge - incorrect source raw git', async t => {
 });
 
 test('badge - success (short)', async t => {
-	const messages = await m({config, filename: 'test/fixtures/badge/success0.md'});
+	const messages = await lint({config, filename: 'test/fixtures/badge/success0.md'});
 	t.deepEqual(messages, []);
 });
 
 test('badge - success (long)', async t => {
-	const messages = await m({config, filename: 'test/fixtures/badge/success1.md'});
+	const messages = await lint({config, filename: 'test/fixtures/badge/success1.md'});
 	t.deepEqual(messages, []);
 });

@@ -12,6 +12,9 @@ const badgeSrcUrlWhitelist = new Set([
 	'https://awesome.re/badge-flat.svg'
 ]);
 
+const isValidBadgeUrl = url => badgeUrlWhitelist.has(url);
+const isValidBadgeSrcUrl = url => badgeSrcUrlWhitelist.has(url);
+
 module.exports = rule('remark-lint:awesome/badge', (ast, file) => {
 	visit(ast, 'heading', (node, index) => {
 		if (index > 0) {
@@ -42,11 +45,3 @@ module.exports = rule('remark-lint:awesome/badge', (ast, file) => {
 		}
 	});
 });
-
-function isValidBadgeUrl(url) {
-	return badgeUrlWhitelist.has(url);
-}
-
-function isValidBadgeSrcUrl(url) {
-	return badgeSrcUrlWhitelist.has(url);
-}

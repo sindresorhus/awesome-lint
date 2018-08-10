@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '../_lint';
+import lint from '../_lint';
 
 const config = {
 	plugins: [
@@ -9,7 +9,7 @@ const config = {
 };
 
 test('no-ci-badge - missing', async t => {
-	const messages = await m({config, filename: 'test/fixtures/no-ci-badge/0.md'});
+	const messages = await lint({config, filename: 'test/fixtures/no-ci-badge/0.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/no-ci-badge',

@@ -7,7 +7,7 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
-const m = options => {
+const lint = options => {
 	options = {
 		config,
 		filename: 'readme.md',
@@ -26,8 +26,8 @@ const m = options => {
 	return pify(run)(file);
 };
 
-m.report = async options => {
-	const file = await m(options);
+lint.report = async options => {
+	const file = await lint(options);
 	const {messages} = file;
 
 	if (messages.length === 0) {
@@ -44,4 +44,4 @@ m.report = async options => {
 	console.log(vfileReporterPretty([file]));
 };
 
-module.exports = m;
+module.exports = lint;
