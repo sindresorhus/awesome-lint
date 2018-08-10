@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const remark = require('remark');
 const globby = require('globby');
 const pify = require('pify');
@@ -7,9 +8,11 @@ const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 
 const m = options => {
-	options = Object.assign({
-		filename: 'readme.md'
-	}, options);
+	options = {
+		config,
+		filename: 'readme.md',
+		...options
+	};
 
 	const readmeFile = globby.sync(options.filename, {nocase: true})[0];
 
@@ -17,13 +20,14 @@ const m = options => {
 		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
 	}
 
-	const run = remark().use(config).process;
-	const file = toVfile.readSync(readmeFile);
+	const run = remark().use(options.config).process;
+	const file = toVfile.readSync(path.resolve(readmeFile));
 
 	return pify(run)(file);
 };
 
-m.report = options => m(options).then(file => {
+m.report = async options => {
+	const file = await m(options);
 	const {messages} = file;
 
 	if (messages.length === 0) {
@@ -36,7 +40,8 @@ m.report = options => m(options).then(file => {
 
 	process.exitCode = 1;
 
+	file.path = path.basename(file.path);
 	console.log(vfileReporterPretty([file]));
-});
+};
 
 module.exports = m;

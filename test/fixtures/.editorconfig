@@ -1,0 +1,5 @@
+# Note: this is necessary as remark currently doesn't properly handle tabbed list-items.
+
+[*.md]
+indent_style = space
+indent_size = 2
