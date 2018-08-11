@@ -87,6 +87,10 @@ function validateList(list, file) {
 
 		const [link, ...description] = paragraph.children;
 
+		if (link.type === 'text') {
+			continue;
+		}
+
 		if (!validateListItemLink(link, file)) {
 			continue;
 		}
