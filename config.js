@@ -33,7 +33,6 @@ exports.plugins = [
 	require('remark-lint-no-heading-indent'),
 	require('remark-lint-no-heading-punctuation'),
 	require('remark-lint-no-inline-padding'),
-	require('remark-lint-no-literal-urls'),
 	[require('remark-lint-no-multiple-toplevel-headings'), 1],
 	require('remark-lint-no-shell-dollars'),
 	require('remark-lint-no-table-indentation'),
