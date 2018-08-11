@@ -162,7 +162,7 @@ function validateListItemDescription(description, file) {
 		return false;
 	}
 
-	// Ensure description ends with '.' or '!' or an acceptable special-case
+	// Ensure description ends with '.', '!', '?' or an acceptable special-case
 	if (!validateListItemSuffix(descriptionText, suffixText)) {
 		file.message('List item description must end with proper punctuation', suffix);
 		return false;
@@ -257,12 +257,12 @@ function validateListItemPrefix(descriptionText, prefixText) {
 }
 
 function validateListItemSuffix(descriptionText, suffixText) {
-	if (/[.!]\s*$/.test(suffixText)) {
-		// Description ends with '.' or '!'
+	if (/[.!?]\s*$/.test(suffixText)) {
+		// Description ends with '.', '!', or '?'
 		return true;
 	}
 
-	if (!/[.!]/.test(descriptionText)) {
+	if (!/[.!?]/.test(descriptionText)) {
 		// Description contains no punctuation
 		const tokens = tokenizeWords(descriptionText);
 		if (tokens.length > 2 || !textEndsWithEmoji(tokens[tokens.length - 1])) {

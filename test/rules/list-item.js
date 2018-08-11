@@ -15,56 +15,7 @@ test('list-item - valid', async t => {
 
 test('list-item - invalid', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/1.md'});
-	t.deepEqual(messages, [
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must start with valid casing'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must start with valid casing'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item link and description must be separated with a dash'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must end with proper punctuation'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must end with proper punctuation'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'Invalid list item link URL'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'Invalid list item link URL'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'Invalid list item link text'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item link and description separated by invalid whitespace'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item link and description separated by invalid en-dash'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must start with valid casing'
-		},
-		{
-			ruleId: 'awesome/list-item',
-			message: 'List item description must start with valid casing'
-		}
-	]);
+	t.snapshot(messages);
 });
 
 test('list-item - valid ignoring Contents section', async t => {
