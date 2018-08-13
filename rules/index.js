@@ -7,5 +7,6 @@ module.exports = [
 	require('./license'),
 	require('./list-item'),
 	require('./no-ci-badge'),
+	require('./spell-check'),
 	require('./toc')
 ];
