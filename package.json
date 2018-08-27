@@ -1,6 +1,6 @@
 {
 	"name": "awesome-lint",
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"description": "Linter for Awesome lists",
 	"license": "MIT",
 	"repository": "sindresorhus/awesome-lint",
