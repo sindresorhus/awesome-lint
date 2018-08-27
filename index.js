@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const ora = require('ora');
 const remark = require('remark');
 const globby = require('globby');
 const pify = require('pify');
@@ -27,10 +28,12 @@ const lint = options => {
 };
 
 lint.report = async options => {
+	const spinner = ora('Linting').start();
 	const file = await lint(options);
 	const {messages} = file;
 
 	if (messages.length === 0) {
+		spinner.succeed();
 		return;
 	}
 
@@ -38,6 +41,7 @@ lint.report = async options => {
 		message.fatal = true; // TODO: because of https://github.com/wooorm/remark-lint/issues/65
 	}
 
+	spinner.fail();
 	process.exitCode = 1;
 
 	file.path = path.basename(file.path);

@@ -49,6 +49,7 @@ exports.plugins = [
 
 	// Third-party plugins
 	require('remark-lint-no-empty-sections'),
+	require('remark-lint-no-dead-urls'),
 
 	// Custom plugins
 	...require('./rules')
