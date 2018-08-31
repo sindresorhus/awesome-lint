@@ -32,3 +32,4 @@ These are special-cases which should not cause errors.
 
 - [awesome-cross-platform-nodejs](https://github.com/bcoe/awesome-cross-platform-nodejs)
 You might also like [awesome-nodejs](https://github.com/sindresorhus/awesome-nodejs).
+- You can even spell FFmpeg as `ffmpeg` if you're referring to the CLI.

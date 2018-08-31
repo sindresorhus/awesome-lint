@@ -1,6 +1,7 @@
 'use strict';
 const rule = require('unified-lint-rule');
 const visit = require('unist-util-visit');
+const arrify = require('arrify');
 const spellCheckRules = require('../lib/spell-check-rules');
 
 const wordBreakCharacterWhitelist = new Set([
@@ -15,28 +16,30 @@ module.exports = rule('remark-lint:awesome/spell-check', (ast, file) => {
 
 		for (const rule of spellCheckRules) {
 			const {test, value} = rule;
-			const re = new RegExp(test);
+			const regs = arrify(test).map(reg => new RegExp(reg));
 
-			for (;;) {
-				const match = re.exec(node.value);
-				if (!match) {
-					break;
-				}
-
-				if (match[0] !== value) {
-					const prevCharacter = node.value[match.index - 1];
-					const nextCharacter = node.value[match.index + match[0].length];
-
-					if (wordBreakCharacterWhitelist.has(prevCharacter)) {
-						continue;
+			for (const re of regs) {
+				for (;;) {
+					const match = re.exec(node.value);
+					if (!match) {
+						break;
 					}
 
-					if (wordBreakCharacterWhitelist.has(nextCharacter)) {
-						continue;
-					}
+					if (match[0] !== value) {
+						const prevCharacter = node.value[match.index - 1];
+						const nextCharacter = node.value[match.index + match[0].length];
 
-					file.message(`Text "${match}" should be written as "${value}"`, node);
-					break;
+						if (wordBreakCharacterWhitelist.has(prevCharacter)) {
+							continue;
+						}
+
+						if (wordBreakCharacterWhitelist.has(nextCharacter)) {
+							continue;
+						}
+
+						file.message(`Text "${match[0]}" should be written as "${value}"`, node);
+						break;
+					}
 				}
 			}
 		}

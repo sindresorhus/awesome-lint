@@ -31,6 +31,10 @@ Test spell-check on basic text nodes.
 - MacOS is cool but macOS is cooler
 - Mac OS is cool but macOS is cooler
 - mac OS is cool but macOS is cooler
+- Mac OS X is cool but macOS is cooler
+- Mac OSX is cool but macOS is cooler
+- OSX is cool but macOS is cooler
+- OS X is cool but macOS is cooler
 
 - ffmpeg is cool but FFmpeg is cooler
 - Ffmpeg is cool but FFmpeg is cooler
