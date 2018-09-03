@@ -36,7 +36,7 @@ module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 		}
 	} catch (_) {
 		// Most likely not a Git repository
-		file.message(`Awesome list must reside in a valid git repository`);
+		file.message('Awesome list must reside in a valid git repository');
 	}
 });
 
