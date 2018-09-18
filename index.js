@@ -1,12 +1,17 @@
 'use strict';
 const path = require('path');
+const isUrl = require('is-url-superb');
 const ora = require('ora');
 const remark = require('remark');
+const gitClone = require('git-clone');
 const globby = require('globby');
 const pify = require('pify');
+const rmfr = require('rmfr');
+const tempy = require('tempy');
 const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
+const findReadmeFile = require('./lib/find-readme-file');
 
 const lint = options => {
 	options = {
@@ -29,8 +34,27 @@ const lint = options => {
 
 lint.report = async options => {
 	const spinner = ora('Linting').start();
+	let temp = null;
+
+	if (isUrl(options.filename)) {
+		temp = tempy.directory();
+		await pify(gitClone)(options.filename, temp);
+
+		const readme = findReadmeFile(temp);
+		if (!readme) {
+			await rmfr(temp);
+			throw new Error(`Unable to find valid readme for "${options.filename}"`);
+		}
+
+		options.filename = readme;
+	}
+
 	const file = await lint(options);
 	const {messages} = file;
+
+	if (temp) {
+		await rmfr(temp);
+	}
 
 	if (messages.length === 0) {
 		spinner.succeed();
