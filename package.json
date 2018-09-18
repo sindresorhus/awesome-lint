@@ -38,7 +38,7 @@
 		"arrify": "^1.0.1",
 		"case": "^1.5.5",
 		"emoji-regex": "^7.0.0",
-		"execa": "^0.10.0",
+		"execa": "^1.0.0",
 		"git-clone": "^0.1.0",
 		"github-slugger": "^1.2.0",
 		"globby": "^8.0.1",
@@ -67,7 +67,7 @@
 		"remark-lint-list-item-indent": "^1.0.2",
 		"remark-lint-no-auto-link-without-protocol": "^1.0.2",
 		"remark-lint-no-blockquote-without-marker": "^2.0.2",
-		"remark-lint-no-dead-urls": "^0.4.0",
+		"remark-lint-no-dead-urls": "^0.4.1",
 		"remark-lint-no-emphasis-as-heading": "^1.0.2",
 		"remark-lint-no-empty-sections": "^3.0.0",
 		"remark-lint-no-file-name-articles": "^1.0.2",
@@ -99,13 +99,13 @@
 		"unist-util-find": "^1.0.1",
 		"unist-util-find-all-after": "^1.0.2",
 		"unist-util-find-all-before": "^2.0.2",
-		"unist-util-find-all-between": "^1.0.1",
+		"unist-util-find-all-between": "^1.0.2",
 		"unist-util-visit": "^1.4.0",
 		"vfile-reporter-pretty": "^1.0.2"
 	},
 	"devDependencies": {
 		"ava": "*",
-		"sinon": "^6.1.4",
+		"sinon": "^6.3.3",
 		"xo": "*"
 	}
 }
