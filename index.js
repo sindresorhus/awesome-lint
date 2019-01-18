@@ -61,6 +61,7 @@ lint.report = async options => {
 		if (options.customReporter) {
 			console.log(options.customReporter([]));
 		}
+
 		return;
 	}
 
@@ -74,8 +75,7 @@ lint.report = async options => {
 	file.path = path.basename(file.path);
 	if (options.customReporter) {
 		console.log(options.customReporter([file]));
-	}
-	else {
+	} else {
 		console.log(vfileReporterPretty([file]));
 	}
 };
