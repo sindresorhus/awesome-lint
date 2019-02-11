@@ -88,7 +88,7 @@ Returns a `Promise` for a [`VFile`](https://github.com/wooorm/vfile).
 
 #### awesomeLint.report()
 
-Show the lint output.
+Show the lint output. This can be custom reported by setting `options.reporter=<function>` and passing in `options` as a parameter.
 
 
 ## Maintainers
