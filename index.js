@@ -58,6 +58,7 @@ lint.report = async options => {
 
 	if (messages.length === 0) {
 		spinner.succeed();
+
 		if (options.customReporter) {
 			console.log(options.customReporter([]));
 		}
@@ -73,6 +74,7 @@ lint.report = async options => {
 	process.exitCode = 1;
 
 	file.path = path.basename(file.path);
+
 	if (options.customReporter) {
 		console.log(options.customReporter([file]));
 	} else {
