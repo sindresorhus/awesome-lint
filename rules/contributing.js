@@ -7,7 +7,9 @@ const rule = require('unified-lint-rule');
 module.exports = rule('remark-lint:awesome/contributing', (ast, file) => {
 	const {dirname} = file;
 
-	const contributingFile = globby.sync('contributing.md', {case: false, cwd: dirname})[0];
+	const contributingFile = globby.sync(['contributing.md', 'CONTRIBUTING.md'], {cwd: dirname})[0];
+	// TODO: This doesn't work on Linux for some reason. Investigate and then open an issue on `fast-glob`.
+	// const contributingFile = globby.sync('contributing.md', {case: false, cwd: dirname})[0];
 
 	if (!contributingFile) {
 		file.message('Missing file contributing.md');
