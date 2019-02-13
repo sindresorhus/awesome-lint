@@ -58,6 +58,11 @@ lint.report = async options => {
 
 	if (messages.length === 0) {
 		spinner.succeed();
+
+		if (options.reporter) {
+			console.log(options.reporter([]));
+		}
+
 		return;
 	}
 
@@ -69,7 +74,9 @@ lint.report = async options => {
 	process.exitCode = 1;
 
 	file.path = path.basename(file.path);
-	console.log(vfileReporterPretty([file]));
+
+	const reporter = options.reporter || vfileReporterPretty;
+	console.log(reporter([file]));
 };
 
 module.exports = lint;
