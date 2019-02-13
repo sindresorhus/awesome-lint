@@ -1,8 +1,12 @@
 import test from 'ava';
-import m from '..';
+import lint from '..';
+
+// Because of https://github.com/avajs/ava/issues/2041
+// TODO: Remove this when the issue is fixed
+process.stderr.isTTY = false;
 
 test('main', async t => {
-	t.true((await m({filename: 'test/fixtures/main.md'})).messages.length > 0);
+	t.true((await lint({filename: 'test/fixtures/main.md'})).messages.length > 0);
 });
 
 test('`reporter` option', async t => {
@@ -13,6 +17,7 @@ test('`reporter` option', async t => {
 		}
 	};
 
-	await m.report({filename: 'test/fixtures/main.md', reporter});
+	await lint.report({filename: 'test/fixtures/main.md', reporter});
+
 	t.true(wasReporterCalled);
 });

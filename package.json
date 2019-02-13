@@ -104,8 +104,8 @@
 		"vfile-reporter-pretty": "^1.0.2"
 	},
 	"devDependencies": {
-		"ava": "*",
+		"ava": "^1.2.1",
 		"sinon": "^6.3.3",
-		"xo": "*"
+		"xo": "^0.24.0"
 	}
 }
