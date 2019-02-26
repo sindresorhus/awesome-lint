@@ -9,7 +9,8 @@ const badgeUrlWhitelist = new Set([
 
 const badgeSrcUrlWhitelist = new Set([
 	'https://awesome.re/badge.svg',
-	'https://awesome.re/badge-flat.svg'
+	'https://awesome.re/badge-flat.svg',
+	'https://awesome.re/badge-flat2.svg'
 ]);
 
 const isValidBadgeUrl = url => badgeUrlWhitelist.has(url);
