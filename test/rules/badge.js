@@ -47,3 +47,8 @@ test('badge - success (long)', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/success1.md'});
 	t.deepEqual(messages, []);
 });
+
+test('new badge', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/badge/success2.md'});
+	t.deepEqual(messages, []);
+});
