@@ -8,7 +8,7 @@ const visit = require('unist-util-visit');
 module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	const license = find(ast, node => (
 		node.type === 'heading' &&
-		toString(node) === 'License'
+		(toString(node) === 'Licence' || toString(node) === 'License')
 	));
 
 	if (!license) {

@@ -15,6 +15,7 @@ const maxListItemDepth = 1;
 const sectionHeadingBlacklist = new Set([
 	'Contribute',
 	'Contributing',
+	'Licence',
 	'License'
 ]);
 
