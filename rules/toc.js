@@ -7,6 +7,7 @@ const rule = require('unified-lint-rule');
 const GitHubSlugger = require('github-slugger');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
+const trimEmoji = require('../lib/trim-emoji');
 
 const slugger = new GitHubSlugger();
 
@@ -28,7 +29,7 @@ module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
 	const toc = find(ast, node => (
 		node.type === 'heading' &&
 		node.depth === 2 &&
-		toString(node).trim() === 'Contents'
+		trimEmoji(toString(node)) === 'Contents'
 	));
 
 	if (!toc) {

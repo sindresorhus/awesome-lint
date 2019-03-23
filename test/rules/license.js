@@ -67,3 +67,8 @@ test('license - success', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/success0.md'});
 	t.deepEqual(messages, []);
 });
+
+test('license - success with emoji', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/license/success1.md'});
+	t.deepEqual(messages, []);
+});
