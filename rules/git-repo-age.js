@@ -8,6 +8,7 @@ const minGitRepoAgeDays = 30;
 const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
 
 module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
+	console.log('enter rule git-repo-age');
 	const {dirname} = file;
 
 	try {
@@ -35,6 +36,7 @@ module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
 		}
 	} catch (_) {
+		console.log(_)
 		// Most likely not a Git repository
 		file.message('Awesome list must reside in a valid git repository');
 	}
