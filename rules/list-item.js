@@ -105,7 +105,7 @@ function validateListItemLink(link, file) {
 		return false;
 	}
 
-	if (!isUrl(link.url)) {
+	if (!isUrl(link.url) && link.url[0] !== '#') {
 		file.message('Invalid list item link URL', link);
 		return false;
 	}
