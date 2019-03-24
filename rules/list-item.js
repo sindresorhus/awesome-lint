@@ -14,7 +14,8 @@ const listItemPrefixCaseWhitelist = new Set([
 	'camel',
 	'capital',
 	'constant',
-	'pascal'
+	'pascal',
+	'upper'
 ]);
 
 // Valid node types in list item link
