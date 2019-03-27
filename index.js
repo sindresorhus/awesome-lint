@@ -34,6 +34,16 @@ const lint = options => {
 
 lint.report = async options => {
 	const spinner = ora('Linting').start();
+
+	try {
+		await lint._report(options);
+	} catch (e) {
+		spinner.fail(e.message);
+		process.exitCode = 1;
+	}
+};
+
+lint._report = async options => {
 	let temp = null;
 
 	if (isUrl(options.filename)) {
