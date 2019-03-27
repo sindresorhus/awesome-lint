@@ -13,6 +13,8 @@ const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 const findReadmeFile = require('./lib/find-readme-file');
 
+const rGithubRepo = /^https:\/\/github\.com\/[^/]+\/.+$/;
+
 const lint = options => {
 	options = {
 		config,
@@ -47,6 +49,10 @@ lint._report = async options => {
 	let temp = null;
 
 	if (isUrl(options.filename)) {
+		if (!rGithubRepo.test(options.filename)) {
+			throw new Error(`Invalid Github repository url: ${options.filename}`);
+		}
+
 		temp = tempy.directory();
 		await pify(gitClone)(options.filename, temp);
 
