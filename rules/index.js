@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = [
+	require('./heading'),
 	require('./badge'),
 	require('./contributing'),
 	require('./git-repo-age'),
