@@ -13,7 +13,7 @@ const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 const findReadmeFile = require('./lib/find-readme-file');
 
-const rGithubRepo = /^https:\/\/github\.com\/[^/]+\/.+$/;
+const rGithubRepo = /^https:\/\/github\.com\/[^/]+\/[^/]+$/;
 
 const lint = options => {
 	options = {
