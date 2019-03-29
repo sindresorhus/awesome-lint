@@ -7,19 +7,15 @@ module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
 	let headings = 0;
 
 	visit(ast, node => {
-		if (node.type !== 'heading') {
+		if (node.type !== 'heading' || node.depth !== 1) {
 			return;
-		}
-
-		if (node.depth !== 1) {
-			file.message(`The list heading's children array must flat`, node);
 		}
 
 		for (const child of node.children) {
 			if (child.type !== 'text') {
 				continue;
 			}
-			
+
 			const headingText = child.value;
 
 			if (headingText !== titleCase(headingText)) {
