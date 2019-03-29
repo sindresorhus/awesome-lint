@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const isUrl = require('is-url-superb');
+const isGithubUrl = require('is-github-url');
 const ora = require('ora');
 const remark = require('remark');
 const gitClone = require('git-clone');
@@ -12,8 +13,6 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 const findReadmeFile = require('./lib/find-readme-file');
-
-const rGithubRepo = /^https:\/\/github\.com\/[^/]+\/[^/]+$/;
 
 const lint = options => {
 	options = {
@@ -49,7 +48,7 @@ lint._report = async (options, spinner) => {
 	let temp = null;
 
 	if (isUrl(options.filename)) {
-		if (!rGithubRepo.test(options.filename)) {
+		if (!isGithubUrl(options.filename, {repository: true})) {
 			throw new Error(`Invalid Github repository url: ${options.filename}`);
 		}
 

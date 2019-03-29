@@ -42,6 +42,7 @@
 		"git-clone": "^0.1.0",
 		"github-slugger": "^1.2.0",
 		"globby": "^9.0.0",
+		"is-github-url": "^1.2.2",
 		"is-url-superb": "^2.0.0",
 		"mdast-util-to-string": "^1.0.4",
 		"meow": "^5.0.0",
