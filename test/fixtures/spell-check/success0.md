@@ -12,6 +12,10 @@ This file should not generate any spell-check errors.
 
 [JavaScript](https://javascript.com) - JavaScript
 
+## Javascript as a standalone URL
+
+[javascript.com](https://javascript.com) - JavaScript
+
 ## macOS
 
 [macOS](https://macos.com) - macOS
@@ -20,9 +24,21 @@ This file should not generate any spell-check errors.
 
 [YouTube](https://youtube.com) - YouTube
 
+## YouTube as a standalone URL
+
+[youtube.com](https://youtube.com) - YouTube
+
 ## GitHub
 
 [GitHub](https://github.com) - GitHub
+
+## GitHub as a standalone URL
+
+github.com
+
+## GitHub as a link-text URL
+
+[github.com](https://github.com) - GitHub
 
 These are special-cases which should not cause errors.
 
