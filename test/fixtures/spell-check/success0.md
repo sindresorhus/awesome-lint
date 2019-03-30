@@ -2,27 +2,27 @@ This file should not generate any spell-check errors.
 
 ## Node.js
 
-[Node.js](https://foo.com) - Node.js
+[Node.js](https://nodejs.com) - Node.js
 
 ## Stack Overflow
 
-[Stack Overflow](https://foo.com) - Stack Overflow
+[Stack Overflow](https://stackoverflow.com) - Stack Overflow
 
 ## JavaScript
 
-[JavaScript](https://foo.com) - JavaScript
+[JavaScript](https://javascript.com) - JavaScript
 
 ## macOS
 
-[macOS](https://foo.com) - macOS
+[macOS](https://macos.com) - macOS
 
 ## YouTube
 
-[YouTube](https://foo.com) - YouTube
+[YouTube](https://youtube.com) - YouTube
 
 ## GitHub
 
-[GitHub](https://foo.com) - GitHub
+[GitHub](https://github.com) - GitHub
 
 These are special-cases which should not cause errors.
 
