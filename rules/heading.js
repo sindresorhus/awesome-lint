@@ -6,9 +6,17 @@ const titleCase = require('to-title-case');
 module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
 	let headings = 0;
 
-	visit(ast, node => {
-		if (node.type !== 'heading' || node.depth !== 1) {
+	visit(ast, (node, index) => {
+		if (node.type !== 'heading') {
 			return;
+		}
+
+		if (node.depth > 1) {
+			if (index !== 0) {
+				return;
+			}
+
+			file.message('Main list heading must be of depth 1', node);
 		}
 
 		for (const child of node.children) {
@@ -19,7 +27,7 @@ module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
 			const headingText = child.value;
 
 			if (headingText !== titleCase(headingText)) {
-				file.message('List heading must be in title case', node);
+				file.message('Main heading must be in title case', node);
 			}
 		}
 

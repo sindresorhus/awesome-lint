@@ -23,7 +23,7 @@ test('heading - not in title case', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/heading',
-			message: 'List heading must be in title case'
+			message: 'Main heading must be in title case'
 		}
 	]);
 });
@@ -34,6 +34,16 @@ test('heading - more than one heading', async t => {
 		{
 			ruleId: 'awesome/heading',
 			message: 'List can only have one heading'
+		}
+	]);
+});
+
+test('heading - depth is bigger than 1', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/heading/error3.md'})
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/heading',
+			message: 'Main list heading must be of depth 1'
 		}
 	]);
 });
