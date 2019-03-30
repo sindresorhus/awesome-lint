@@ -42,7 +42,7 @@ $ npm install --global awesome-lint
 
 Add it as a `test` script in package.json and activate Travis CI to lint on new commits and pull requests.
 
-Because Travis CI only clones with `depth=50` by default, which may result in wrong `git-repo-age` error, please set depth to `false` in `.travis.yml` if it needs.
+**Note:** [Travis CI only clones repositories to a maximum of 50 commits by default](https://docs.travis-ci.com/user/customizing-the-build/#git-clone-depth), which may result in a false positive of `awesome/git-repo-age`, and so you should set `depth` to `false` in `.travis.yml` if needed.
 
 ###### package.json
 
