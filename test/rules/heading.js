@@ -39,7 +39,7 @@ test('heading - more than one heading', async t => {
 });
 
 test('heading - depth is bigger than 1', async t => {
-	const messages = await lint({config, filename: 'test/fixtures/heading/error3.md'})
+	const messages = await lint({config, filename: 'test/fixtures/heading/error3.md'});
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/heading',
