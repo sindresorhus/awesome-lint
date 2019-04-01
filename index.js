@@ -49,7 +49,7 @@ lint._report = async (options, spinner) => {
 
 	if (isUrl(options.filename)) {
 		if (!isGithubUrl(options.filename, {repository: true})) {
-			throw new Error(`Invalid Github repository url: ${options.filename}`);
+			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
 		}
 
 		temp = tempy.directory();
