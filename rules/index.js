@@ -2,6 +2,7 @@
 
 module.exports = [
 	require('./badge'),
+    require('./code-of-conduct'),
 	require('./contributing'),
 	require('./git-repo-age'),
 	require('./license'),
