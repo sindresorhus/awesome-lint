@@ -28,6 +28,7 @@ const lint = options => {
 
 	const run = remark().use(options.config).process;
 	const file = toVfile.readSync(path.resolve(readmeFile));
+	file.repoURL = options.repoURL;
 
 	return pify(run)(file);
 };
@@ -46,6 +47,7 @@ lint.report = async options => {
 			throw new Error(`Unable to find valid readme for "${options.filename}"`);
 		}
 
+		options.repoURL = options.filename;
 		options.filename = readme;
 	}
 

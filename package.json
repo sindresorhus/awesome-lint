@@ -46,6 +46,7 @@
 		"mdast-util-to-string": "^1.0.4",
 		"meow": "^5.0.0",
 		"ora": "^3.0.0",
+		"parse-github-url": "^1.0.2",
 		"pify": "^4.0.0",
 		"remark": "^10.0.1",
 		"remark-lint": "^6.0.2",
