@@ -4,6 +4,7 @@ const path = require('path');
 const globby = require('globby');
 const find = require('unist-util-find');
 const rule = require('unified-lint-rule');
+const remark = require('remark');
 const findAuthorName = require('../lib/find-author-name');
 
 const authorName = 'sindresorhus';
@@ -25,8 +26,8 @@ module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
         return;
     }
 
-    // FIXME: parse code-of-conduct.md to get the real ast
-    // ast = ???
+    // parse code-of-conduct.md to get the real ast
+    ast = remark().parse(cocContent);
 
     const placeholder = find(ast, node => (
         node.type === 'linkReference' &&
