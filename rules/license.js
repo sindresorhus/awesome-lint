@@ -17,7 +17,7 @@ module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	}
 
 	if (license.depth !== 2) {
-		file.message('License section must be at heading depth 2', ast);
+		file.message('License section must be at heading depth 2', license);
 		return;
 	}
 
