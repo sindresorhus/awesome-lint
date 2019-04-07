@@ -40,11 +40,11 @@ module.exports = rule('remark-lint:awesome/github', async (ast, file) => {
 		}
 
 		if (!data.topics.includes('awesome')) {
-			file.message('The repository should have "awesome" as GitHub topics');
+			file.message('The repository should have "awesome" as a GitHub topic');
 		}
 
 		if (!data.topics.includes('awesome-list')) {
-			file.message('The repository should have "awesome-list" as GitHub topics');
+			file.message('The repository should have "awesome-list" as a GitHub topic');
 		}
 
 		if (!data.license) {

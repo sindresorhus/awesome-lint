@@ -89,7 +89,7 @@ test.serial('github - missing topic awesome-list', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/github',
-			message: 'The repository should have "awesome-list" as GitHub topics'
+			message: 'The repository should have "awesome-list" as a GitHub topic'
 		}
 	]);
 });
@@ -118,7 +118,7 @@ test.serial('github - missing topic awesome', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/github',
-			message: 'The repository should have "awesome" as GitHub topics'
+			message: 'The repository should have "awesome" as a GitHub topic'
 		}
 	]);
 });
