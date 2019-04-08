@@ -10,7 +10,7 @@ test('main', async t => {
 
 test('main - non-existent file', async t => {
 	await t.throwsAsync(
-		execa.stderr('./cli.js', ['test/fixtures/non-exsitent.md']),
+		execa.stderr('./cli.js', ['test/fixtures/non-existent.md']),
 		/Couldn't find the file/
 	);
 });
