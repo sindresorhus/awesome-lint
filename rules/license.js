@@ -4,12 +4,11 @@ const findAllAfter = require('unist-util-find-all-after');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
-const trimEmoji = require('../lib/trim-emoji');
 
 module.exports = rule('remark-lint:awesome/license', (ast, file) => {
 	const license = find(ast, node => (
 		node.type === 'heading' &&
-		(trimEmoji(toString(node)) === 'Licence' || trimEmoji(toString(node)) === 'License')
+		(toString(node) === 'Licence' || toString(node) === 'License')
 	));
 
 	if (!license) {

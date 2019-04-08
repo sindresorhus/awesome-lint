@@ -65,8 +65,3 @@ test('toc - success html intro', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/6.md'});
 	t.deepEqual(messages, []);
 });
-
-test('toc - success with emoji', async t => {
-	const messages = await lint({config, filename: 'test/fixtures/toc/7.md'});
-	t.deepEqual(messages, []);
-});

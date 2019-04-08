@@ -8,7 +8,6 @@ const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 const identifierWhitelist = require('../lib/identifier-whitelist');
-const trimEmoji = require('../lib/trim-emoji');
 
 // Valid casings for first text word in list item descriptions
 const listItemPrefixCaseWhitelist = new Set([
@@ -53,7 +52,7 @@ module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
 	const toc = find(ast, node => (
 		node.type === 'heading' &&
 		node.depth === 2 &&
-		trimEmoji(toString(node)) === 'Contents'
+		toString(node) === 'Contents'
 	));
 
 	if (toc) {
