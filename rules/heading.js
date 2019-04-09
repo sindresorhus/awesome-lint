@@ -1,7 +1,12 @@
 'use strict';
 const rule = require('unified-lint-rule');
 const visit = require('unist-util-visit');
-const titleCase = require('to-title-case');
+const {of: caseOf, title: titleCase} = require('case');
+
+const listHeadingCaseWhitelist = new Set([
+	'title',
+	'capital'
+]);
 
 module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
 	let headings = 0;
@@ -26,7 +31,7 @@ module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
 
 			const headingText = child.value;
 
-			if (headingText !== titleCase(headingText)) {
+			if (!listHeadingCaseWhitelist.has(caseOf(headingText)) && titleCase(headingText) !== headingText) {
 				file.message('Main heading must be in title case', node);
 			}
 		}

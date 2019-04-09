@@ -52,3 +52,8 @@ test('heading - success', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/success0.md'});
 	t.deepEqual(messages, []);
 });
+
+test('heading - success (with acronyms)', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/heading/success1.md'});
+	t.deepEqual(messages, []);
+});
