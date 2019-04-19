@@ -44,6 +44,7 @@
 		"github-url-to-object": "^4.0.4",
 		"globby": "^9.0.0",
 		"got": "^9.6.0",
+		"is-github-url": "^1.2.2",
 		"is-url-superb": "^2.0.0",
 		"mdast-util-to-string": "^1.0.4",
 		"meow": "^5.0.0",

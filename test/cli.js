@@ -7,3 +7,17 @@ test('main', async t => {
 		/Missing Awesome badge/
 	);
 });
+
+test('main - non-existent file', async t => {
+	await t.throwsAsync(
+		execa.stderr('./cli.js', ['test/fixtures/non-existent.md']),
+		/Couldn't find the file/
+	);
+});
+
+test('main - invalid GitHub repository', async t => {
+	await t.throwsAsync(
+		execa.stderr('./cli.js', ['https://github.com/sindresorhus/awesome-lint/blob/master/readme.md']),
+		/Invalid GitHub repo URL/
+	);
+});

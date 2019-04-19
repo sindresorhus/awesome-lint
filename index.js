@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const isUrl = require('is-url-superb');
+const isGithubUrl = require('is-github-url');
 const ora = require('ora');
 const remark = require('remark');
 const gitClone = require('git-clone');
@@ -34,9 +35,23 @@ const lint = options => {
 
 lint.report = async options => {
 	const spinner = ora('Linting').start();
+
+	try {
+		await lint._report(options, spinner);
+	} catch (error) {
+		spinner.fail(error.message);
+		process.exitCode = 1;
+	}
+};
+
+lint._report = async (options, spinner) => {
 	let temp = null;
 
 	if (isUrl(options.filename)) {
+		if (!isGithubUrl(options.filename, {repository: true})) {
+			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
+		}
+
 		temp = tempy.directory();
 		await pify(gitClone)(options.filename, temp);
 
