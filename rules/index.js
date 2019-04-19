@@ -4,6 +4,7 @@ module.exports = [
 	require('./badge'),
 	require('./contributing'),
 	require('./git-repo-age'),
+	require('./github'),
 	require('./license'),
 	require('./list-item'),
 	require('./no-ci-badge'),
