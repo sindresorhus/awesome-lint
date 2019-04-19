@@ -28,6 +28,8 @@ const listItemLinkNodeWhitelist = new Set([
 const listItemDescriptionNodeWhitelist = new Set([
 	'emphasis',
 	'footnoteReference',
+	'html',
+	'image',
 	'inlineCode',
 	'link',
 	'linkReference',
@@ -38,6 +40,8 @@ const listItemDescriptionNodeWhitelist = new Set([
 // Valid node types in list item description suffix
 const listItemDescriptionSuffixNodeWhitelist = new Set([
 	'emphasis',
+	'html',
+	'image',
 	'link',
 	'strong',
 	'text'
@@ -168,7 +172,7 @@ function validateListItemDescription(description, file) {
 	}
 
 	// Ensure description ends with '.', '!', '?' or an acceptable special-case
-	if (!validateListItemSuffix(descriptionText, suffixText)) {
+	if (suffix.type === 'text' && !validateListItemSuffix(descriptionText, suffixText)) {
 		file.message('List item description must end with proper punctuation', suffix);
 		return false;
 	}
