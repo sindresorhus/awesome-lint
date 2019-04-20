@@ -13,6 +13,7 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 const findReadmeFile = require('./lib/find-readme-file');
+const cocRule = require('./rules/code-of-conduct');
 
 const lint = options => {
 	options = {
@@ -27,11 +28,24 @@ const lint = options => {
 		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
 	}
 
-	const run = remark().use(options.config).process;
-	const file = toVfile.readSync(path.resolve(readmeFile));
-	file.repoURL = options.repoURL;
+	const readmeVFile = toVfile.readSync(path.resolve(readmeFile));
+	const {dirname} = readmeVFile;
+	const processTasks = [{
+		vfile: readmeVFile,
+		plugins: options.config
+	}];
 
-	return pify(run)(file);
+	const cocFile = globby.sync(['{.github/,}{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
+	if (cocFile) {
+		const cocVFile = toVfile.readSync(path.resolve(dirname, cocFile));
+		cocVFile.repoURL = options.repoURL;
+		processTasks.push({
+			vfile: cocVFile,
+			plugins: [cocRule]
+		});
+	}
+
+	return Promise.all(processTasks.map(({vfile, plugins}) => pify(remark().use(plugins).process)(vfile)));
 };
 
 lint.report = async options => {
@@ -66,8 +80,12 @@ lint._report = async (options, spinner) => {
 		options.filename = readme;
 	}
 
-	const file = await lint(options);
-	const {messages} = file;
+	const vfiles = await lint(options);
+	const messages = [];
+	vfiles.forEach(vfile => {
+		vfile.path = path.basename(vfile.path);
+		messages.push(...vfile.messages);
+	});
 
 	if (temp) {
 		await rmfr(temp);
@@ -90,10 +108,8 @@ lint._report = async (options, spinner) => {
 	spinner.fail();
 	process.exitCode = 1;
 
-	file.path = path.basename(file.path);
-
 	const reporter = options.reporter || vfileReporterPretty;
-	console.log(reporter([file]));
+	console.log(reporter(vfiles));
 };
 
 module.exports = lint;

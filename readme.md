@@ -88,7 +88,7 @@ awesomeLint.report();
 
 #### awesomeLint()
 
-Returns a `Promise` for a [`VFile`](https://github.com/wooorm/vfile).
+Returns a `Promise` for a list of [`VFile`](https://github.com/wooorm/vfile).
 
 #### awesomeLint.report()
 

@@ -7,6 +7,11 @@ const authorName = 'sindresorhus';
 const authorEmail = 'sindresorhus@gmail.com';
 
 module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
+	if (ast.children.length === 0) {
+		file.message('code-of-conduct.md file must not be empty');
+		return;
+	}
+
 	const placeholder = find(ast, node => (
 		node.type === 'linkReference' &&
 		node.label === 'INSERT EMAIL ADDRESS'

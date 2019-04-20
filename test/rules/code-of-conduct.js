@@ -3,7 +3,8 @@ import lint from '../_lint';
 
 const config = {
 	plugins: [
-		require('../../rules/code-of-conduct')
+		// Don't set here, because it is only plugins for readme.md
+		// require('../../rules/code-of-conduct')
 	]
 };
 
