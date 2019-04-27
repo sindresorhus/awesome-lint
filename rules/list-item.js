@@ -81,22 +81,31 @@ function findAllLists(ast) {
 	return lists;
 }
 
+function findSublists(node) {
+	if (!node) {
+		return [];
+	}
+
+	let lists = [];
+
+	if (node.type === 'list') {
+		lists.push(node);
+	}
+
+	if (node.children && node.children.length > 0) {
+		for (const child of node.children) {
+			lists = [...lists, ...findSublists(child)];
+		}
+	}
+
+	return lists;
+}
+
 function extractSublists(lists) {
-	const allLists = [];
+	let allLists = [];
+
 	for (const list of lists) {
-		const traverseChildren = current => {
-			if (current.type === 'list') {
-				allLists.push(current);
-			}
-
-			if (current.children && current.children.length > 0) {
-				for (const child of current.children) {
-					traverseChildren(child);
-				}
-			}
-		};
-
-		traverseChildren(list);
+		allLists = [...allLists, ...findSublists(list)];
 	}
 
 	return allLists;
