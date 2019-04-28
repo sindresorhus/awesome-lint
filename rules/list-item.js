@@ -81,31 +81,11 @@ function findAllLists(ast) {
 	return lists;
 }
 
-function findSublists(node) {
-	if (!node) {
-		return [];
-	}
-
-	let lists = [];
-
-	if (node.type === 'list') {
-		lists.push(node);
-	}
-
-	if (node.children && node.children.length > 0) {
-		for (const child of node.children) {
-			lists = [...lists, ...findSublists(child)];
-		}
-	}
-
-	return lists;
-}
-
 function extractSublists(lists) {
 	let allLists = [];
 
 	for (const list of lists) {
-		allLists = [...allLists, ...findSublists(list)];
+		allLists = [...allLists, ...findAllLists(list)];
 	}
 
 	return allLists;
