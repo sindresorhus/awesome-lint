@@ -65,7 +65,7 @@ module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
 			return;
 		}
 
-		lists = findAllAfter(ast, postContentsHeading, {type: 'list'});
+		lists = extractSublists(findAllAfter(ast, postContentsHeading, {type: 'list'}));
 	}
 
 	for (const list of lists) {
@@ -79,6 +79,16 @@ function findAllLists(ast) {
 		lists.push(list);
 	});
 	return lists;
+}
+
+function extractSublists(lists) {
+	let allLists = [];
+
+	for (const list of lists) {
+		allLists = [...allLists, ...findAllLists(list)];
+	}
+
+	return allLists;
 }
 
 function validateList(list, file) {
