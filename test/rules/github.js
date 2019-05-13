@@ -29,7 +29,7 @@ test.serial('github - error invalid git repo', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'Awesome list must reside in a valid git repository'
 		}
 	]);
@@ -56,10 +56,10 @@ test.serial('github - repo without description and license', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'The repository should have a description'
 		}, {
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'License was not detected by GitHub'
 		}
 	]);
@@ -88,7 +88,7 @@ test.serial('github - missing topic awesome-list', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'The repository should have "awesome-list" as a GitHub topic'
 		}
 	]);
@@ -117,7 +117,7 @@ test.serial('github - missing topic awesome', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'The repository should have "awesome" as a GitHub topic'
 		}
 	]);
@@ -133,7 +133,7 @@ test.serial('github - remote origin is an GitLab repo', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/github',
+			ruleId: 'awesome-github',
 			message: 'Repository should be on GitHub'
 		}
 	]);

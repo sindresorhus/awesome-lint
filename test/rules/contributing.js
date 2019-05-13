@@ -11,7 +11,7 @@ test('contributing - missing', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/contributing/error0/readme.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/contributing',
+			ruleId: 'awesome-contributing',
 			message: 'Missing file contributing.md'
 		}
 	]);
@@ -21,7 +21,7 @@ test('contributing - empty', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/contributing/error1/readme.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/contributing',
+			ruleId: 'awesome-contributing',
 			message: 'contributing.md file must not be empty'
 		}
 	]);
