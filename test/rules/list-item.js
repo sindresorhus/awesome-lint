@@ -27,3 +27,8 @@ test('list-item - valid ignoring Contents section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/2.md'});
 	t.deepEqual(messages, []);
 });
+
+test('list-item - disable by remark-message-control', async t => {
+    const messages = await lint({config, filename: 'test/fixtures/list-item/4.md'});
+	t.deepEqual(messages, []);
+});
