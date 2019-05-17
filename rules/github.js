@@ -32,7 +32,23 @@ module.exports = rule('remark-lint:awesome/github', async (ast, file) => {
 		const res = await got.get(githubUrls.api_url, {
 			headers,
 			json: true
+		}).catch(error => {
+			if (error.statusCode === 401) {
+				file.message('Unauthorized access or token is invalid');
+			} else if (error.statusCode === 403) {
+				let errorMessage = `API rate limit exceeded max of ${error.headers['x-ratelimit-limit']} requests per hour`;
+				if (!headers.Authorization) {
+					errorMessage += ', use a token to increment the number of requests';
+				}
+
+				file.message(errorMessage);
+			} else {
+				file.message('There was a problem trying to connect with GitHub');
+			}
 		});
+		if (!res) {
+			return;
+		}
 
 		const data = res.body;
 		if (!data.description) {

@@ -44,6 +44,8 @@ Add it as a `test` script in package.json and activate Travis CI to lint on new 
 
 **Note:** [Travis CI only clones repositories to a maximum of 50 commits by default](https://docs.travis-ci.com/user/customizing-the-build/#git-clone-depth), which may result in a false positive of `awesome/git-repo-age`, and so you should set `depth` to `false` in `.travis.yml` if needed.
 
+**Note:** Set your [GitHub access token](https://github.com/settings/tokens/) in environment variables `github_token` to avoid problem of rate limit.
+
 ###### package.json
 
 ```json
