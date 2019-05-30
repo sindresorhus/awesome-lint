@@ -162,7 +162,7 @@ test.serial('github - invalid token', async t => {
 	]);
 });
 
-test.serial('github - API rate limit with token', async t => {
+test.serial('github - API rate limit exceeded with token', async t => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 	// eslint-disable-next-line camelcase
@@ -185,14 +185,14 @@ test.serial('github - API rate limit with token', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/github',
-			message: 'API rate limit exceeded max of 5000 requests per hour'
+			message: 'API rate limit of 5000 requests per hour exceeded'
 		}
 	]);
 
 	delete process.env.github_token;
 });
 
-test.serial('github - API rate limit without token', async t => {
+test.serial('github - API rate limit exceeded without token', async t => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -213,7 +213,7 @@ test.serial('github - API rate limit without token', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/github',
-			message: 'API rate limit exceeded max of 60 requests per hour, use a token to increment the number of requests'
+			message: 'API rate limit of 60 requests per hour exceeded. Use a personal token to increase the number of requests'
 		}
 	]);
 });
@@ -229,6 +229,7 @@ test.serial('github - API offline', async t => {
 	gotStub
 		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
 		.rejects({
+			message: 'getaddrinfo ENOTFOUND api.github.com api.github.com:443',
 			code: 'ENOTFOUND'
 		});
 
@@ -236,7 +237,7 @@ test.serial('github - API offline', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/github',
-			message: 'There was a problem trying to connect with GitHub'
+			message: 'There was a problem trying to connect to GitHub: getaddrinfo ENOTFOUND api.github.com api.github.com:443'
 		}
 	]);
 });
