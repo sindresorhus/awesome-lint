@@ -35,8 +35,8 @@ module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
 			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
 		}
 	} catch (_) {
-		// Most likely not a Git repository
-		file.message('Awesome list must reside in a valid git repository');
+		// Not a Git repository or a shallow copy missing the `.travis.yml` `git:\ndepth: false` setting
+		file.message('Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)');
 	}
 });
 
