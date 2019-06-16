@@ -30,7 +30,7 @@ test.serial('git-repo-age - error invalid git repo', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome-git-repo-age',
-			message: 'Awesome list must reside in a valid git repository'
+			message: 'Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)'
 		}
 	]);
 });

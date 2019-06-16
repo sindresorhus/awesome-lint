@@ -45,7 +45,7 @@ test.serial('github - repo without description and license', async t => {
 
 	gotStub
 		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
-		.returns({
+		.resolves({
 			body: {
 				description: null,
 				topics: ['awesome', 'awesome-list'],
@@ -75,7 +75,7 @@ test.serial('github - missing topic awesome-list', async t => {
 
 	gotStub
 		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
-		.returns({
+		.resolves({
 			body: {
 				description: 'Awesome lint',
 				topics: ['awesome'],
@@ -104,7 +104,7 @@ test.serial('github - missing topic awesome', async t => {
 
 	gotStub
 		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
-		.returns({
+		.resolves({
 			body: {
 				description: 'Awesome lint',
 				topics: ['awesome-list'],
@@ -135,6 +135,109 @@ test.serial('github - remote origin is an GitLab repo', async t => {
 		{
 			ruleId: 'awesome-github',
 			message: 'Repository should be on GitHub'
+		}
+	]);
+});
+
+test.serial('github - invalid token', async t => {
+	const execaStub = sandbox.stub(github.execa, 'stdout');
+	const gotStub = sandbox.stub(github.got, 'get');
+
+	execaStub
+		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
+
+	gotStub
+		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
+		.rejects({
+			statusCode: 401
+		});
+
+	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/github',
+			message: 'Unauthorized access or token is invalid'
+		}
+	]);
+});
+
+test.serial('github - API rate limit exceeded with token', async t => {
+	const execaStub = sandbox.stub(github.execa, 'stdout');
+	const gotStub = sandbox.stub(github.got, 'get');
+	// eslint-disable-next-line camelcase
+	process.env.github_token = 'abcd';
+
+	execaStub
+		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
+
+	gotStub
+		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
+		.rejects({
+			statusCode: 403,
+			headers: {
+				'x-ratelimit-limit': 5000
+			}
+		});
+
+	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/github',
+			message: 'API rate limit of 5000 requests per hour exceeded'
+		}
+	]);
+
+	delete process.env.github_token;
+});
+
+test.serial('github - API rate limit exceeded without token', async t => {
+	const execaStub = sandbox.stub(github.execa, 'stdout');
+	const gotStub = sandbox.stub(github.got, 'get');
+
+	execaStub
+		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
+
+	gotStub
+		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
+		.rejects({
+			statusCode: 403,
+			headers: {
+				'x-ratelimit-limit': 60
+			}
+		});
+
+	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/github',
+			message: 'API rate limit of 60 requests per hour exceeded. Use a personal token to increase the number of requests'
+		}
+	]);
+});
+
+test.serial('github - API offline', async t => {
+	const execaStub = sandbox.stub(github.execa, 'stdout');
+	const gotStub = sandbox.stub(github.got, 'get');
+
+	execaStub
+		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
+
+	gotStub
+		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
+		.rejects({
+			message: 'getaddrinfo ENOTFOUND api.github.com api.github.com:443',
+			code: 'ENOTFOUND'
+		});
+
+	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
+	t.deepEqual(messages, [
+		{
+			ruleId: 'awesome/github',
+			message: 'There was a problem trying to connect to GitHub: getaddrinfo ENOTFOUND api.github.com api.github.com:443'
 		}
 	]);
 });
