@@ -14,7 +14,7 @@ Intended to make it easier to create and maintain Awesome lists.
 
 Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awesome-lint/blob/master/config.js) and some [Awesome specific rules](https://github.com/sindresorhus/awesome-lint/tree/master/rules).
 
-Supports to enable, disable, and ignore rules by special comments, with the help of [remark-message-control](https://github.com/remarkjs/remark-message-control).
+Supports to enable, disable, and ignore rules by special comments. See detailed examples in [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
 
 ![](media/screenshot.png)
 
