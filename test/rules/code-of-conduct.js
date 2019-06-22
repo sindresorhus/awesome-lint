@@ -23,7 +23,7 @@ test('code-of-conduct - invalid if has placeholder', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/code-of-conduct',
-			message: 'Email placeholder must be replaced with yours'
+			message: 'The email placeholder must be replaced with yours'
 		}
 	]);
 });
@@ -33,7 +33,7 @@ test('code-of-conduct - invalid if just copyed', async t => {
 	t.deepEqual(messages, [
 		{
 			ruleId: 'awesome/code-of-conduct',
-			message: 'Default email must be replaced with yours'
+			message: 'The default email must be replaced with yours'
 		}
 	]);
 });

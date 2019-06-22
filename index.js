@@ -13,7 +13,7 @@ const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
 const config = require('./config');
 const findReadmeFile = require('./lib/find-readme-file');
-const cocRule = require('./rules/code-of-conduct');
+const codeOfConductRule = require('./rules/code-of-conduct');
 
 const lint = options => {
 	options = {
@@ -35,13 +35,13 @@ const lint = options => {
 		plugins: options.config
 	}];
 
-	const cocFile = globby.sync(['{.github/,}{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
-	if (cocFile) {
-		const cocVFile = toVfile.readSync(path.resolve(dirname, cocFile));
-		cocVFile.repoURL = options.repoURL;
+	const codeOfConductFile = globby.sync(['{.github/,}{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
+	if (codeOfConductFile) {
+		const codeOfConductVFile = toVfile.readSync(path.resolve(dirname, codeOfConductFile));
+		codeOfConductVFile.repoURL = options.repoURL;
 		processTasks.push({
-			vfile: cocVFile,
-			plugins: [cocRule]
+			vfile: codeOfConductVFile,
+			plugins: [codeOfConductRule]
 		});
 	}
 
@@ -82,10 +82,10 @@ lint._report = async (options, spinner) => {
 
 	const vfiles = await lint(options);
 	const messages = [];
-	vfiles.forEach(vfile => {
+	for (const vfile of vfiles) {
 		vfile.path = path.basename(vfile.path);
 		messages.push(...vfile.messages);
-	});
+	}
 
 	if (temp) {
 		await rmfr(temp);
