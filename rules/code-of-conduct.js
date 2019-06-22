@@ -27,7 +27,7 @@ module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
 			node.value.includes(authorEmail)
 		));
 		if (email) {
-			file.message('Default email must be replaced with yours', email);
+			file.message('The default email must be replaced with yours', email);
 		}
 	}
 });
