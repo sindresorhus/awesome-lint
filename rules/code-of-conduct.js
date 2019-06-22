@@ -17,7 +17,7 @@ module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
 		node.label === 'INSERT EMAIL ADDRESS'
 	));
 	if (placeholder) {
-		file.message('Email placeholder must be replaced with yours', placeholder);
+		file.message('The email placeholder must be replaced with yours', placeholder);
 		return;
 	}
 
