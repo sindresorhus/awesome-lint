@@ -24,7 +24,7 @@ module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
 	if (findAuthorName(file) !== authorName) {
 		const email = find(ast, node => (
 			node.type === 'text' &&
-			node.value.indexOf(authorEmail) >= 0
+			node.value.includes(authorEmail)
 		));
 		if (email) {
 			file.message('Default email must be replaced with yours', email);
