@@ -14,8 +14,6 @@ Intended to make it easier to create and maintain Awesome lists.
 
 Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awesome-lint/blob/master/config.js) and some [Awesome specific rules](https://github.com/sindresorhus/awesome-lint/tree/master/rules).
 
-Supports to enable, disable, and ignore rules by special comments. See detailed examples in [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
-
 ![](media/screenshot.png)
 
 
@@ -38,6 +36,65 @@ $ npm install --global awesome-lint
   ✖  199:3  Remove trailing slash (https://sindresorhus.com)  trailing-slash
 
   3 errors
+```
+
+### Marks
+
+Supports to enable, disable, and ignore rules by special comments. Based on [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
+
+By default, all rules are turned on. For example, 4 errors (2 of `no-dead-urls` and 2 of `awesome-list-item`) will be generated for following code snippets.
+
+```markdown
+- [foo](https://foo.com) - an invalid description.
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `disable`
+
+The **disable** keyword turns off all messages of the given rule identifiers.
+When without identifiers, all messages are turned off.
+
+**Don't leave spaces after the last rule identifier.**
+
+For example, to turn off certain messages, which means only 2 of `no-dead-urls` errors are left:
+
+```markdown
+<!--lint disable awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `enable`
+
+The **enable** keyword turns on all messages of the given rule identifiers.
+When without identifiers, all messages are turned on.
+
+For example, to enable certain messages, which means 3 errors (only the second line results in `awesome-list-item` error) now:
+
+```markdown
+<!--lint disable awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+<!--lint enable awesome-list-item-->
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `ignore`
+
+The **ignore** keyword turns off all messages of the given `ruleId`s occurring
+in the following node.
+When without `ruleId`s, all messages are ignored.
+
+After the end of the following node, messages are turned on again. This is the main difference with `disable`.
+
+For example, to turn off certain messages for the next node, which means 3 errors (only the second line results in `awesome-list-item` error):
+
+```markdown
+<!--lint ignore awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+
+List items share the same parent node. So let's create a new list.
+
+- [foo](https://foo.com) - invalid description.
 ```
 
 ### Tip
