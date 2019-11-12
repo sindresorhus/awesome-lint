@@ -38,27 +38,26 @@ $ npm install --global awesome-lint
   3 errors
 ```
 
-### Marks
+### Special comments
 
-Supports to enable, disable, and ignore rules by special comments. Based on [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
+You can enable, disable, and ignore rules using special comments. This is based on [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
 
 By default, all rules are turned on. For example, 4 errors (2 of `no-dead-urls` and 2 of `awesome-list-item`) will be generated for following code snippets.
 
-```markdown
+```md
 - [foo](https://foo.com) - an invalid description.
 - [foo](https://foo.com) - invalid description.
 ```
 
 ###### `disable`
 
-The **disable** keyword turns off all messages of the given rule identifiers.
-When without identifiers, all messages are turned off.
+The `disable` keyword turns off all messages of the given rule identifiers. If no identifiers are specified, all messages are turned off.
 
 **Don't leave spaces after the last rule identifier.**
 
-For example, to turn off certain messages, which means only 2 of `no-dead-urls` errors are left:
+For example, only the 2 `no-dead-urls` errors are left:
 
-```markdown
+```md
 <!--lint disable awesome-list-item-->
 - [foo](https://foo.com) - an invalid description.
 - [foo](https://foo.com) - invalid description.
@@ -66,12 +65,11 @@ For example, to turn off certain messages, which means only 2 of `no-dead-urls` 
 
 ###### `enable`
 
-The **enable** keyword turns on all messages of the given rule identifiers.
-When without identifiers, all messages are turned on.
+The `enable` keyword turns on all messages of the given rule identifiers. If no identifiers are specified, all messages are turned on.
 
-For example, to enable certain messages, which means 3 errors (only the second line results in `awesome-list-item` error) now:
+For example, only the second line reports a `awesome-list-item` rule violation:
 
-```markdown
+```md
 <!--lint disable awesome-list-item-->
 - [foo](https://foo.com) - an invalid description.
 <!--lint enable awesome-list-item-->
@@ -80,15 +78,11 @@ For example, to enable certain messages, which means 3 errors (only the second l
 
 ###### `ignore`
 
-The **ignore** keyword turns off all messages of the given `ruleId`s occurring
-in the following node.
-When without `ruleId`s, all messages are ignored.
+The `ignore` keyword turns off all messages of the given rule identifiers occurring in the following node. If no identifiers are specified, all messages are turned ignored. After the end of the following node, messages are turned on again. This is the main difference with `disable`.
 
-After the end of the following node, messages are turned on again. This is the main difference with `disable`.
+For example, to turn off certain messages for the next node:
 
-For example, to turn off certain messages for the next node, which means 3 errors (only the second line results in `awesome-list-item` error):
-
-```markdown
+```md
 <!--lint ignore awesome-list-item-->
 - [foo](https://foo.com) - an invalid description.
 
