@@ -4,7 +4,7 @@ import lint from '../_lint';
 const config = {
 	plugins: [
 		require('remark-lint'),
-		require('remark-lint-no-empty-sections'),
+		/// require('remark-lint-no-empty-sections'),
 		require('../../rules/license')
 	]
 };
@@ -22,10 +22,10 @@ test('license - missing', async t => {
 test('license - empty', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error1.md'});
 	t.deepEqual(messages, [
-		{
-			ruleId: 'no-empty-sections',
-			message: 'Remove empty section: "License"'
-		},
+		// {
+		// 	ruleId: 'no-empty-sections',
+		// 	message: 'Remove empty section: "License"'
+		// },
 		{
 			ruleId: 'awesome/license',
 			message: 'License must not be empty'

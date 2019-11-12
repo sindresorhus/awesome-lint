@@ -1,6 +1,8 @@
 import test from 'ava';
 
-test('x', t => t.pass());
+test('x', t => {
+	t.pass();
+});
 
 /// import lint from '..';
 

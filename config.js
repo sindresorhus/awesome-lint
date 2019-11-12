@@ -37,6 +37,8 @@ exports.plugins = [
 	require('remark-lint-no-shell-dollars'),
 	require('remark-lint-no-table-indentation'),
 	require('remark-lint-no-undefined-references'),
+	require('remark-lint-no-unneeded-full-reference-image'),
+	require('remark-lint-no-unneeded-full-reference-link'),
 	require('remark-lint-no-unused-definitions'),
 	[require('remark-lint-ordered-list-marker-style'), 'consistent'],
 	[require('remark-lint-ordered-list-marker-value'), 'ordered'],
@@ -48,8 +50,11 @@ exports.plugins = [
 	[require('remark-lint-unordered-list-marker-style'), 'consistent'],
 
 	// Third-party plugins
-	require('remark-lint-no-empty-sections'),
+	// Disabled as it throws `file.warn is not a function`
+	// require('remark-lint-no-empty-sections'),
 	require('remark-lint-no-dead-urls'),
+	require('remark-lint-match-punctuation'),
+	require('remark-lint-no-repeat-punctuation'),
 
 	// Custom plugins
 	...require('./rules')
