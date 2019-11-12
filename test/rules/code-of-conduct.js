@@ -12,7 +12,7 @@ test('code-of-conduct - invalid if empty', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error0/readme.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/code-of-conduct',
+			ruleId: 'awesome-code-of-conduct',
 			message: 'code-of-conduct.md file must not be empty'
 		}
 	]);
@@ -22,7 +22,7 @@ test('code-of-conduct - invalid if has placeholder', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error1/readme.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/code-of-conduct',
+			ruleId: 'awesome-code-of-conduct',
 			message: 'The email placeholder must be replaced with yours'
 		}
 	]);
@@ -32,7 +32,7 @@ test('code-of-conduct - invalid if just copyed', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error2/readme.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/code-of-conduct',
+			ruleId: 'awesome-code-of-conduct',
 			message: 'The default email must be replaced with yours'
 		}
 	]);

@@ -6,7 +6,7 @@ const findAuthorName = require('../lib/find-author-name');
 const authorName = 'sindresorhus';
 const authorEmail = 'sindresorhus@gmail.com';
 
-module.exports = rule('remark-lint:awesome/code-of-conduct', (ast, file) => {
+module.exports = rule('remark-lint:awesome-code-of-conduct', (ast, file) => {
 	if (ast.children.length === 0) {
 		file.message('code-of-conduct.md file must not be empty');
 		return;
