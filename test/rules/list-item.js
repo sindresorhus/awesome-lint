@@ -28,7 +28,7 @@ test('list-item - valid ignoring Contents section', async t => {
 	t.deepEqual(messages, []);
 });
 
-test('list-item - disable,enable and ignore by remark-message-control', async t => {
+test('list-item - disable, enable, and ignore comments', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/4.md'});
 	t.snapshot(messages);
 });
