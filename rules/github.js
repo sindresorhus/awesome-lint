@@ -9,9 +9,10 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 
 	try {
 		const remoteUrl = await execa.stdout('git', [
-			'config',
-			'--get',
-			'remote.origin.url'
+			'remote',
+			'get-url',
+			'--push',
+			'origin'
 		], {
 			cwd: dirname
 		});

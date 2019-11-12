@@ -40,7 +40,7 @@ test.serial('github - repo without description and license', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -70,7 +70,7 @@ test.serial('github - missing topic awesome-list', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -99,7 +99,7 @@ test.serial('github - missing topic awesome', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -127,7 +127,7 @@ test.serial('github - remote origin is an GitLab repo', async t => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('https://gitlab.com/sindresorhus/awesome-lint-test.git');
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
@@ -144,7 +144,7 @@ test.serial('github - invalid token', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -169,7 +169,7 @@ test.serial('github - API rate limit exceeded with token', async t => {
 	process.env.github_token = 'abcd';
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -197,7 +197,7 @@ test.serial('github - API rate limit exceeded without token', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
@@ -223,7 +223,7 @@ test.serial('github - API offline', async t => {
 	const gotStub = sandbox.stub(github.got, 'get');
 
 	execaStub
-		.withArgs('git', ['config', '--get', 'remote.origin.url'])
+		.withArgs('git', ['remote', 'get-url', '--push', 'origin'])
 		.returns('git@github.com:sindresorhus/awesome-lint-test.git');
 
 	gotStub
