@@ -19,7 +19,7 @@ const sectionHeadingBlacklist = new Set([
 	'License'
 ]);
 
-module.exports = rule('remark-lint:awesome/toc', (ast, file) => {
+module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 	slugger.reset();
 
 	// Heading links are order-dependent, so it's important to gather them up front

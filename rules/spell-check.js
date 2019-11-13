@@ -8,7 +8,7 @@ const wordBreakCharacterWhitelist = new Set([
 	'-'
 ]);
 
-module.exports = rule('remark-lint:awesome/spell-check', (ast, file) => {
+module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
 	visit(ast, 'text', node => {
 		if (!node.value) {
 			return;

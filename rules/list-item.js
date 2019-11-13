@@ -47,7 +47,7 @@ const listItemDescriptionSuffixNodeWhitelist = new Set([
 	'text'
 ]);
 
-module.exports = rule('remark-lint:awesome/list-item', (ast, file) => {
+module.exports = rule('remark-lint:awesome-list-item', (ast, file) => {
 	let lists = findAllLists(ast);
 
 	const toc = find(ast, node => (

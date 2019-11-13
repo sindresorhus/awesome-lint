@@ -8,7 +8,7 @@ const listHeadingCaseWhitelist = new Set([
 	'capital'
 ]);
 
-module.exports = rule('remark-lint:awesome/heading', (ast, file) => {
+module.exports = rule('remark-lint:awesome-heading', (ast, file) => {
 	let headings = 0;
 
 	visit(ast, (node, index) => {

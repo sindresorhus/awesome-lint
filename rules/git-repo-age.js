@@ -7,7 +7,7 @@ const oneDay = 24 * 60 * 60 * 1000;
 const minGitRepoAgeDays = 30;
 const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
 
-module.exports = rule('remark-lint:awesome/git-repo-age', async (ast, file) => {
+module.exports = rule('remark-lint:awesome-git-repo-age', async (ast, file) => {
 	const {dirname} = file;
 
 	try {

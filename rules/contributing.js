@@ -4,7 +4,7 @@ const path = require('path');
 const globby = require('globby');
 const rule = require('unified-lint-rule');
 
-module.exports = rule('remark-lint:awesome/contributing', (ast, file) => {
+module.exports = rule('remark-lint:awesome-contributing', (ast, file) => {
 	const {dirname} = file;
 
 	const contributingFile = globby.sync(['contributing.md', 'CONTRIBUTING.md'], {cwd: dirname})[0];

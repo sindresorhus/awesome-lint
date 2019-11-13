@@ -12,7 +12,7 @@ test('badge - missing', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error0.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/badge',
+			ruleId: 'awesome-badge',
 			message: 'Missing Awesome badge after the main heading'
 		}
 	]);
@@ -22,7 +22,7 @@ test('badge - incorrect source', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error1.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/badge',
+			ruleId: 'awesome-badge',
 			message: 'Invalid badge source'
 		}
 	]);
@@ -32,7 +32,7 @@ test('badge - incorrect source raw git', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error2.md'});
 	t.deepEqual(messages, [
 		{
-			ruleId: 'awesome/badge',
+			ruleId: 'awesome-badge',
 			message: 'Invalid badge source'
 		}
 	]);

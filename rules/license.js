@@ -5,7 +5,7 @@ const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 
-module.exports = rule('remark-lint:awesome/license', (ast, file) => {
+module.exports = rule('remark-lint:awesome-license', (ast, file) => {
 	const license = find(ast, node => (
 		node.type === 'heading' &&
 		(toString(node) === 'Licence' || toString(node) === 'License')

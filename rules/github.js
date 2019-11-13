@@ -4,7 +4,7 @@ const got = require('got');
 const gh = require('github-url-to-object');
 const rule = require('unified-lint-rule');
 
-module.exports = rule('remark-lint:awesome/github', async (ast, file) => {
+module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 	const {dirname} = file;
 
 	try {

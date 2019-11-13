@@ -38,6 +38,59 @@ $ npm install --global awesome-lint
   3 errors
 ```
 
+### Special comments
+
+You can enable, disable, and ignore rules using special comments. This is based on [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
+
+By default, all rules are turned on. For example, 4 errors (2 of `no-dead-urls` and 2 of `awesome-list-item`) will be generated for following code snippets.
+
+```md
+- [foo](https://foo.com) - an invalid description.
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `disable`
+
+The `disable` keyword turns off all messages of the given rule identifiers. If no identifiers are specified, all messages are turned off.
+
+**Don't leave spaces after the last rule identifier.**
+
+For example, only the 2 `no-dead-urls` errors are left:
+
+```md
+<!--lint disable awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `enable`
+
+The `enable` keyword turns on all messages of the given rule identifiers. If no identifiers are specified, all messages are turned on.
+
+For example, only the second line reports a `awesome-list-item` rule violation:
+
+```md
+<!--lint disable awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+<!--lint enable awesome-list-item-->
+- [foo](https://foo.com) - invalid description.
+```
+
+###### `ignore`
+
+The `ignore` keyword turns off all messages of the given rule identifiers occurring in the following node. If no identifiers are specified, all messages are turned ignored. After the end of the following node, messages are turned on again. This is the main difference with `disable`.
+
+For example, to turn off certain messages for the next node:
+
+```md
+<!--lint ignore awesome-list-item-->
+- [foo](https://foo.com) - an invalid description.
+
+List items share the same parent node. So let's create a new list.
+
+- [foo](https://foo.com) - invalid description.
+```
+
 ### Tip
 
 Add it as a `test` script in package.json and activate Travis CI to lint on new commits and pull requests.
