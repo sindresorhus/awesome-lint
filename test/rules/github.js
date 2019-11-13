@@ -29,6 +29,7 @@ test.serial('github - error invalid git repo', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'Awesome list must reside in a valid git repository'
 		}
@@ -56,9 +57,11 @@ test.serial('github - repo without description and license', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'The repository should have a description'
 		}, {
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'License was not detected by GitHub'
 		}
@@ -88,6 +91,7 @@ test.serial('github - missing topic awesome-list', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'The repository should have "awesome-list" as a GitHub topic'
 		}
@@ -117,6 +121,7 @@ test.serial('github - missing topic awesome', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'The repository should have "awesome" as a GitHub topic'
 		}
@@ -133,6 +138,7 @@ test.serial('github - remote origin is an GitLab repo', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'Repository should be on GitHub'
 		}
@@ -156,6 +162,7 @@ test.serial('github - invalid token', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'Unauthorized access or token is invalid'
 		}
@@ -184,6 +191,7 @@ test.serial('github - API rate limit exceeded with token', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'API rate limit of 5000 requests per hour exceeded'
 		}
@@ -212,6 +220,7 @@ test.serial('github - API rate limit exceeded without token', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'API rate limit of 60 requests per hour exceeded. Use a personal token to increase the number of requests'
 		}
@@ -236,6 +245,7 @@ test.serial('github - API offline', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-github',
 			message: 'There was a problem trying to connect to GitHub: getaddrinfo ENOTFOUND api.github.com api.github.com:443'
 		}

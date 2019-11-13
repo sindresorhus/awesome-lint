@@ -18,14 +18,14 @@ test('list-item - invalid', async t => {
 	t.snapshot(messages);
 });
 
-test('list-item - invalid sublist punctuation', async t => {
-	const messages = await lint({config, filename: 'test/fixtures/list-item/3.md'});
-	t.snapshot(messages);
-});
-
 test('list-item - valid ignoring Contents section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/2.md'});
 	t.deepEqual(messages, []);
+});
+
+test('list-item - invalid sublist punctuation', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/list-item/3.md'});
+	t.snapshot(messages);
 });
 
 test('list-item - disable, enable, and ignore comments', async t => {
