@@ -29,6 +29,7 @@ test.serial('git-repo-age - error invalid git repo', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/git-repo-age/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-git-repo-age',
 			message: 'Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)'
 		}
@@ -49,6 +50,7 @@ test.serial('git-repo-age - error repo is not old enough', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/git-repo-age/0.md'});
 	t.deepEqual(messages, [
 		{
+			line: null,
 			ruleId: 'awesome-git-repo-age',
 			message: 'Git repository must be at least 30 days old'
 		}
