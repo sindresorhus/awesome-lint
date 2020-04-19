@@ -8,14 +8,13 @@
 
 > Linter for [Awesome](https://awesome.re) lists
 
-[![Build Status](https://travis-ci.org/sindresorhus/awesome-lint.svg?branch=master)](https://travis-ci.org/sindresorhus/awesome-lint)
+[![Build Status](https://travis-ci.com/sindresorhus/awesome-lint.svg?branch=master)](https://travis-ci.com/sindresorhus/awesome-lint)
 
 Intended to make it easier to create and maintain Awesome lists.
 
 Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awesome-lint/blob/master/config.js) and some [Awesome specific rules](https://github.com/sindresorhus/awesome-lint/tree/master/rules).
 
 ![](media/screenshot.png)
-
 
 ## CLI
 
@@ -149,13 +148,7 @@ Returns a `Promise` for a list of [`VFile`](https://github.com/wooorm/vfile) obj
 
 Show the lint output. This can be custom reported by setting `options.reporter=<function>` and passing in `options` as a parameter.
 
-
 ## Maintainers
 
-- [Sindre Sorhus](http://github.com/sindresorhus)
+- [Sindre Sorhus](https://github.com/sindresorhus)
 - [Travis Fischer](https://github.com/transitive-bullshit)
-
-
-## License
-
-MIT
