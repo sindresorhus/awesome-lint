@@ -34,7 +34,7 @@ test('code-of-conduct - invalid if just copyed', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error2/readme.md'});
 	t.deepEqual(messages, [
 		{
-			line: 57,
+			line: 58,
 			ruleId: 'awesome-code-of-conduct',
 			message: 'The default email must be replaced with yours'
 		}

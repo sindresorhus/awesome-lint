@@ -26,10 +26,10 @@ module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
 					}
 
 					if (match[0] !== value) {
-						const prevCharacter = node.value[match.index - 1];
+						const previousCharacter = node.value[match.index - 1];
 						const nextCharacter = node.value[match.index + match[0].length];
 
-						if (wordBreakCharacterWhitelist.has(prevCharacter)) {
+						if (wordBreakCharacterWhitelist.has(previousCharacter)) {
 							continue;
 						}
 

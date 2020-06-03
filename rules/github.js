@@ -30,9 +30,9 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 			headers.Authorization = `token ${process.env.github_token}`;
 		}
 
-		let res;
+		let response;
 		try {
-			res = await got.get(githubUrls.api_url, {
+			response = await got.get(githubUrls.api_url, {
 				headers,
 				json: true
 			});
@@ -53,7 +53,7 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 			return;
 		}
 
-		const data = res.body;
+		const data = response.body;
 		if (!data.description) {
 			file.message('The repository should have a description');
 		}

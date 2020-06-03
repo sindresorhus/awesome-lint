@@ -60,19 +60,19 @@ lint.report = async options => {
 };
 
 lint._report = async (options, spinner) => {
-	let temp = null;
+	let temporary = null;
 
 	if (isUrl(options.filename)) {
 		if (!isGithubUrl(options.filename, {repository: true})) {
 			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
 		}
 
-		temp = tempy.directory();
-		await pify(gitClone)(options.filename, temp);
+		temporary = tempy.directory();
+		await pify(gitClone)(options.filename, temporary);
 
-		const readme = findReadmeFile(temp);
+		const readme = findReadmeFile(temporary);
 		if (!readme) {
-			await rmfr(temp);
+			await rmfr(temporary);
 			throw new Error(`Unable to find valid readme for "${options.filename}"`);
 		}
 
@@ -87,8 +87,8 @@ lint._report = async (options, spinner) => {
 		messages.push(...vfile.messages);
 	}
 
-	if (temp) {
-		await rmfr(temp);
+	if (temporary) {
+		await rmfr(temporary);
 	}
 
 	if (messages.length === 0) {
