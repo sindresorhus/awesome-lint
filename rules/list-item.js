@@ -277,7 +277,7 @@ function validateListItemPrefix(descriptionText, prefixText) {
 
 function validateListItemSuffix(descriptionText, suffixText) {
 	if (/[.!?…]\s*$/.test(suffixText)) {
-		// Description ends with '.', '!', or '?'
+		// Description ends with '.', '!', '?' or '…'
 		return true;
 	}
 
