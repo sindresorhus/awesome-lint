@@ -279,8 +279,8 @@ function validateListItemSuffix(descriptionText, suffixText) {
 	// Punctuation rules are available at: https://www.thepunctuationguide.com
 
 	if (/[.!?…]\s*$/.test(suffixText)) {
-		// Description ends with '.', '!', or '?' or '…', eventually preceeded by a
-        // quote.
+		// Description ends with '.', '!', '?' or '…', eventually preceeded by a
+		// quote.
 		return true;
 	}
 
