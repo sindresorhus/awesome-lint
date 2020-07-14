@@ -284,7 +284,7 @@ function validateListItemSuffix(descriptionText, suffixText) {
 		return true;
 	}
 
-	if (!/[.!?]/.test(descriptionText)) {
+	if (!/[.!?…]/.test(descriptionText)) {
 		// Description contains no punctuation
 		const tokens = tokenizeWords(descriptionText);
 		if (tokens.length > 2 || !textEndsWithEmoji(tokens[tokens.length - 1])) {
