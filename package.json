@@ -61,6 +61,7 @@
 		"remark-lint-code-block-style": "^2.0.0",
 		"remark-lint-definition-case": "^2.0.0",
 		"remark-lint-definition-spacing": "^2.0.0",
+		"remark-lint-double-link": "^0.1.0",
 		"remark-lint-emphasis-marker": "^2.0.0",
 		"remark-lint-fenced-code-marker": "^2.0.0",
 		"remark-lint-file-extension": "^1.0.2",
