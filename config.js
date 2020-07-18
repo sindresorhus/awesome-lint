@@ -55,6 +55,7 @@ exports.plugins = [
 
 	require('remark-lint-match-punctuation'),
 	require('remark-lint-no-repeat-punctuation'),
+	require('remark-lint-double-link'),
 
 	// Custom plugins
 	...require('./rules')
