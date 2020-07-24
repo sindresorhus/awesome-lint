@@ -293,9 +293,9 @@ function validateListItemSuffix(descriptionText, suffixText) {
 	// Any kind of quote followed by one of our punctuaction marker is perfect,
 	// but only if not following a punctuation itself. Uses positive lookbehind
 	// to search for punctuation following a quote.
-	if (/.*(?<=(?:"|”))[.!?…]+$/.test(descriptionText)) {
+	if (/.*(?<=["”])[.!?…]+$/.test(descriptionText)) {
 		// If the quote follows a regular punctuation, this is wrong.
-		if (/.*[.!?…](?:"|”)[.!?…]+$/.test(descriptionText)) {
+		if (/.*[.!?…]["”][.!?…]+$/.test(descriptionText)) {
 			return false;
 		}
 
