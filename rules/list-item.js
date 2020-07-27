@@ -276,12 +276,39 @@ function validateListItemPrefix(descriptionText, prefixText) {
 }
 
 function validateListItemSuffix(descriptionText, suffixText) {
-	if (/[.!?…]\s*$/.test(suffixText)) {
-		// Description ends with '.', '!', '?' or '…'
+	// Punctuation rules are available at: https://www.thepunctuationguide.com
+
+	// Descriptions are not allowed to be fully backticked quotes, whatever the
+	// ending punctuation and its position.
+	if (/^`.*[.!?…]*`[.!?…]*$/.test(descriptionText)) {
+		// Still allow multiple backticks if the whole description is not fully
+		// quoted.
+		if (/^`.+`.+`.+$/.test(descriptionText)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// Any kind of quote followed by one of our punctuaction marker is perfect,
+	// but only if not following a punctuation itself. Uses positive lookbehind
+	// to search for punctuation following a quote.
+	if (/.*(?<=["”])[.!?…]+$/.test(descriptionText)) {
+		// If the quote follows a regular punctuation, this is wrong.
+		if (/.*[.!?…]["”][.!?…]+$/.test(descriptionText)) {
+			return false;
+		}
+
 		return true;
 	}
 
-	if (!/[.!?]/.test(descriptionText)) {
+	// Any of our punctuation marker eventually closed by any kind of quote is
+	// good.
+	if (/.*[.!?…]["”]?$/.test(descriptionText)) {
+		return true;
+	}
+
+	if (!/[.!?…]/.test(descriptionText)) {
 		// Description contains no punctuation
 		const tokens = tokenizeWords(descriptionText);
 		if (tokens.length > 2 || !textEndsWithEmoji(tokens[tokens.length - 1])) {
