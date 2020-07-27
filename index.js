@@ -35,7 +35,7 @@ const lint = options => {
 		plugins: options.config
 	}];
 
-	const codeOfConductFile = globby.sync(['{.github/,}{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
+	const codeOfConductFile = globby.sync(['{code-of-conduct,code_of_conduct}.md', '.github/{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
 	if (codeOfConductFile) {
 		const codeOfConductVFile = toVfile.readSync(path.resolve(dirname, codeOfConductFile));
 		codeOfConductVFile.repoURL = options.repoURL;

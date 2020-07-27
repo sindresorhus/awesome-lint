@@ -38,3 +38,13 @@ test('contributing - valid contributing.md', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/contributing/valid1/readme.md'});
 	t.deepEqual(messages, []);
 });
+
+test('contributing - valid .github/CONTRIBUTING.md', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/contributing/valid2/readme.md'});
+	t.deepEqual(messages, []);
+});
+
+test('contributing - valid .github/contributing.md', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/contributing/valid3/readme.md'});
+	t.deepEqual(messages, []);
+});
