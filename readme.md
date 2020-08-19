@@ -90,7 +90,34 @@ List items share the same parent node. So let's create a new list.
 - [foo](https://foo.com) - invalid description.
 ```
 
-### Tip
+### Continuous Integration
+
+#### GitHub Actions
+
+You can use [GitHub Actions](https://github.com/features/actions) for free to automatically run `awesome-lint` against all pull requests.
+
+Create `/.github/workflows/main.yml` with the following contents:
+
+```yml
+name: CI
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  Awesome_Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: npx awesome-lint
+```
+
+*`fetch-depth: 0`* is needed so that we can check the repo ago.
+
+You may add [branch protection rules](https://docs.github.com/en/github/administering-a-repository/configuring-protected-branches) to prevent merging branches not passing `awesome-lint`.
+
+#### Travis
 
 Add it as a `test` script in package.json and activate Travis CI to lint on new commits and pull requests.
 
