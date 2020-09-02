@@ -17,7 +17,7 @@ const sectionHeadingBlacklist = new Set([
 	'Contributing',
 	'Licence',
 	'License',
-    'Footnotes'
+	'Footnotes'
 ]);
 
 module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
