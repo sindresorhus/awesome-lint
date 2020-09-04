@@ -166,8 +166,8 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		if (/^\s*—/.test(prefixText)) {
-			file.message('List item link and description separated by invalid en-dash', prefix);
+		if (/^\s*(—)|(&mdash;) /.test(prefixText)) {
+			file.message('List item link and description separated by invalid em-dash', prefix);
 			return false;
 		}
 
