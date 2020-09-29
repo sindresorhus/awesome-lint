@@ -13,10 +13,7 @@ const slugger = new GitHubSlugger();
 const maxListItemDepth = 1;
 
 const sectionHeadingBlacklist = new Set([
-	'Contribute',
 	'Contributing',
-	'Licence',
-	'License',
 	'Footnotes'
 ]);
 

@@ -6,7 +6,7 @@
 
 ## License
 
-This license is invalid because it is not the last section.
+License section is forbidden, even if first section.
 
 ## Foo
 

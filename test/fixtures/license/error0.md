@@ -8,6 +8,6 @@
 
 non-empty
 
-## LICENSE
+## Licence
 
-This is an invalid license section.
+Licence section is forbidden.
