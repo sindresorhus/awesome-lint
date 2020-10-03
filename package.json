@@ -46,7 +46,7 @@
 		"globby": "^9.0.0",
 		"got": "^9.6.0",
 		"is-github-url": "^1.2.2",
-		"is-url-superb": "^3.0.0",
+		"is-url-superb": "^4.0.0",
 		"mdast-util-to-string": "^1.0.4",
 		"meow": "^7.0.1",
 		"ora": "^4.0.4",
