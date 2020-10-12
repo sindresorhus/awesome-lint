@@ -6,7 +6,7 @@ const toString = require('mdast-util-to-string');
 module.exports = rule('remark-lint:awesome-license', (ast, file) => {
 	const license = find(ast, node => (
 		node.type === 'heading' &&
-		(toString(node) === 'Licence' || toString(node) === 'License')
+		(toString(node).toLowerCase() === 'licence' || toString(node).toLowerCase() === 'license')
 	));
 
 	if (license) {
