@@ -4,66 +4,61 @@ import lint from '../_lint';
 const config = {
 	plugins: [
 		require('remark-lint'),
-		/// require('remark-lint-no-empty-sections'),
 		require('../../rules/license')
 	]
 };
 
-test('license - missing', async t => {
+test('licence - forbidden section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error0.md'});
 	t.deepEqual(messages, [
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Missing License section'
+			message: 'Forbidden license section found'
 		}
 	]);
 });
 
-test('license - empty', async t => {
+test('license - forbidden empty section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error1.md'});
 	t.deepEqual(messages, [
-		// {
-		// 	ruleId: 'no-empty-sections',
-		// 	message: 'Remove empty section: "License"'
-		// },
 		{
-			line: 11,
+			line: 1,
 			ruleId: 'awesome-license',
-			message: 'License must not be empty'
+			message: 'Forbidden license section found'
 		}
 	]);
 });
 
-test('license - not last section', async t => {
+test('license - forbidden last section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error2.md'});
 	t.deepEqual(messages, [
 		{
-			line: 11,
+			line: 1,
 			ruleId: 'awesome-license',
-			message: 'License must be the last section'
+			message: 'Forbidden license section found'
 		}
 	]);
 });
 
-test('license - incorrect heading depth', async t => {
+test('license - forbidden heading depth section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error3.md'});
 	t.deepEqual(messages, [
 		{
-			line: 11,
+			line: 1,
 			ruleId: 'awesome-license',
-			message: 'License section must be at heading depth 2'
+			message: 'Forbidden license section found'
 		}
 	]);
 });
 
-test('license - png image', async t => {
+test('license - forbidden image section', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error4.md'});
 	t.deepEqual(messages, [
 		{
-			line: 3,
+			line: 1,
 			ruleId: 'awesome-license',
-			message: 'License image must be SVG'
+			message: 'Forbidden license section found'
 		}
 	]);
 });
