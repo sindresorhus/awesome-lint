@@ -20,6 +20,7 @@ const listItemPrefixCaseWhitelist = new Set([
 
 // Valid node types in list item link
 const listItemLinkNodeWhitelist = new Set([
+	'emphasis',
 	'inlineCode',
 	'text'
 ]);
