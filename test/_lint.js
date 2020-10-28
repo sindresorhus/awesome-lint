@@ -1,10 +1,18 @@
 import lint from '..';
 
-export default async options => {
-	const result = await lint(options);
-	return result.reduce((list, file) => list.concat(file.messages), []).map(error => ({
+const lintHelper = async options => {
+	const results = await lint(options);
+
+	let list = [];
+	for (const file of results) {
+		list = list.concat(file.messages);
+	}
+
+	return list.map(error => ({
 		line: error.line,
 		ruleId: error.ruleId,
 		message: error.message
 	}));
 };
+
+export default lintHelper;

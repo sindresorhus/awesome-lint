@@ -32,10 +32,7 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 
 		let response;
 		try {
-			response = await got.get(githubUrls.api_url, {
-				headers,
-				json: true
-			});
+			response = await got(githubUrls.api_url, {headers, json: true});
 		} catch (error) {
 			if (error.statusCode === 401) {
 				file.message('Unauthorized access or token is invalid');
@@ -69,7 +66,7 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 		if (!data.license) {
 			file.message('License was not detected by GitHub');
 		}
-	} catch (_) {
+	} catch {
 		// Most likely not a Git repository
 		file.message('Awesome list must reside in a valid git repository');
 	}
