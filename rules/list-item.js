@@ -251,7 +251,7 @@ function validateListItemPrefixCasing(prefix, file) {
 	}
 
 	if (!listItemPrefixCaseWhitelist.has(caseOf(firstWord))) {
-		if (!/\d/.test(firstWord) && !/^["'(]/.test(firstWord)) {
+		if (!/\d/.test(firstWord) && !/^["“'(]/.test(firstWord)) {
 			if (!identifierWhitelist.has(firstWord)) {
 				file.message('List item description must start with valid casing', prefix);
 				return false;
