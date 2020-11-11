@@ -28,7 +28,7 @@ $ npm install --global awesome-lint
 
 ### Usage
 
-Type the command awesome-lint followed by the link of the repository you want to check, for example:
+Type the command "awesome-lint" followed by the link of the repository you want to check, for example:
 ```
 ❯ awesome-lint https://github.com/sindresorhus/awesome-something
 
