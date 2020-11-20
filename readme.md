@@ -20,7 +20,7 @@ Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awe
 
 ### Install
 
-Install Node.js and, in its prompt, run the command:
+Install Node.js and run:
 
 ```
 $ npm install --global awesome-lint
@@ -28,7 +28,8 @@ $ npm install --global awesome-lint
 
 ### Usage
 
-Type the command "awesome-lint" followed by the link of the repository you want to check, for example:
+Type the command `awesome-lint` followed by the URL of the repo you want to check:
+
 ```
 ❯ awesome-lint https://github.com/sindresorhus/awesome-something
 
