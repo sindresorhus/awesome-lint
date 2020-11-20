@@ -20,14 +20,18 @@ Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awe
 
 ### Install
 
+Install Node.js and run:
+
 ```
 $ npm install --global awesome-lint
 ```
 
 ### Usage
 
+Type the command `awesome-lint` followed by the URL of the repo you want to check:
+
 ```
-❯ awesome-lint
+❯ awesome-lint https://github.com/sindresorhus/awesome-something
 
   readme.md:1:1
   ✖    1:1  Missing Awesome badge after the main heading      awesome-badge
