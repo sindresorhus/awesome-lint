@@ -8,8 +8,6 @@
 
 > Linter for [Awesome](https://awesome.re) lists
 
-[![Build Status](https://travis-ci.com/sindresorhus/awesome-lint.svg?branch=master)](https://travis-ci.com/sindresorhus/awesome-lint)
-
 Intended to make it easier to create and maintain Awesome lists.
 
 Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awesome-lint/blob/master/config.js) and some [Awesome specific rules](https://github.com/sindresorhus/awesome-lint/tree/master/rules).
