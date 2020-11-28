@@ -30,3 +30,6 @@ These are special-cases which should not cause errors.
 You might also like [awesome-nodejs](https://github.com/sindresorhus/awesome-nodejs).
 - [awesome-github](https://github.com/phillipadsmith/awesome-github) -
 [GitHub]( https://github.com) is awesome.
+- [https://github.com/phillipadsmith/awesome-github](https://github.com/phillipadsmith/awesome-github) -
+[GitHub]( https://github.com) is awesome.
+- https://github.com/sindresorhus/awesome is meta awesome.
