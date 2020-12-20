@@ -18,7 +18,7 @@ Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awe
 
 ### Install
 
-Install Node.js and run:
+Install Node.js and Git, then run:
 
 ```
 $ npm install --global awesome-lint
