@@ -5,7 +5,7 @@ const visit = require('unist-util-visit');
 const arrify = require('arrify');
 const spellCheckRules = require('../lib/spell-check-rules');
 
-const wordBreakCharacterWhitelist = new Set([
+const wordBreakCharacterAllowList = new Set([
 	'-'
 ]);
 
@@ -39,11 +39,11 @@ module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
 						const previousCharacter = sanitizedValue[match.index - 1];
 						const nextCharacter = sanitizedValue[match.index + match[0].length];
 
-						if (wordBreakCharacterWhitelist.has(previousCharacter)) {
+						if (wordBreakCharacterAllowList.has(previousCharacter)) {
 							continue;
 						}
 
-						if (wordBreakCharacterWhitelist.has(nextCharacter)) {
+						if (wordBreakCharacterAllowList.has(nextCharacter)) {
 							continue;
 						}
 

@@ -7,10 +7,10 @@ const isUrl = require('is-url-superb');
 const rule = require('unified-lint-rule');
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
-const identifierWhitelist = require('../lib/identifier-whitelist');
+const identifierAllowList = require('../lib/identifier-allow-list');
 
 // Valid casings for first text word in list item descriptions
-const listItemPrefixCaseWhitelist = new Set([
+const listItemPrefixCaseAllowList = new Set([
 	'camel',
 	'capital',
 	'constant',
@@ -19,14 +19,14 @@ const listItemPrefixCaseWhitelist = new Set([
 ]);
 
 // Valid node types in list item link
-const listItemLinkNodeWhitelist = new Set([
+const listItemLinkNodeAllowList = new Set([
 	'emphasis',
 	'inlineCode',
 	'text'
 ]);
 
 // Valid node types in list item descriptions
-const listItemDescriptionNodeWhitelist = new Set([
+const listItemDescriptionNodeAllowList = new Set([
 	'emphasis',
 	'footnoteReference',
 	'html',
@@ -39,7 +39,7 @@ const listItemDescriptionNodeWhitelist = new Set([
 ]);
 
 // Valid node types in list item description suffix
-const listItemDescriptionSuffixNodeWhitelist = new Set([
+const listItemDescriptionSuffixNodeAllowList = new Set([
 	'emphasis',
 	'html',
 	'image',
@@ -133,7 +133,7 @@ function validateListItemLink(link, file) {
 	}
 
 	for (const node of link.children) {
-		if (!listItemLinkNodeWhitelist.has(node.type)) {
+		if (!listItemLinkNodeAllowList.has(node.type)) {
 			file.message('Invalid list item link', node);
 			return false;
 		}
@@ -177,7 +177,7 @@ function validateListItemDescription(description, file) {
 	}
 
 	// Ensure description ends with an acceptable node type
-	if (!listItemDescriptionSuffixNodeWhitelist.has(suffix.type)) {
+	if (!listItemDescriptionSuffixNodeAllowList.has(suffix.type)) {
 		file.message('List item description must end with proper punctuation', suffix);
 		return false;
 	}
@@ -196,7 +196,7 @@ function validateListItemDescription(description, file) {
 	} else {
 		// Description contains mixed node types
 		for (const node of description) {
-			if (!listItemDescriptionNodeWhitelist.has(node.type)) {
+			if (!listItemDescriptionNodeAllowList.has(node.type)) {
 				file.message('List item description contains invalid markdown', node);
 				return false;
 			}
@@ -250,9 +250,9 @@ function validateListItemPrefixCasing(prefix, file) {
 		return false;
 	}
 
-	if (!listItemPrefixCaseWhitelist.has(caseOf(firstWord))) {
+	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord))) {
 		if (!/\d/.test(firstWord) && !/^["“'(]/.test(firstWord)) {
-			if (!identifierWhitelist.has(firstWord)) {
+			if (!identifierAllowList.has(firstWord)) {
 				file.message('List item description must start with valid casing', prefix);
 				return false;
 			}

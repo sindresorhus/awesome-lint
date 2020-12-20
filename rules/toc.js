@@ -12,7 +12,7 @@ const slugger = new GitHubSlugger();
 
 const maxListItemDepth = 1;
 
-const sectionHeadingBlacklist = new Set([
+const sectionHeadingDenylist = new Set([
 	'Contributing',
 	'Footnotes'
 ]);
@@ -51,7 +51,7 @@ module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 	const headingsPost = findAllAfter(ast, toc, {
 		type: 'heading',
 		depth: 2
-	}).filter(node => !sectionHeadingBlacklist.has(toString(node)));
+	}).filter(node => !sectionHeadingDenylist.has(toString(node)));
 
 	if (headingsPost.length === 0) {
 		file.message('Missing content headers', ast);
@@ -117,7 +117,7 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			}
 
 			if (!headingText) {
-				if (sectionHeadingBlacklist.has(text)) {
+				if (sectionHeadingDenylist.has(text)) {
 					file.message(`ToC should not contain section "${text}"`, listItem);
 				} else {
 					file.message(`ToC item "${text}" missing corresponding heading`, listItem);
