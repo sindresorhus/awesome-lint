@@ -10,7 +10,7 @@
 
 Intended to make it easier to create and maintain Awesome lists.
 
-Includes a bunch of [general Markdown rules](https://github.com/sindresorhus/awesome-lint/blob/master/config.js) and some [Awesome specific rules](https://github.com/sindresorhus/awesome-lint/tree/master/rules).
+Includes a bunch of [general Markdown rules](config.js) and some [Awesome specific rules](rules).
 
 ![](media/screenshot.png)
 

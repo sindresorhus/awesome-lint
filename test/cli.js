@@ -17,7 +17,7 @@ test('main - non-existent file', async t => {
 
 test('main - invalid GitHub repository', async t => {
 	await t.throwsAsync(
-		execa.stderr('./cli.js', ['https://github.com/sindresorhus/awesome-lint/blob/master/readme.md']),
+		execa.stderr('./cli.js', ['https://github.com/sindresorhus/awesome-lint/blob/main/readme.md']),
 		/Invalid GitHub repo URL/
 	);
 });
