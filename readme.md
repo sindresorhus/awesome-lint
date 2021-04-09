@@ -115,7 +115,7 @@ jobs:
       - run: npx awesome-lint
 ```
 
-*`fetch-depth: 0`* is needed so that we can check the repo ago.
+*`fetch-depth: 0`* is needed so that we can check the repo age.
 
 You may add [branch protection rules](https://docs.github.com/en/github/administering-a-repository/configuring-protected-branches) to prevent merging branches not passing `awesome-lint`.
 
