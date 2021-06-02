@@ -1,3 +1,6 @@
 [submodule "test/canonical/awesome-nodejs"]
 	path = test/canonical/awesome-nodejs
 	url = https://github.com/sindresorhus/awesome-nodejs.git
+[submodule "test/canonical/awesome"]
+	path = test/canonical/awesome
+	url = https://github.com/sindresorhus/awesome.git

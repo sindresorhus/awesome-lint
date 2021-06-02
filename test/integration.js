@@ -19,6 +19,17 @@ function expectLintErrors(t, stdout, numberOfErrors) {
 	};
 }
 
+test('awesome', async t => {
+	const {stdout} = await t.throwsAsync(
+		execa.stdout(cli, {cwd: 'test/canonical/awesome'})
+	);
+
+	const expectLintError = expectLintErrors(t, stdout, 3);
+	expectLintError('1:1', 'Missing main list heading', 'awesome-heading');
+	expectLintError('55:12', '"’" is used without matching "‘"', 'match-punctuation');
+	expectLintError('57:1', 'The default email must be replaced with yours', 'awesome-code-of-conduct');
+});
+
 test('awesome-nodejs', async t => {
 	const {stdout} = await t.throwsAsync(
 		execa.stdout(cli, {cwd: 'test/canonical/awesome-nodejs'})
