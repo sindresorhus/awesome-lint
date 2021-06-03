@@ -6,10 +6,11 @@ const cli = path.resolve(__dirname, '../cli.js');
 
 /**
 Factory function for checking lint errors printed by awesome-lint CLI.
-@param t AVA test context.
-@param {string} stdout CLI output.
-@param {number} numberOfErrors How many lint errors to expect.
-@returns Assertion function taking line column, lint message, and rule name as parameters.
+
+@param t - AVA test context.
+@param {string} stdout - CLI output.
+@param {number} numberOfErrors - How many lint errors to expect.
+@returns An assertion function taking line column, lint message, and rule name as parameters.
 */
 function expectLintErrors(t, stdout, numberOfErrors) {
 	t.regex(stdout, new RegExp(`${numberOfErrors} errors`));
