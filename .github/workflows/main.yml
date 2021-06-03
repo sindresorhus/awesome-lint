@@ -13,6 +13,7 @@ jobs:
           - 16
           - 14
           - 12
+          - 10
     steps:
       - uses: actions/checkout@v2
         with:
@@ -23,3 +24,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm test
+        env:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
