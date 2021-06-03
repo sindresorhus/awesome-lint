@@ -3,10 +3,10 @@ import lint from '..';
 import findReadmeFile from '../lib/find-readme-file';
 
 /**
-Verify there are no VMessages in the VFile, except for certain rule IDs.
+Verify there are no `VMessages` in the `VFile`, except for certain rule IDs.
 
 @param {import('ava').ExecutionContext} t - AVA test context.
-@param {VFile} vFile - VFile with a list of messages.
+@param {VFile} vFile - `VFile` with a list of messages.
 @param {string[]} expectedRuleIds - Rule IDs for messages you expect to see.
 */
 function noUnwantedVMessages(t, vFile, expectedRuleIds) {
@@ -22,6 +22,7 @@ test('awesome', async t => {
 		'match-punctuation',
 		'awesome-heading'
 	]);
+
 	noUnwantedVMessages(t, codeOfConduct, [
 		'awesome-code-of-conduct'
 	]);
@@ -36,6 +37,7 @@ test('awesome-nodejs', async t => {
 		'awesome-heading',
 		'awesome-list-item'
 	]);
+
 	noUnwantedVMessages(t, codeOfConduct, [
 		'awesome-code-of-conduct'
 	]);
