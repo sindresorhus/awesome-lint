@@ -1,6 +1,6 @@
 import test from 'ava';
 import lint from '..';
-import findReadmeFile from '../lib/find-readme-file';
+import findReadmeFile from '../lib/find-readme-file.js';
 
 /**
 Verify there are no `VMessages` in the `VFile`, except for certain rule IDs.

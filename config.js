@@ -58,5 +58,5 @@ exports.plugins = [
 	require('remark-lint-double-link'),
 
 	// Custom plugins
-	...require('./rules')
+	...require('./rules/index.js')
 ];

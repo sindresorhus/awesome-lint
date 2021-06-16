@@ -1,8 +1,8 @@
 import test from 'ava';
 import sinon from 'sinon';
-import lint from '../_lint';
+import lint from '../_lint.js';
 
-const gitRepoAge = require('../../rules/git-repo-age');
+const gitRepoAge = require('../../rules/git-repo-age.js');
 
 const config = {
 	plugins: [

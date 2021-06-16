@@ -1,8 +1,8 @@
 import test from 'ava';
 import sinon from 'sinon';
-import lint from '../_lint';
+import lint from '../_lint.js';
 
-const github = require('../../rules/github');
+const github = require('../../rules/github.js');
 
 const config = {
 	plugins: [

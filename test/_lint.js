@@ -1,11 +1,11 @@
-import lint from '..';
+import lint from '../index.js';
 
 const lintHelper = async options => {
 	const results = await lint(options);
 
 	let list = [];
 	for (const file of results) {
-		list = list.concat(file.messages);
+		list = [...list, ...file.messages];
 	}
 
 	return list.map(error => ({

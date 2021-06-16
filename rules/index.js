@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = [
-	require('./heading'),
-	require('./badge'),
-	require('./contributing'),
-	require('./git-repo-age'),
-	require('./github'),
-	require('./license'),
-	require('./list-item'),
-	require('./no-ci-badge'),
-	require('./spell-check'),
-	require('./toc')
+	require('./heading.js'),
+	require('./badge.js'),
+	require('./contributing.js'),
+	require('./git-repo-age.js'),
+	require('./github.js'),
+	require('./license.js'),
+	require('./list-item.js'),
+	require('./no-ci-badge.js'),
+	require('./spell-check.js'),
+	require('./toc.js')
 ];

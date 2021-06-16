@@ -1,10 +1,10 @@
 import test from 'ava';
-import lint from '../_lint';
+import lint from '../_lint.js';
 
 const config = {
 	plugins: [
 		require('remark-lint'),
-		require('../../rules/toc')
+		require('../../rules/toc.js')
 	]
 };
 

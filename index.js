@@ -11,9 +11,9 @@ const rmfr = require('rmfr');
 const tempy = require('tempy');
 const toVfile = require('to-vfile');
 const vfileReporterPretty = require('vfile-reporter-pretty');
-const config = require('./config');
-const findReadmeFile = require('./lib/find-readme-file');
-const codeOfConductRule = require('./rules/code-of-conduct');
+const config = require('./config.js');
+const findReadmeFile = require('./lib/find-readme-file.js');
+const codeOfConductRule = require('./rules/code-of-conduct.js');
 
 const lint = options => {
 	options = {
@@ -22,7 +22,7 @@ const lint = options => {
 		...options
 	};
 
-	const readmeFile = globby.sync(options.filename, {nocase: true})[0];
+	const readmeFile = globby.sync(options.filename.replace(/\\/g, '/'), {caseSensitiveMatch: false})[0];
 
 	if (!readmeFile) {
 		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
@@ -35,7 +35,7 @@ const lint = options => {
 		plugins: options.config
 	}];
 
-	const codeOfConductFile = globby.sync(['{code-of-conduct,code_of_conduct}.md', '.github/{code-of-conduct,code_of_conduct}.md'], {nocase: true, cwd: dirname})[0];
+	const codeOfConductFile = globby.sync(['{code-of-conduct,code_of_conduct}.md', '.github/{code-of-conduct,code_of_conduct}.md'], {caseSensitiveMatch: false, cwd: dirname})[0];
 	if (codeOfConductFile) {
 		const codeOfConductVFile = toVfile.readSync(path.resolve(dirname, codeOfConductFile));
 		codeOfConductVFile.repoURL = options.repoURL;

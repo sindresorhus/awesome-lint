@@ -3,7 +3,7 @@ const isUrl = require('is-url-superb');
 const rule = require('unified-lint-rule');
 const visit = require('unist-util-visit');
 const arrify = require('arrify');
-const spellCheckRules = require('../lib/spell-check-rules');
+const spellCheckRules = require('../lib/spell-check-rules.js');
 
 const wordBreakCharacterAllowList = new Set([
 	'-'

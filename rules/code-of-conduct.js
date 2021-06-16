@@ -1,7 +1,7 @@
 'use strict';
 const find = require('unist-util-find');
 const rule = require('unified-lint-rule');
-const findAuthorName = require('../lib/find-author-name');
+const findAuthorName = require('../lib/find-author-name.js');
 
 const authorName = 'sindresorhus';
 const authorEmail = 'sindresorhus@gmail.com';

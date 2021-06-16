@@ -1,5 +1,5 @@
 import test from 'ava';
-import lint from '../_lint';
+import lint from '../_lint.js';
 
 const config = {
 	plugins: [

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 const meow = require('meow');
-const findReadmeFile = require('./lib/find-readme-file');
-const awesomeLint = require('.');
+const findReadmeFile = require('./lib/find-readme-file.js');
+const awesomeLint = require('./index.js');
 
 const getReporter = name => {
 	// Check if reporter is an npm package
