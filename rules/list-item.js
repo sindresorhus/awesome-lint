@@ -250,7 +250,7 @@ function validateListItemPrefixCasing(prefix, file) {
 		return false;
 	}
 
-	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replace(/[^\w]+/g, ''))) && !/\d/.test(firstWord) && !/^["“'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
+	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replace(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["“'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
 		file.message('List item description must start with valid casing', prefix);
 		return false;
 	}
