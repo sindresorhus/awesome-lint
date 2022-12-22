@@ -1,0 +1,6 @@
+-   id: awesome-lint
+    name: Awesome Lint
+    description: Linter for Awesome lists
+    entry: awesome-lint
+    language: node
+    pass_filenames: false
