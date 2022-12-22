@@ -4,3 +4,4 @@
     entry: awesome-lint
     language: node
     pass_filenames: false
+    always_run: true
