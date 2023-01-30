@@ -238,7 +238,7 @@ function validateListItemSpecialCases(description, descriptionText) {
 }
 
 function tokenizeWords(text) {
-	return text.split(/[- ;./]/).filter(Boolean);
+	return text.split(/[- ;./']/).filter(Boolean);
 }
 
 function validateListItemPrefixCasing(prefix, file) {
