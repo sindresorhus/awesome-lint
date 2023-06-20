@@ -106,7 +106,7 @@
 		"tempy": "^1.0.0",
 		"to-vfile": "^6.1.0",
 		"unified-lint-rule": "^1.0.6",
-		"unist-util-find": "^1.0.1",
+		"unist-util-find": "1.0.2",
 		"unist-util-find-all-after": "^3.0.1",
 		"unist-util-find-all-before": "^3.0.0",
 		"unist-util-find-all-between": "^2.1.0",
