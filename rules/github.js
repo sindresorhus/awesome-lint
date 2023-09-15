@@ -8,11 +8,22 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 	const {dirname} = file;
 
 	try {
+		const gitBranch = await execa.stdout('git', [
+			'branch',
+			'--show-current'
+		]);
+
+		const remoteName = await execa.stdout('git', [
+			'config',
+			'--get',
+			`branch.${gitBranch}.remote`
+		]);
+
 		const remoteUrl = await execa.stdout('git', [
 			'remote',
 			'get-url',
 			'--push',
-			'origin'
+			remoteName
 		], {
 			cwd: dirname
 		});
