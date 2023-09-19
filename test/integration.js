@@ -1,5 +1,5 @@
 import test from 'ava';
-import lint from '..';
+import lint from '../index.js';
 import findReadmeFile from '../lib/find-readme-file.js';
 
 /**
