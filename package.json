@@ -117,5 +117,10 @@
 		"ava": "^2.4.0",
 		"sinon": "^9.2.1",
 		"xo": "^0.39.0"
+	},
+	"xo": {
+		"rules": {
+			"import/extensions": "off"
+		}
 	}
 }
