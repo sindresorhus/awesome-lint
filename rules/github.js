@@ -13,11 +13,26 @@ module.exports = rule('remark-lint:awesome-github', async (ast, file) => {
 			'--show-current'
 		]);
 
-		const remoteName = await execa.stdout('git', [
-			'config',
-			'--get',
-			`branch.${gitBranch}.remote`
-		]);
+		let remoteName;
+		if (gitBranch) {
+			remoteName = await execa.stdout('git', [
+				'config',
+				'--get',
+				`branch.${gitBranch}.remote`
+			]);
+		} else {
+			// If HEAD does not point to a branch, it is in a detached state.
+			// This can occur with '@actions/checkout'. In such cases, we read
+			// it from the config key 'clone.defaultRemoteName'. If that is not
+			// set, then it is defaulted to 'origin'. See #172 for details.
+			remoteName = await execa.stdout('git', [
+				'config',
+				'--default',
+				'origin',
+				'--get',
+				'clone.defaultRemoteName'
+			]);
+		}
 
 		const remoteUrl = await execa.stdout('git', [
 			'remote',
