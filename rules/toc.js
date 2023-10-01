@@ -26,7 +26,7 @@ module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 	const toc = find(ast, node => (
 		node.type === 'heading' &&
 		node.depth === 2 &&
-		toString(node).trim() === 'Contents'
+		toString(node).replace(/<!--.*?-->/g, '').trim() === 'Contents'
 	));
 
 	if (!toc) {
