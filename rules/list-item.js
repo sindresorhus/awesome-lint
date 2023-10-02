@@ -54,7 +54,7 @@ module.exports = rule('remark-lint:awesome-list-item', (ast, file) => {
 	const toc = find(ast, node => (
 		node.type === 'heading' &&
 		node.depth === 2 &&
-		toString(node) === 'Contents'
+		toString(node).replace(/<!--.*?-->/g, '').trim() === 'Contents'
 	));
 
 	if (toc) {
