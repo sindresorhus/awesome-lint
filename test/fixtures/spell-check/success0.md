@@ -24,6 +24,10 @@ This file should not generate any spell-check errors.
 
 [GitHub](https://foo.com) - GitHub
 
+## GitLab
+
+[GitLab](https://foo.com) - GitLab
+
 These are special-cases which should not cause errors.
 
 - [awesome-cross-platform-nodejs](https://github.com/bcoe/awesome-cross-platform-nodejs)

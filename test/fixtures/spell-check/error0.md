@@ -45,3 +45,8 @@ Test spell-check on basic text nodes.
 - Git Hub is cool but GitHub is cooler
 - github is cool but GitHub is cooler
 - git hub is cool but GitHub is cooler
+
+- Gitlab is cool but GitLab is cooler
+- Git Lab is cool but GitLab is cooler
+- gitlab is cool but GitLab is cooler
+- git lab is cool but GitLab is cooler
