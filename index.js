@@ -1,51 +1,50 @@
-'use strict';
-const path = require('path');
-const isUrl = require('is-url-superb');
-const isGithubUrl = require('is-github-url');
-const ora = require('ora');
-const remark = require('remark');
-const gitClone = require('git-clone');
-const globby = require('globby');
-const pify = require('pify');
-const rmfr = require('rmfr');
-const tempy = require('tempy');
-const toVfile = require('to-vfile');
-const vfileReporterPretty = require('vfile-reporter-pretty');
-const config = require('./config.js');
-const findReadmeFile = require('./lib/find-readme-file.js');
-const codeOfConductRule = require('./rules/code-of-conduct.js');
+import process from 'node:process';
+import path from 'node:path';
+import isUrl from 'is-url-superb';
+import isGithubUrl from 'is-github-url';
+import ora from 'ora';
+import {remark} from 'remark';
+import gitClone from 'git-clone';
+import {globbySync} from 'globby';
+import rmfr from 'rmfr';
+import {temporaryDirectory} from 'tempy';
+import {readSync as readVFileSync} from 'to-vfile';
+import vfileReporterPretty from 'vfile-reporter-pretty';
+import config from './config.js';
+import findReadmeFile from './lib/find-readme-file.js';
+import codeOfConductRule from './rules/code-of-conduct.js';
 
 const lint = options => {
 	options = {
-		config,
-		filename: 'readme.md',
-		...options
+		...options,
+		config: options.config ?? config,
+		filename: options.filename ?? 'readme.md',
 	};
 
-	const readmeFile = globby.sync(options.filename.replace(/\\/g, '/'), {caseSensitiveMatch: false})[0];
+	const readmeFile = globbySync(options.filename.replaceAll('\\', '/'), {caseSensitiveMatch: false})[0];
 
 	if (!readmeFile) {
 		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
 	}
 
-	const readmeVFile = toVfile.readSync(path.resolve(readmeFile));
+	const readmeVFile = readVFileSync(path.resolve(readmeFile));
 	const {dirname} = readmeVFile;
 	const processTasks = [{
 		vfile: readmeVFile,
-		plugins: options.config
+		plugins: options.config,
 	}];
 
-	const codeOfConductFile = globby.sync(['{code-of-conduct,code_of_conduct}.md', '.github/{code-of-conduct,code_of_conduct}.md'], {caseSensitiveMatch: false, cwd: dirname})[0];
+	const codeOfConductFile = globbySync(['{code-of-conduct,code_of_conduct}.md', '.github/{code-of-conduct,code_of_conduct}.md'], {caseSensitiveMatch: false, cwd: dirname})[0];
 	if (codeOfConductFile) {
-		const codeOfConductVFile = toVfile.readSync(path.resolve(dirname, codeOfConductFile));
+		const codeOfConductVFile = readVFileSync(path.resolve(dirname, codeOfConductFile));
 		codeOfConductVFile.repoURL = options.repoURL;
 		processTasks.push({
 			vfile: codeOfConductVFile,
-			plugins: [codeOfConductRule]
+			plugins: [codeOfConductRule],
 		});
 	}
 
-	return Promise.all(processTasks.map(({vfile, plugins}) => pify(remark().use(plugins).process)(vfile)));
+	return Promise.all(processTasks.map(({vfile, plugins}) => remark().use(plugins).process(vfile)));
 };
 
 lint.report = async options => {
@@ -67,8 +66,8 @@ lint._report = async (options, spinner) => {
 			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
 		}
 
-		temporary = tempy.directory();
-		await pify(gitClone)(options.filename, temporary);
+		temporary = temporaryDirectory();
+		await gitClone(options.filename, temporary);
 
 		const readme = findReadmeFile(temporary);
 		if (!readme) {
@@ -112,4 +111,4 @@ lint._report = async (options, spinner) => {
 	console.log(reporter(vfiles));
 };
 
-module.exports = lint;
+export default lint;

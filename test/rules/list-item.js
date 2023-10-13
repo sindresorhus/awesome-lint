@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import listItemRule from '../../rules/list-item.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/list-item.js')
-	]
+		remarkLint,
+		listItemRule,
+	],
 };
 
 test('list-item - valid', async t => {

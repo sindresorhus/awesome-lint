@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import spellCheckRule from '../../rules/spell-check.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/spell-check.js')
-	]
+		remarkLint,
+		spellCheckRule,
+	],
 };
 
 test('spell-check - success', async t => {

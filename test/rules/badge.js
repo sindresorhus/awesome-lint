@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import badgeRule from '../../rules/badge.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/badge.js')
-	]
+		remarkLint,
+		badgeRule,
+	],
 };
 
 test('badge - missing', async t => {
@@ -14,8 +16,8 @@ test('badge - missing', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
-			message: 'Missing Awesome badge after the main heading'
-		}
+			message: 'Missing Awesome badge after the main heading',
+		},
 	]);
 });
 
@@ -25,8 +27,8 @@ test('badge - incorrect source', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
-			message: 'Invalid badge source'
-		}
+			message: 'Invalid badge source',
+		},
 	]);
 });
 
@@ -36,8 +38,8 @@ test('badge - incorrect source raw git', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
-			message: 'Invalid badge source'
-		}
+			message: 'Invalid badge source',
+		},
 	]);
 });
 

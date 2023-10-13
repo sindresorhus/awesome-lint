@@ -1,15 +1,14 @@
-'use strict';
-const isUrl = require('is-url-superb');
-const rule = require('unified-lint-rule');
-const visit = require('unist-util-visit');
-const arrify = require('arrify');
-const spellCheckRules = require('../lib/spell-check-rules.js');
+import isUrl from 'is-url-superb';
+import {lintRule} from 'unified-lint-rule';
+import {visit} from 'unist-util-visit';
+import arrify from 'arrify';
+import spellCheckRules from '../lib/spell-check-rules.js';
 
 const wordBreakCharacterAllowList = new Set([
-	'-'
+	'-',
 ]);
 
-module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
+const spellCheckRule = lintRule('remark-lint:awesome-spell-check', (ast, file) => {
 	visit(ast, 'text', node => {
 		if (!node.value) {
 			return;
@@ -36,14 +35,14 @@ module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
 					}
 
 					if (match[0] !== value) {
-						const previousCharacter = sanitizedValue[match.index - 1];
-						const nextCharacter = sanitizedValue[match.index + match[0].length];
+						const previousChar = sanitizedValue[match.index - 1];
+						const nextChar = sanitizedValue[match.index + match[0].length];
 
-						if (wordBreakCharacterAllowList.has(previousCharacter)) {
+						if (wordBreakCharacterAllowList.has(previousChar)) {
 							continue;
 						}
 
-						if (wordBreakCharacterAllowList.has(nextCharacter)) {
+						if (wordBreakCharacterAllowList.has(nextChar)) {
 							continue;
 						}
 
@@ -55,3 +54,5 @@ module.exports = rule('remark-lint:awesome-spell-check', (ast, file) => {
 		}
 	});
 });
+
+export default spellCheckRule;

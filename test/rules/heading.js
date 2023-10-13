@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import headingRule from '../../rules/heading.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/heading.js')
-	]
+		remarkLint,
+		headingRule,
+	],
 };
 
 test('heading - missing', async t => {
@@ -14,8 +16,8 @@ test('heading - missing', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
-			message: 'Missing main list heading'
-		}
+			message: 'Missing main list heading',
+		},
 	]);
 });
 
@@ -25,8 +27,8 @@ test('heading - not in title case', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
-			message: 'Main heading must be in title case'
-		}
+			message: 'Main heading must be in title case',
+		},
 	]);
 });
 
@@ -36,8 +38,8 @@ test('heading - more than one heading', async t => {
 		{
 			line: 3,
 			ruleId: 'awesome-heading',
-			message: 'List can only have one heading'
-		}
+			message: 'List can only have one heading',
+		},
 	]);
 });
 
@@ -47,8 +49,8 @@ test('heading - depth is bigger than 1', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
-			message: 'Main list heading must be of depth 1'
-		}
+			message: 'Main list heading must be of depth 1',
+		},
 	]);
 });
 

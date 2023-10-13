@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import noCiBadgeRule from '../../rules/no-ci-badge.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/no-ci-badge.js')
-	]
+		remarkLint,
+		noCiBadgeRule,
+	],
 };
 
 test('no-ci-badge - missing', async t => {
@@ -14,12 +16,12 @@ test('no-ci-badge - missing', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-no-ci-badge',
-			message: 'Readme must not contain CI badge'
+			message: 'Readme must not contain CI badge',
 		},
 		{
 			line: 3,
 			ruleId: 'awesome-no-ci-badge',
-			message: 'Readme must not contain CI badge'
-		}
+			message: 'Readme must not contain CI badge',
+		},
 	]);
 });

@@ -1,22 +1,21 @@
-'use strict';
-const rule = require('unified-lint-rule');
-const visit = require('unist-util-visit');
+import {lintRule} from 'unified-lint-rule';
+import {visit} from 'unist-util-visit';
 
 const badgeUrlAllowList = new Set([
 	'https://awesome.re',
-	'https://github.com/sindresorhus/awesome'
+	'https://github.com/sindresorhus/awesome',
 ]);
 
 const badgeSrcUrlAllowList = new Set([
 	'https://awesome.re/badge.svg',
 	'https://awesome.re/badge-flat.svg',
-	'https://awesome.re/badge-flat2.svg'
+	'https://awesome.re/badge-flat2.svg',
 ]);
 
 const isValidBadgeUrl = url => badgeUrlAllowList.has(url);
 const isValidBadgeSrcUrl = url => badgeSrcUrlAllowList.has(url);
 
-module.exports = rule('remark-lint:awesome-badge', (ast, file) => {
+const badgeRule = lintRule('remark-lint:awesome-badge', (ast, file) => {
 	visit(ast, 'heading', (node, index) => {
 		if (index > 0) {
 			return;
@@ -46,3 +45,5 @@ module.exports = rule('remark-lint:awesome-badge', (ast, file) => {
 		}
 	});
 });
+
+export default badgeRule;

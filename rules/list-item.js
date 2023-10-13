@@ -1,13 +1,14 @@
-'use strict';
-const caseOf = require('case').of;
-const emojiRegex = require('emoji-regex');
-const find = require('unist-util-find');
-const findAllAfter = require('unist-util-find-all-after');
-const isUrl = require('is-url-superb');
-const rule = require('unified-lint-rule');
-const toString = require('mdast-util-to-string');
-const visit = require('unist-util-visit');
-const identifierAllowList = require('../lib/identifier-allow-list.js');
+import case_ from 'case';
+import emojiRegex from 'emoji-regex';
+import {find} from 'unist-util-find';
+import {findAllAfter} from 'unist-util-find-all-after';
+import isUrl from 'is-url-superb';
+import {lintRule} from 'unified-lint-rule';
+import {toString} from 'mdast-util-to-string';
+import {visit} from 'unist-util-visit';
+import identifierAllowList from '../lib/identifier-allow-list.js';
+
+const {of: caseOf} = case_;
 
 // Valid casings for first text word in list item descriptions
 const listItemPrefixCaseAllowList = new Set([
@@ -15,14 +16,14 @@ const listItemPrefixCaseAllowList = new Set([
 	'capital',
 	'constant',
 	'pascal',
-	'upper'
+	'upper',
 ]);
 
 // Valid node types in list item link
 const listItemLinkNodeAllowList = new Set([
 	'emphasis',
 	'inlineCode',
-	'text'
+	'text',
 ]);
 
 // Valid node types in list item descriptions
@@ -35,7 +36,7 @@ const listItemDescriptionNodeAllowList = new Set([
 	'link',
 	'linkReference',
 	'strong',
-	'text'
+	'text',
 ]);
 
 // Valid node types in list item description suffix
@@ -45,21 +46,21 @@ const listItemDescriptionSuffixNodeAllowList = new Set([
 	'image',
 	'link',
 	'strong',
-	'text'
+	'text',
 ]);
 
-module.exports = rule('remark-lint:awesome-list-item', (ast, file) => {
+const listItemRule = lintRule('remark-lint:awesome-list-item', (ast, file) => {
 	let lists = findAllLists(ast);
 
 	const toc = find(ast, node => (
-		node.type === 'heading' &&
-		node.depth === 2 &&
-		toString(node).replace(/<!--.*?-->/g, '').trim() === 'Contents'
+		node.type === 'heading'
+		&& node.depth === 2
+		&& toString(node).replaceAll(/<!--.*?-->/g, '').trim() === 'Contents'
 	));
 
 	if (toc) {
 		const postContentsHeading = findAllAfter(ast, toc, {
-			type: 'heading'
+			type: 'heading',
 		})[0];
 
 		if (!postContentsHeading) {
@@ -149,7 +150,7 @@ function validateListItemDescription(description, file) {
 	}
 
 	const prefix = description[0];
-	const suffix = description[description.length - 1];
+	const suffix = description.at(-1);
 
 	const descriptionText = toString({type: 'root', children: description});
 	const prefixText = toString(prefix);
@@ -250,7 +251,7 @@ function validateListItemPrefixCasing(prefix, file) {
 		return false;
 	}
 
-	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replace(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["“'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
+	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replaceAll(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["“'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
 		file.message('List item description must start with valid casing', prefix);
 		return false;
 	}
@@ -308,7 +309,7 @@ function validateListItemSuffix(descriptionText, suffixText) {
 	if (!/[.!?…]/.test(descriptionText)) {
 		// Description contains no punctuation
 		const tokens = tokenizeWords(descriptionText);
-		if (tokens.length > 2 || !textEndsWithEmoji(tokens[tokens.length - 1])) {
+		if (tokens.length > 2 || !textEndsWithEmoji(tokens.at(-1))) {
 			return false;
 		}
 	}
@@ -345,3 +346,5 @@ function textEndsWithEmoji(text) {
 
 	return false;
 }
+
+export default listItemRule;

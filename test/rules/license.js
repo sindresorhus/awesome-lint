@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import licenseRule from '../../rules/license.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/license.js')
-	]
+		remarkLint,
+		licenseRule,
+	],
 };
 
 test('licence - forbidden section', async t => {
@@ -14,8 +16,8 @@ test('licence - forbidden section', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Forbidden license section found'
-		}
+			message: 'Forbidden license section found',
+		},
 	]);
 });
 
@@ -25,8 +27,8 @@ test('license - forbidden empty section', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Forbidden license section found'
-		}
+			message: 'Forbidden license section found',
+		},
 	]);
 });
 
@@ -36,8 +38,8 @@ test('license - forbidden last section', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Forbidden license section found'
-		}
+			message: 'Forbidden license section found',
+		},
 	]);
 });
 
@@ -47,8 +49,8 @@ test('license - forbidden heading depth section', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Forbidden license section found'
-		}
+			message: 'Forbidden license section found',
+		},
 	]);
 });
 
@@ -58,8 +60,8 @@ test('license - forbidden image section', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-license',
-			message: 'Forbidden license section found'
-		}
+			message: 'Forbidden license section found',
+		},
 	]);
 });
 

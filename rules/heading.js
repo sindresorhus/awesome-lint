@@ -1,14 +1,15 @@
-'use strict';
-const rule = require('unified-lint-rule');
-const visit = require('unist-util-visit');
-const {of: caseOf, title: titleCase} = require('case');
+import {lintRule} from 'unified-lint-rule';
+import {visit} from 'unist-util-visit';
+import case_ from 'case';
+
+const {of: caseOf, title: titleCase} = case_;
 
 const listHeadingCaseAllowList = new Set([
 	'title',
-	'capital'
+	'capital',
 ]);
 
-module.exports = rule('remark-lint:awesome-heading', (ast, file) => {
+const headingRule = lintRule('remark-lint:awesome-heading', (ast, file) => {
 	let headings = 0;
 
 	visit(ast, (node, index) => {
@@ -47,3 +48,5 @@ module.exports = rule('remark-lint:awesome-heading', (ast, file) => {
 		file.message('Missing main list heading');
 	}
 });
+
+export default headingRule;

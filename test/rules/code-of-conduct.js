@@ -5,17 +5,17 @@ const config = {
 	plugins: [
 		// Don't set here, because it is only plugins for readme.md
 		// require('../../rules/code-of-conduct')
-	]
+	],
 };
 
 test('code-of-conduct - invalid if empty', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error0/readme.md'});
 	t.deepEqual(messages, [
 		{
-			line: null,
+			line: undefined,
 			ruleId: 'awesome-code-of-conduct',
-			message: 'code-of-conduct.md file must not be empty'
-		}
+			message: 'code-of-conduct.md file must not be empty',
+		},
 	]);
 });
 
@@ -25,8 +25,8 @@ test.failing('code-of-conduct - invalid if has placeholder', async t => {
 		{
 			line: 58,
 			ruleId: 'awesome-code-of-conduct',
-			message: 'The email placeholder must be replaced with yours'
-		}
+			message: 'The email placeholder must be replaced with yours',
+		},
 	]);
 });
 
@@ -36,8 +36,8 @@ test.failing('code-of-conduct - invalid if just copied', async t => {
 		{
 			line: 58,
 			ruleId: 'awesome-code-of-conduct',
-			message: 'The default email must be replaced with yours'
-		}
+			message: 'The default email must be replaced with yours',
+		},
 	]);
 });
 

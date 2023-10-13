@@ -1,11 +1,13 @@
 import test from 'ava';
+import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
+import tocPlugin from '../../rules/toc.js';
 
 const config = {
 	plugins: [
-		require('remark-lint'),
-		require('../../rules/toc.js')
-	]
+		remarkLint,
+		tocPlugin,
+	],
 };
 
 test('toc - success basic', async t => {
@@ -24,8 +26,8 @@ test('toc - missing', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-toc',
-			message: 'Missing or invalid Table of Contents'
-		}
+			message: 'Missing or invalid Table of Contents',
+		},
 	]);
 });
 
@@ -35,18 +37,18 @@ test('toc - missing items', async t => {
 		{
 			line: 6,
 			ruleId: 'awesome-toc',
-			message: 'ToC missing item for "Foo B"'
+			message: 'ToC missing item for "Foo B"',
 		},
 		{
 			line: 8,
 			ruleId: 'awesome-toc',
-			message: 'ToC item "Bar" does not match corresponding heading "Bar A"'
+			message: 'ToC item "Bar" does not match corresponding heading "Bar A"',
 		},
 		{
 			line: 5,
 			ruleId: 'awesome-toc',
-			message: 'ToC missing item for "Baz"'
-		}
+			message: 'ToC missing item for "Baz"',
+		},
 	]);
 });
 
@@ -56,8 +58,8 @@ test('toc - exceed max depth', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-toc',
-			message: 'Exceeded max depth of 2 levels'
-		}
+			message: 'Exceeded max depth of 2 levels',
+		},
 	]);
 });
 

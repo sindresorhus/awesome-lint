@@ -11,7 +11,7 @@ const lintHelper = async options => {
 	return list.map(error => ({
 		line: error.line,
 		ruleId: error.ruleId,
-		message: error.message
+		message: error.message,
 	}));
 };
 

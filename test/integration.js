@@ -1,5 +1,5 @@
 import test from 'ava';
-import lint from '..';
+import lint from '../index.js';
 import findReadmeFile from '../lib/find-readme-file.js';
 
 /**
@@ -12,7 +12,7 @@ Verify there are no `VMessages` in the `VFile`, except for certain rule IDs.
 function noUnwantedVMessages(t, vFile, expectedRuleIds) {
 	const seenRules = new Set(vFile.messages.map(vMessage => vMessage.ruleId));
 
-	t.deepEqual([...seenRules], expectedRuleIds);
+	t.deepEqual([...seenRules], expectedRuleIds, vFile.messages.join('\n'));
 }
 
 test('awesome', async t => {
@@ -20,11 +20,11 @@ test('awesome', async t => {
 
 	noUnwantedVMessages(t, readme, [
 		'match-punctuation',
-		'awesome-heading'
+		'awesome-heading',
 	]);
 
 	noUnwantedVMessages(t, codeOfConduct, [
-		'awesome-code-of-conduct'
+		'awesome-code-of-conduct',
 	]);
 });
 
@@ -35,10 +35,10 @@ test('awesome-nodejs', async t => {
 		'match-punctuation',
 		'double-link',
 		'awesome-heading',
-		'awesome-list-item'
+		'awesome-list-item',
 	]);
 
 	noUnwantedVMessages(t, codeOfConduct, [
-		'awesome-code-of-conduct'
+		'awesome-code-of-conduct',
 	]);
 });

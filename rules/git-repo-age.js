@@ -1,31 +1,29 @@
-'use strict';
-const execa = require('execa');
-const rule = require('unified-lint-rule');
+import {execa} from 'execa';
+import {lintRule} from 'unified-lint-rule';
 
 const oneDay = 24 * 60 * 60 * 1000;
-
 const minGitRepoAgeDays = 30;
 const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
 
-module.exports = rule('remark-lint:awesome-git-repo-age', async (ast, file) => {
+const gitRepoAgeRule = lintRule('remark-lint:awesome-git-repo-age', async (ast, file) => {
 	const {dirname} = file;
 
 	try {
-		const firstCommitHash = await execa.stdout('git', [
+		const {stdout: firstCommitHash} = await execa('git', [
 			'rev-list',
 			'--max-parents=0',
-			'HEAD'
+			'HEAD',
 		], {
-			cwd: dirname
+			cwd: dirname,
 		});
 
-		const firstCommitDate = await execa.stdout('git', [
+		const {stdout: firstCommitDate} = await execa('git', [
 			'show',
 			'-s',
 			'--format=%ci',
-			firstCommitHash
+			firstCommitHash,
 		], {
-			cwd: dirname
+			cwd: dirname,
 		});
 
 		const date = new Date(firstCommitDate);
@@ -35,10 +33,8 @@ module.exports = rule('remark-lint:awesome-git-repo-age', async (ast, file) => {
 			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
 		}
 	} catch {
-		// Not a Git repository or a shallow copy missing the `.travis.yml` `git:\ndepth: false` setting
 		file.message('Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)');
 	}
 });
 
-// For stubbing
-module.exports.execa = execa;
+export default gitRepoAgeRule;

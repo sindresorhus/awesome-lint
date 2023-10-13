@@ -149,14 +149,14 @@ node_js:
 
 ### Install
 
-```
-$ npm install awesome-lint
+```sh
+npm install awesome-lint
 ```
 
 ### Usage
 
 ```js
-const awesomeLint = require('awesome-lint');
+import awesomeLint from 'awesome-lint';
 
 awesomeLint.report();
 ```
@@ -165,13 +165,8 @@ awesomeLint.report();
 
 #### awesomeLint()
 
-Returns a `Promise` for a list of [`VFile`](https://github.com/wooorm/vfile) objects.
+Returns a `Promise` for a list of [`VFile`](https://github.com/vfile/vfile) objects.
 
 #### awesomeLint.report()
 
 Show the lint output. This can be custom reported by setting `options.reporter=<function>` and passing in `options` as a parameter.
-
-## Maintainers
-
-- [Sindre Sorhus](https://github.com/sindresorhus)
-- [Travis Fischer](https://github.com/transitive-bullshit)

@@ -1,12 +1,11 @@
-'use strict';
-const find = require('unist-util-find');
-const findAllAfter = require('unist-util-find-all-after');
-const findAllBefore = require('unist-util-find-all-before');
-const findAllBetween = require('unist-util-find-all-between');
-const rule = require('unified-lint-rule');
-const GitHubSlugger = require('github-slugger');
-const toString = require('mdast-util-to-string');
-const visit = require('unist-util-visit');
+import {find} from 'unist-util-find';
+import {findAllAfter} from 'unist-util-find-all-after';
+import {findAllBefore} from 'unist-util-find-all-before';
+import findAllBetween from 'unist-util-find-all-between';
+import {lintRule} from 'unified-lint-rule';
+import GitHubSlugger from 'github-slugger';
+import {toString} from 'mdast-util-to-string';
+import {visit} from 'unist-util-visit';
 
 const slugger = new GitHubSlugger();
 
@@ -14,19 +13,19 @@ const maxListItemDepth = 1;
 
 const sectionHeadingDenylist = new Set([
 	'Contributing',
-	'Footnotes'
+	'Footnotes',
 ]);
 
-module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
+const tocRule = lintRule('remark-lint:awesome-toc', (ast, file) => {
 	slugger.reset();
 
 	// Heading links are order-dependent, so it's important to gather them up front
 	const headingLinks = buildHeadingLinks(ast);
 
 	const toc = find(ast, node => (
-		node.type === 'heading' &&
-		node.depth === 2 &&
-		toString(node).replace(/<!--.*?-->/g, '').trim() === 'Contents'
+		node.type === 'heading'
+		&& node.depth === 2
+		&& toString(node).replaceAll(/<!--.*?-->/g, '').trim() === 'Contents'
 	));
 
 	if (!toc) {
@@ -35,11 +34,11 @@ module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 	}
 
 	const headingsPre = findAllBefore(ast, toc, {
-		type: 'heading'
+		type: 'heading',
 	});
 
 	const htmlPre = findAllBefore(ast, toc, {
-		type: 'html'
+		type: 'html',
 	});
 
 	if (headingsPre.length > 1) {
@@ -50,7 +49,7 @@ module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 
 	const headingsPost = findAllAfter(ast, toc, {
 		type: 'heading',
-		depth: 2
+		depth: 2,
 	}).filter(node => !sectionHeadingDenylist.has(toString(node)));
 
 	if (headingsPost.length === 0) {
@@ -74,7 +73,7 @@ module.exports = rule('remark-lint:awesome-toc', (ast, file) => {
 			list: tocList,
 			headingLinks,
 			headings: headingsPost,
-			depth: 0
+			depth: 0,
 		});
 	}
 });
@@ -153,10 +152,10 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 					const nextHeading = headings[index + 1];
 					const subHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
 						type: 'heading',
-						depth: depth + 3
+						depth: depth + 3,
 					}) : findAllAfter(ast, heading, {
 						type: 'heading',
-						depth: depth + 3
+						depth: depth + 3,
 					});
 
 					validateListItems({
@@ -165,7 +164,7 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 						list: subList,
 						headingLinks,
 						headings: subHeadings,
-						depth: depth + 1
+						depth: depth + 1,
 					});
 				} else {
 					file.message(`Exceeded max depth of ${maxListItemDepth + 1} levels`);
@@ -184,3 +183,5 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 		}
 	}
 }
+
+export default tocRule;
