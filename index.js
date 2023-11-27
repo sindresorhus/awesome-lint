@@ -4,12 +4,12 @@ import isUrl from 'is-url-superb';
 import isGithubUrl from 'is-github-url';
 import ora from 'ora';
 import {remark} from 'remark';
-import gitClone from 'git-clone';
 import {globbySync} from 'globby';
 import rmfr from 'rmfr';
 import {temporaryDirectory} from 'tempy';
 import {readSync as readVFileSync} from 'to-vfile';
 import vfileReporterPretty from 'vfile-reporter-pretty';
+import {execa} from 'execa';
 import config from './config.js';
 import findReadmeFile from './lib/find-readme-file.js';
 import codeOfConductRule from './rules/code-of-conduct.js';
@@ -67,7 +67,7 @@ lint._report = async (options, spinner) => {
 		}
 
 		temporary = temporaryDirectory();
-		await gitClone(options.filename, temporary);
+		await execa('git', ['clone', '--', options.filename, temporary]);
 
 		const readme = findReadmeFile(temporary);
 		if (!readme) {
