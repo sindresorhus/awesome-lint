@@ -4,7 +4,7 @@ import isUrl from 'is-url-superb';
 import isGithubUrl from 'is-github-url';
 import ora from 'ora';
 import {remark} from 'remark';
-import gitClone from 'git-clone/promise.js';
+import gitClone from 'git-clone/promise';
 import {globbySync} from 'globby';
 import rmfr from 'rmfr';
 import {temporaryDirectory} from 'tempy';
