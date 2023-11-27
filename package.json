@@ -12,6 +12,7 @@
 	},
 	"type": "module",
 	"bin": "./cli.js",
+	"sideEffects": false,
 	"engines": {
 		"node": ">=18"
 	},
