@@ -65,7 +65,7 @@ const githubRule = lintRule('remark-lint:awesome-github', async (ast, file) => {
 			file.message('License was not detected by GitHub');
 		}
 	} catch {
-		file.message('Awesome list must reside in a valid git repository');
+		file.message('.git/ directory not found');
 	}
 });
 

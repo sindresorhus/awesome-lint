@@ -31,7 +31,7 @@ test.serial.failing('github - error invalid git repo', async t => {
 		{
 			line: null,
 			ruleId: 'awesome-github',
-			message: 'Awesome list must reside in a valid git repository',
+			message: '.git/ directory not found',
 		},
 	]);
 });
