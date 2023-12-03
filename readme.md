@@ -20,7 +20,7 @@ Includes a bunch of [general Markdown rules](config.js) and some [Awesome specif
 
 The CLI requires Node.js and Git.
 
-Type the command `npx awesome-lint` followed by the URL of the repo you want to check:
+In a git directory, type the command `npx awesome-lint` followed by the URL of the repo you want to check:
 
 ```
 ❯ npx awesome-lint https://github.com/sindresorhus/awesome-something
