@@ -21,6 +21,12 @@ const lint = options => {
 		filename: options.filename ?? 'readme.md',
 	};
 
+	// 'awesome' and 'awesome-list' topic search will fail after timeout w/o connectivity
+	// see rules/github.js
+	if (options.offline) {
+		options.config = options.config.filter(x => !/remark-lint:awesome-github/.test(x.name));
+	}
+
 	const readmeFile = globbySync(options.filename.replaceAll('\\', '/'), {caseSensitiveMatch: false})[0];
 
 	if (!readmeFile) {
@@ -62,12 +68,16 @@ lint._report = async (options, spinner) => {
 	let temporary = null;
 
 	if (isUrl(options.filename)) {
+		if (options.offline) {
+			throw new Error('Attempting to lint url while offline!');
+		}
+
 		if (!isGithubUrl(options.filename, {repository: true})) {
 			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
 		}
 
 		temporary = temporaryDirectory();
-		await execa('git', ['clone', '--', options.filename, temporary]);
+		await execa('git', ['clone', '--depth', 1, '--', options.filename, temporary]);
 
 		const readme = findReadmeFile(temporary);
 		if (!readme) {

@@ -24,12 +24,16 @@ const cli = meow(`
 
 	Options
 	  --reporter, -r  Use a custom reporter
+	  --offline
 `, {
 	importMeta: import.meta,
 	flags: {
 		reporter: {
 			type: 'string',
 			shortFlag: 'r',
+		},
+		offline: {
+			type: 'boolean',
 		},
 	},
 });
@@ -39,6 +43,7 @@ const input = cli.input[0];
 const options = {};
 
 options.filename = input ?? findReadmeFile(process.cwd());
+options.offline = cli.flags.offline ?? false;
 
 const reporterName = cli.flags.reporter;
 if (reporterName) {
