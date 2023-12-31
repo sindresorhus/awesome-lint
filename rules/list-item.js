@@ -110,9 +110,10 @@ function validateList(list, file) {
 
 		// Might have children like {image} {text} {link} - {descrition}
 		// Keep discarding elements until we find a link
-		if (link.type !== 'link') {
+		//                                       or linkReference
+		if (!/link/.test(link.type)) {
 			for (let i = 0; i < description.length - 1; i++) {
-				if (description[i].type === 'link') {
+				if (/link/.test(description[i].type)) {
 					link = description[i];
 					description = description.slice(i + 1);
 				}
@@ -128,6 +129,13 @@ function validateList(list, file) {
 }
 
 function validateListItemLink(link, file) {
+	// NB. need remark-lint-no-undefined-references separately
+	//     to catch if this is a valid reference. here we only care that it exists
+	if (link.type === 'linkReference') {
+		// TODO: need to test link children against listItemLinkNodeAllowList?
+		return true;
+	}
+
 	if (link.type !== 'link') {
 		file.message('Invalid list item link', link);
 		return false;
