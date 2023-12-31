@@ -102,10 +102,21 @@ function validateList(list, file) {
 			continue;
 		}
 
-		const [link, ...description] = paragraph.children;
-
-		if (link.type === 'text') {
+		if (paragraph.children[0].type === 'text') {
 			continue;
+		}
+
+		let [link, ...description] = paragraph.children;
+
+		// Might have children like {image} {text} {link} - {descrition}
+		// Keep discarding elements until we find a link
+		if (link.type !== 'link') {
+			for (let i = 0; i < description.length - 1; i++) {
+				if (description[i].type === 'link') {
+					link = description[i];
+					description = description.slice(i + 1);
+				}
+			}
 		}
 
 		if (!validateListItemLink(link, file)) {
@@ -168,9 +179,15 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		if (/^\s*—/.test(prefixText)) {
-			file.message('List item link and description separated by invalid en-dash', prefix);
+		if (/^\s*[—–]/.test(prefixText)) {
+			file.message('List item link and description separated by invalid en-dash or em-dash', prefix);
 			return false;
+		}
+
+		// Might have image and link on left side before desciption.
+		// Assume a hyphen with spaces in the description is good enough
+		if (/ - +[A-Z]/.test(descriptionText)) {
+			return true;
 		}
 
 		file.message('List item link and description must be separated with a dash', prefix);
