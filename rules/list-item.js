@@ -129,8 +129,8 @@ function validateList(list, file) {
 }
 
 function validateListItemLink(link, file) {
-	// NB. need remark-lint-no-undefined-references separately
-	//     to catch if this is a valid reference. here we only care that it exists
+	// NB. We need remark-lint-no-undefined-references separately
+	// to catch if this is a valid reference. Here we only care that it exists.
 	if (link.type === 'linkReference') {
 		// TODO: need to test link children against listItemLinkNodeAllowList?
 		return true;
