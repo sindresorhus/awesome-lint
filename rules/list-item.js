@@ -194,7 +194,7 @@ function validateListItemDescription(description, file) {
 
 		// Might have image and link on left side before desciption.
 		// Assume a hyphen with spaces in the description is good enough
-		if (/ - +[A-Z]/.test(descriptionText)) {
+		if (/ - [A-Z]/.test(descriptionText)) {
 			return true;
 		}
 
