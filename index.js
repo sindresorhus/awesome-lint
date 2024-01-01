@@ -69,7 +69,7 @@ lint._report = async (options, spinner) => {
 
 	if (isUrl(options.filename)) {
 		if (options.offline) {
-			throw new Error('Attempting to lint url while offline!');
+			throw new Error('Cannot lint URL while offline.');
 		}
 
 		if (!isGithubUrl(options.filename, {repository: true})) {
