@@ -109,7 +109,7 @@ function validateList(list, file) {
 		let [link, ...description] = paragraph.children;
 
 		// Might have children like: '{image} {text} {link} { - description}'
-		// Keep discarding prefix elements until we find somthing link-like
+		// Keep discarding prefix elements until we find somthing link-like.
 		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
 			link = description[0];
 			description = description.slice(1);
@@ -182,14 +182,14 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		// MS Win: ' - '  autocorrected to – (en-dash). Also avoid — (em-dash).
+		// Some editors auto-correct ' - ' to – (en-dash). Also avoid — (em-dash).
 		if (/^\s*[/\u{02013}\u{02014}]/u.test(prefixText)) {
 			file.message('List item link and description separated by invalid en-dash or em-dash', prefix);
 			return false;
 		}
 
 		// Might have image and link on left side before desciption.
-		// Assume a hyphen with spaces in the description is good enough
+		// Assume a hyphen with spaces in the description is good enough.
 		if (/ - [A-Z]/.test(descriptionText)) {
 			return true;
 		}
