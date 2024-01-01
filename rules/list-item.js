@@ -108,16 +108,11 @@ function validateList(list, file) {
 
 		let [link, ...description] = paragraph.children;
 
-		// Might have children like {image} {text} {link} - {descrition}
-		// Keep discarding elements until we find a link
-		//                                       or linkReference
-		if (!/link/.test(link.type)) {
-			for (let i = 0; i < description.length - 1; i++) {
-				if (/link/.test(description[i].type)) {
-					link = description[i];
-					description = description.slice(i + 1);
-				}
-			}
+		// Might have children like: '{image} {text} {link} { - description}'
+		// Keep discarding prefix elements until we find somthing link-like
+		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
+			link = description[0];
+			description = description.slice(1);
 		}
 
 		if (!validateListItemLink(link, file)) {
@@ -187,7 +182,8 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		if (/^\s*[—–]/.test(prefixText)) {
+		// MS Win: ' - '  autocorrected to – (en-dash). Also avoid — (em-dash).
+		if (/^\s*[/\u{02013}\u{02014}]/u.test(prefixText)) {
 			file.message('List item link and description separated by invalid en-dash or em-dash', prefix);
 			return false;
 		}
