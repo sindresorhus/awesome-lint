@@ -109,7 +109,7 @@ function validateList(list, file) {
 		let [link, ...description] = paragraph.children;
 
 		// Might have children like: '{image} {text} {link} { - description}'
-		// Keep discarding prefix elements until we find somthing link-like.
+		// Keep discarding prefix elements until we find something link-like.
 		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
 			link = description[0];
 			description = description.slice(1);
