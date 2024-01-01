@@ -188,7 +188,7 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		// Might have image and link on left side before desciption.
+		// Might have image and link on left side before description.
 		// Assume a hyphen with spaces in the description is good enough.
 		if (/ - [A-Z]/.test(descriptionText)) {
 			return true;
