@@ -102,13 +102,24 @@ function validateList(list, file) {
 			continue;
 		}
 
-		const [link, ...description] = paragraph.children;
-
-		if (link.type === 'text') {
+		if (paragraph.children[0].type === 'text') {
 			continue;
 		}
 
+		let [link, ...description] = paragraph.children;
+
+		// Might have children like: '{image} {text} {link} { - description}'
+		// Keep discarding prefix elements until we find something link-like.
+		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
+			link = description[0];
+			description = description.slice(1);
+		}
+
 		if (!validateListItemLink(link, file)) {
+			continue;
+		}
+
+		if (!validateListItemLinkChildren(link, file)) {
 			continue;
 		}
 
@@ -116,7 +127,24 @@ function validateList(list, file) {
 	}
 }
 
+function validateListItemLinkChildren(link, file) {
+	for (const node of link.children) {
+		if (!listItemLinkNodeAllowList.has(node.type)) {
+			file.message('Invalid list item link', node);
+			return false;
+		}
+	}
+
+	return true;
+}
+
 function validateListItemLink(link, file) {
+	// NB. We need remark-lint-no-undefined-references separately
+	// to catch if this is a valid reference. Here we only care that it exists.
+	if (link.type === 'linkReference') {
+		return true;
+	}
+
 	if (link.type !== 'link') {
 		file.message('Invalid list item link', link);
 		return false;
@@ -131,13 +159,6 @@ function validateListItemLink(link, file) {
 	if (!linkText) {
 		file.message('Invalid list item link text', link);
 		return false;
-	}
-
-	for (const node of link.children) {
-		if (!listItemLinkNodeAllowList.has(node.type)) {
-			file.message('Invalid list item link', node);
-			return false;
-		}
 	}
 
 	return true;
@@ -168,9 +189,16 @@ function validateListItemDescription(description, file) {
 			return false;
 		}
 
-		if (/^\s*—/.test(prefixText)) {
-			file.message('List item link and description separated by invalid en-dash', prefix);
+		// Some editors auto-correct ' - ' to – (en-dash). Also avoid — (em-dash).
+		if (/^\s*[/\u{02013}\u{02014}]/u.test(prefixText)) {
+			file.message('List item link and description separated by invalid en-dash or em-dash', prefix);
 			return false;
+		}
+
+		// Might have image and link on left side before description.
+		// Assume a hyphen with spaces in the description is good enough.
+		if (/ - [A-Z]/.test(descriptionText)) {
+			return true;
 		}
 
 		file.message('List item link and description must be separated with a dash', prefix);
