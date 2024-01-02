@@ -119,15 +119,28 @@ function validateList(list, file) {
 			continue;
 		}
 
+		if (!validateListItemLinkChildren(link, file)) {
+			continue;
+		}
+
 		validateListItemDescription(description, file);
 	}
+}
+
+function validateListItemLinkChildren(link, file) {
+	for (const node of link.children) {
+		if (!listItemLinkNodeAllowList.has(node.type)) {
+			file.message('Invalid list item link', node);
+			return false;
+		}
+	}
+   return true;
 }
 
 function validateListItemLink(link, file) {
 	// NB. We need remark-lint-no-undefined-references separately
 	// to catch if this is a valid reference. Here we only care that it exists.
 	if (link.type === 'linkReference') {
-		// TODO: need to test link children against listItemLinkNodeAllowList?
 		return true;
 	}
 
@@ -145,13 +158,6 @@ function validateListItemLink(link, file) {
 	if (!linkText) {
 		file.message('Invalid list item link text', link);
 		return false;
-	}
-
-	for (const node of link.children) {
-		if (!listItemLinkNodeAllowList.has(node.type)) {
-			file.message('Invalid list item link', node);
-			return false;
-		}
 	}
 
 	return true;
