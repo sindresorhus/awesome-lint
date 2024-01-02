@@ -134,7 +134,8 @@ function validateListItemLinkChildren(link, file) {
 			return false;
 		}
 	}
-   return true;
+
+	return true;
 }
 
 function validateListItemLink(link, file) {
