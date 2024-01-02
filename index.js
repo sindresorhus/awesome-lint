@@ -67,7 +67,7 @@ lint._report = async (options, spinner) => {
 		}
 
 		temporary = temporaryDirectory();
-		await execa('git', ['clone', '--', options.filename, temporary]);
+		await execa('git', ['clone', '--depth', '1', '--', options.filename, temporary]);
 
 		const readme = findReadmeFile(temporary);
 		if (!readme) {
