@@ -6,14 +6,14 @@ const badgeUrlAllowList = new Set([
 	'https://github.com/sindresorhus/awesome',
 ]);
 
-const badgeSrcUrlAllowList = new Set([
+const badgeSourceUrlAllowList = new Set([
 	'https://awesome.re/badge.svg',
 	'https://awesome.re/badge-flat.svg',
 	'https://awesome.re/badge-flat2.svg',
 ]);
 
 const isValidBadgeUrl = url => badgeUrlAllowList.has(url);
-const isValidBadgeSrcUrl = url => badgeSrcUrlAllowList.has(url);
+const isValidBadgeSourceUrl = url => badgeSourceUrlAllowList.has(url);
 
 const badgeRule = lintRule('remark-lint:awesome-badge', (ast, file) => {
 	visit(ast, 'heading', (node, index) => {
@@ -30,7 +30,7 @@ const badgeRule = lintRule('remark-lint:awesome-badge', (ast, file) => {
 
 			for (const child2 of child.children) {
 				if (child2.type === 'image') {
-					if (!isValidBadgeSrcUrl(child2.url)) {
+					if (!isValidBadgeSourceUrl(child2.url)) {
 						file.message('Invalid badge source', child2);
 						return;
 					}

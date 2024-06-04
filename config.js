@@ -66,7 +66,7 @@ const plugins = [
 	// TODO: this rule doesn't properly handle tab indents
 	// require('remark-lint-list-item-content-indent'),
 	listItemBulletIndent,
-	[listItemIndent, 'space'],
+	[listItemIndent, 'one'],
 	noAutoLinkWithoutProtocol,
 	noBlockquoteWithoutMarker,
 	noEmphasisAsHeading,

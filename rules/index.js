@@ -1,7 +1,7 @@
 import heading from './heading.js';
 import badge from './badge.js';
 import contributing from './contributing.js';
-import gitRepoAge from './git-repo-age.js';
+/// import gitRepoAge from './git-repo-age.js';
 import github from './github.js';
 import license from './license.js';
 import listItem from './list-item.js';
@@ -13,7 +13,10 @@ const rules = [
 	heading,
 	badge,
 	contributing,
-	gitRepoAge,
+
+	// Disabled for now as it means we cannot sparsely check out the repo.
+	// gitRepoAge,
+
 	github,
 	license,
 	listItem,
