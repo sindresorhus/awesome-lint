@@ -16,7 +16,7 @@ test('badge - missing', async t => {
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
-			message: 'Missing Awesome badge after the main heading',
+			message: 'Missing Awesome badge right next of the main heading',
 		},
 	]);
 });
