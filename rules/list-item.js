@@ -106,13 +106,18 @@ function validateList(list, file) {
 			continue;
 		}
 
-		let [link, ...description] = paragraph.children;
-
-		// Might have children like: '{image} {text} {link} { - description}'
-		// Keep discarding prefix elements until we find something link-like.
-		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
-			link = description[0];
-			description = description.slice(1);
+		// Might also have children like '{image} {text} {link} {image} { - description}'
+		// Specifically {any}* {link} [^{link}]* { - description}?
+		// To properly find link and description we search first for { - description} node, then search backwards from the index to find the first link.
+		let link;
+		let description;
+		const descriptionIndex = paragraph.children.findIndex(node => node?.type === 'text' && /^[\s\u00A0]-[\s\u00A0]/.test(node.value));
+		if (descriptionIndex === -1) {
+			// Possibly link with no description, but try to find description anyway.
+			[link, ...description] = paragraph.children;
+		} else {
+			link = paragraph.children.slice(0, descriptionIndex).reverse().find(node => ['link', 'linkReference'].includes(node?.type));
+			description = paragraph.children.slice(descriptionIndex);
 		}
 
 		if (!validateListItemLink(link, file)) {
