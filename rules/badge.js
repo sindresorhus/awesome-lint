@@ -41,7 +41,7 @@ const badgeRule = lintRule('remark-lint:awesome-badge', (ast, file) => {
 		}
 
 		if (!hasBadge) {
-			file.message('Missing Awesome badge after the main heading', node);
+			file.message('Missing Awesome badge right next of the main heading', node);
 		}
 	});
 });
