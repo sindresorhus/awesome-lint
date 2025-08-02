@@ -141,7 +141,9 @@ test.fails('github - invalid token', async () => {
 		},
 		got: {
 			async get() {
-				throw {statusCode: 401};
+				const error = new Error('Unauthorized');
+				error.statusCode = 401;
+				throw error;
 			},
 		},
 	});
@@ -167,12 +169,12 @@ test.fails('github - API rate limit exceeded with token', async () => {
 		},
 		got: {
 			async get() {
-				throw {
-					statusCode: 403,
-					headers: {
-						'x-ratelimit-limit': 5000,
-					},
+				const error = new Error('Rate limit exceeded');
+				error.statusCode = 403;
+				error.headers = {
+					'x-ratelimit-limit': 5000,
 				};
+				throw error;
 			},
 		},
 	});
@@ -198,12 +200,12 @@ test.fails('github - API rate limit exceeded without token', async () => {
 		},
 		got: {
 			async get() {
-				throw {
-					statusCode: 403,
-					headers: {
-						'x-ratelimit-limit': 60,
-					},
+				const error = new Error('Rate limit exceeded');
+				error.statusCode = 403;
+				error.headers = {
+					'x-ratelimit-limit': 60,
 				};
+				throw error;
 			},
 		},
 	});
@@ -227,10 +229,9 @@ test.fails('github - API offline', async () => {
 		},
 		got: {
 			async get() {
-				throw {
-					message: 'getaddrinfo ENOTFOUND api.github.com api.github.com:443',
-					code: 'ENOTFOUND',
-				};
+				const error = new Error('getaddrinfo ENOTFOUND api.github.com api.github.com:443');
+				error.code = 'ENOTFOUND';
+				throw error;
 			},
 		},
 	});
