@@ -114,17 +114,16 @@
 		"vfile-reporter-pretty": "^7.0.0"
 	},
 	"devDependencies": {
-		"sinon": "^18.0.0",
+		"esmock": "^2.7.1",
 		"vitest": "^3.2.4",
 		"xo": "^0.58.0"
 	},
 	"xo": {
-		"rules": {
-		}
+		"rules": {}
 	},
-  	"vitest": {
-    	"exclude": [
-      	"test/integration.js"
-    	]
-  	}
+	"vitest": {
+		"exclude": [
+			"test/integration.js"
+		]
+	}
 }

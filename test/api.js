@@ -1,4 +1,5 @@
 import {test, expect} from 'vitest';
+import lint from './_lint.js';
 
 test('x', () => {
 	expect(true).toBe(true);
