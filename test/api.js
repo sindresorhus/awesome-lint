@@ -1,26 +1,22 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 
-test('x', t => {
-	t.pass();
+test('x', () => {
+	expect(true).toBe(true);
 });
 
-/// import lint from '..';
+test('main', async () => {
+	const result = await lint({filename: 'test/fixtures/main.md'});
+	expect(result.messages.length).toBeGreaterThan(0);
+});
 
-// Because of https://github.com/avajs/ava/issues/2041
-// TODO: Uncomment this when the issue is fixed
-// test('main', async t => {
-// 	t.true((await lint({filename: 'test/fixtures/main.md'})).messages.length > 0);
-// });
-//
-// test('`reporter` option', async t => {
-// 	let wasReporterCalled = false;
-// 	const reporter = reports => {
-// 		if (reports.length > 0) {
-// 			wasReporterCalled = true;
-// 		}
-// 	};
-//
-// 	await lint.report({filename: 'test/fixtures/main.md', reporter});
-//
-// 	t.true(wasReporterCalled);
-// });
+test('`reporter` option', async () => {
+	let wasReporterCalled = false;
+	const reporter = reports => {
+		if (reports.length > 0) {
+			wasReporterCalled = true;
+		}
+	};
+
+	await lint.report({filename: 'test/fixtures/main.md', reporter});
+	expect(wasReporterCalled).toBe(true);
+});

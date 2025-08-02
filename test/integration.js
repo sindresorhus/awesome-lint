@@ -1,44 +1,48 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import lint from '../index.js';
 import findReadmeFile from '../lib/find-readme-file.js';
 
 /**
 Verify there are no `VMessages` in the `VFile`, except for certain rule IDs.
 
-@param {import('ava').ExecutionContext} t - AVA test context.
 @param {VFile} vFile - `VFile` with a list of messages.
 @param {string[]} expectedRuleIds - Rule IDs for messages you expect to see.
 */
-function noUnwantedVMessages(t, vFile, expectedRuleIds) {
+function noUnwantedVMessages(vFile, expectedRuleIds) {
 	const seenRules = new Set(vFile.messages.map(vMessage => vMessage.ruleId));
-
-	t.deepEqual([...seenRules], expectedRuleIds, vFile.messages.join('\n'));
+	expect([...seenRules]).toEqual(expectedRuleIds);
 }
 
-test('awesome', async t => {
-	const [readme, codeOfConduct] = await lint({filename: findReadmeFile('test/canonical/awesome')});
+/** 🧪 Test: canonical awesome repo */
+test('awesome', async () => {
+	const [readme, codeOfConduct] = await lint({
+		filename: findReadmeFile('test/canonical/awesome'),
+	});
 
-	noUnwantedVMessages(t, readme, [
+	noUnwantedVMessages(readme, [
 		'match-punctuation',
 		'awesome-heading',
 	]);
 
-	noUnwantedVMessages(t, codeOfConduct, [
+	noUnwantedVMessages(codeOfConduct, [
 		'awesome-code-of-conduct',
 	]);
 });
 
-test('awesome-nodejs', async t => {
-	const [readme, codeOfConduct] = await lint({filename: findReadmeFile('test/canonical/awesome-nodejs')});
+/** 🧪 Test: awesome-nodejs repo */
+test('awesome-nodejs', async () => {
+	const [readme, codeOfConduct] = await lint({
+		filename: findReadmeFile('test/canonical/awesome-nodejs'),
+	});
 
-	noUnwantedVMessages(t, readme, [
+	noUnwantedVMessages(readme, [
 		'match-punctuation',
 		'double-link',
 		'awesome-heading',
 		'awesome-list-item',
 	]);
 
-	noUnwantedVMessages(t, codeOfConduct, [
+	noUnwantedVMessages(codeOfConduct, [
 		'awesome-code-of-conduct',
 	]);
 });

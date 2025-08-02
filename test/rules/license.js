@@ -1,18 +1,15 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
 import licenseRule from '../../rules/license.js';
 
 const config = {
-	plugins: [
-		remarkLint,
-		licenseRule,
-	],
+	plugins: [remarkLint, licenseRule],
 };
 
-test('licence - forbidden section', async t => {
+test('license - forbidden section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-license',
@@ -21,9 +18,9 @@ test('licence - forbidden section', async t => {
 	]);
 });
 
-test('license - forbidden empty section', async t => {
+test('license - forbidden empty section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error1.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-license',
@@ -32,9 +29,9 @@ test('license - forbidden empty section', async t => {
 	]);
 });
 
-test('license - forbidden last section', async t => {
+test('license - forbidden last section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error2.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-license',
@@ -43,9 +40,9 @@ test('license - forbidden last section', async t => {
 	]);
 });
 
-test('license - forbidden heading depth section', async t => {
+test('license - forbidden heading depth section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error3.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-license',
@@ -54,9 +51,9 @@ test('license - forbidden heading depth section', async t => {
 	]);
 });
 
-test('license - forbidden image section', async t => {
+test('license - forbidden image section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/error4.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-license',
@@ -65,7 +62,7 @@ test('license - forbidden image section', async t => {
 	]);
 });
 
-test('license - success', async t => {
+test('license - success', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/license/success0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });

@@ -1,4 +1,4 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import lint from '../_lint.js';
 
 const config = {
@@ -8,9 +8,9 @@ const config = {
 	],
 };
 
-test('code-of-conduct - invalid if empty', async t => {
+test('code-of-conduct - invalid if empty', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error0/readme.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: undefined,
 			ruleId: 'awesome-code-of-conduct',
@@ -19,9 +19,9 @@ test('code-of-conduct - invalid if empty', async t => {
 	]);
 });
 
-test.failing('code-of-conduct - invalid if has placeholder', async t => {
+test.fails('code-of-conduct - invalid if has placeholder', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error1/readme.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 58,
 			ruleId: 'awesome-code-of-conduct',
@@ -30,9 +30,9 @@ test.failing('code-of-conduct - invalid if has placeholder', async t => {
 	]);
 });
 
-test.failing('code-of-conduct - invalid if just copied', async t => {
+test.fails('code-of-conduct - invalid if just copied', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error2/readme.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 58,
 			ruleId: 'awesome-code-of-conduct',
@@ -41,27 +41,27 @@ test.failing('code-of-conduct - invalid if just copied', async t => {
 	]);
 });
 
-test('code-of-conduct - valid if missing', async t => {
+test('code-of-conduct - valid if missing', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/valid0/readme.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('code-of-conduct - valid if replaced', async t => {
+test('code-of-conduct - valid if replaced', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/valid1/readme.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('code-of-conduct - valid if is sindresorhus himself', async t => {
+test('code-of-conduct - valid if is sindresorhus himself', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/valid2/readme.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('code-of-conduct - valid with another file name', async t => {
+test('code-of-conduct - valid with another file name', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/valid3/readme.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('code-of-conduct - valid with another folder', async t => {
+test('code-of-conduct - valid with another folder', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/valid4/readme.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });

@@ -1,4 +1,4 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
 import badgeRule from '../../rules/badge.js';
@@ -10,9 +10,9 @@ const config = {
 	],
 };
 
-test('badge - missing', async t => {
+test('badge - missing', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
@@ -21,9 +21,9 @@ test('badge - missing', async t => {
 	]);
 });
 
-test('badge - incorrect source', async t => {
+test('badge - incorrect source', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error1.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
@@ -32,9 +32,9 @@ test('badge - incorrect source', async t => {
 	]);
 });
 
-test('badge - incorrect source raw git', async t => {
+test('badge - incorrect source raw git', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/error2.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-badge',
@@ -43,17 +43,17 @@ test('badge - incorrect source raw git', async t => {
 	]);
 });
 
-test('badge - success (short)', async t => {
+test('badge - success (short)', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/success0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('badge - success (long)', async t => {
+test('badge - success (long)', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/success1.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('badge - success (new badge)', async t => {
+test('badge - success (new badge)', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/badge/success2.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });

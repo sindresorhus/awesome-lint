@@ -1,36 +1,33 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
 import listItemRule from '../../rules/list-item.js';
 
 const config = {
-	plugins: [
-		remarkLint,
-		listItemRule,
-	],
+	plugins: [remarkLint, listItemRule],
 };
 
-test('list-item - valid', async t => {
+test('list-item - valid', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('list-item - invalid', async t => {
+test('list-item - invalid', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/1.md'});
-	t.snapshot(messages);
+	expect(messages).toMatchSnapshot();
 });
 
-test('list-item - valid ignoring Contents section', async t => {
+test('list-item - valid ignoring Contents section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/2.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('list-item - invalid sublist punctuation', async t => {
+test('list-item - invalid sublist punctuation', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/3.md'});
-	t.snapshot(messages);
+	expect(messages).toMatchSnapshot();
 });
 
-test('list-item - disable, enable, and ignore comments', async t => {
+test('list-item - disable, enable, and ignore comments', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/list-item/4.md'});
-	t.snapshot(messages);
+	expect(messages).toMatchSnapshot();
 });

@@ -1,33 +1,31 @@
 import process from 'node:process';
-import test from 'ava';
+import {
+	test, expect, beforeEach, afterEach,
+} from 'vitest';
 import sinon from 'sinon';
 import lint from '../_lint.js';
 import github from '../../rules/github.js';
 
 const config = {
-	plugins: [
-		github,
-	],
+	plugins: [github],
 };
 
 let sandbox;
 
-test.beforeEach(() => {
+beforeEach(() => {
 	sandbox = sinon.createSandbox();
 });
 
-test.afterEach.always(() => {
+afterEach(() => {
 	sandbox.restore();
 });
 
-test.serial.failing('github - error invalid git repo', async t => {
+test.fails('github - error invalid git repo', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
-
-	execaStub
-		.throws(new Error('"git" command not found'));
+	execaStub.throws(new Error('"git" command not found'));
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -36,7 +34,7 @@ test.serial.failing('github - error invalid git repo', async t => {
 	]);
 });
 
-test.serial.failing('github - repo without description and license', async t => {
+test.fails('github - repo without description and license', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -55,12 +53,13 @@ test.serial.failing('github - repo without description and license', async t => 
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
 			message: 'The repository should have a description',
-		}, {
+		},
+		{
 			line: null,
 			ruleId: 'awesome-github',
 			message: 'License was not detected by GitHub',
@@ -68,7 +67,7 @@ test.serial.failing('github - repo without description and license', async t => 
 	]);
 });
 
-test.serial.failing('github - missing topic awesome-list', async t => {
+test.fails('github - missing topic awesome-list', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -82,14 +81,12 @@ test.serial.failing('github - missing topic awesome-list', async t => {
 			body: {
 				description: 'Awesome lint',
 				topics: ['awesome'],
-				license: {
-					key: 'mit',
-				},
+				license: {key: 'mit'},
 			},
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -98,7 +95,7 @@ test.serial.failing('github - missing topic awesome-list', async t => {
 	]);
 });
 
-test.serial.failing('github - missing topic awesome', async t => {
+test.fails('github - missing topic awesome', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -112,14 +109,12 @@ test.serial.failing('github - missing topic awesome', async t => {
 			body: {
 				description: 'Awesome lint',
 				topics: ['awesome-list'],
-				license: {
-					key: 'mit',
-				},
+				license: {key: 'mit'},
 			},
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -128,7 +123,7 @@ test.serial.failing('github - missing topic awesome', async t => {
 	]);
 });
 
-test.serial.failing('github - remote origin is an GitLab repo', async t => {
+test.fails('github - remote origin is a GitLab repo', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 
 	execaStub
@@ -136,7 +131,7 @@ test.serial.failing('github - remote origin is an GitLab repo', async t => {
 		.returns('https://gitlab.com/sindresorhus/awesome-lint-test.git');
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -145,7 +140,7 @@ test.serial.failing('github - remote origin is an GitLab repo', async t => {
 	]);
 });
 
-test.serial.failing('github - invalid token', async t => {
+test.fails('github - invalid token', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -155,12 +150,10 @@ test.serial.failing('github - invalid token', async t => {
 
 	gotStub
 		.withArgs('https://api.github.com/repos/sindresorhus/awesome-lint-test')
-		.rejects({
-			statusCode: 401,
-		});
+		.rejects({statusCode: 401});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -169,10 +162,9 @@ test.serial.failing('github - invalid token', async t => {
 	]);
 });
 
-test.serial.failing('github - API rate limit exceeded with token', async t => {
+test.fails('github - API rate limit exceeded with token', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
-	// eslint-disable-next-line camelcase
 	process.env.github_token = 'abcd';
 
 	execaStub
@@ -189,7 +181,7 @@ test.serial.failing('github - API rate limit exceeded with token', async t => {
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -200,7 +192,7 @@ test.serial.failing('github - API rate limit exceeded with token', async t => {
 	delete process.env.github_token;
 });
 
-test.serial.failing('github - API rate limit exceeded without token', async t => {
+test.fails('github - API rate limit exceeded without token', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -218,7 +210,7 @@ test.serial.failing('github - API rate limit exceeded without token', async t =>
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',
@@ -227,7 +219,7 @@ test.serial.failing('github - API rate limit exceeded without token', async t =>
 	]);
 });
 
-test.serial.failing('github - API offline', async t => {
+test.fails('github - API offline', async () => {
 	const execaStub = sandbox.stub(github.execa, 'stdout');
 	const gotStub = sandbox.stub(github.got, 'get');
 
@@ -243,7 +235,7 @@ test.serial.failing('github - API offline', async t => {
 		});
 
 	const messages = await lint({config, filename: 'test/fixtures/github/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-github',

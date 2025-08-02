@@ -150,13 +150,15 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			if (subList) {
 				if (depth < maxListItemDepth) {
 					const nextHeading = headings[index + 1];
-					const subHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
-						type: 'heading',
-						depth: depth + 3,
-					}) : findAllAfter(ast, heading, {
-						type: 'heading',
-						depth: depth + 3,
-					});
+					const subHeadings = nextHeading
+						? findAllBetween(ast, heading, nextHeading, {
+							type: 'heading',
+							depth: depth + 3,
+						})
+						: findAllAfter(ast, heading, {
+							type: 'heading',
+							depth: depth + 3,
+						});
 
 					validateListItems({
 						ast,

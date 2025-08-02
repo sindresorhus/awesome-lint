@@ -1,28 +1,25 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
 import tocPlugin from '../../rules/toc.js';
 
 const config = {
-	plugins: [
-		remarkLint,
-		tocPlugin,
-	],
+	plugins: [remarkLint, tocPlugin],
 };
 
-test('toc - success basic', async t => {
+test('toc - success basic', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('toc - success sub-lists', async t => {
+test('toc - success sub-lists', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/1.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('toc - missing', async t => {
+test('toc - missing', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/2.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-toc',
@@ -31,9 +28,9 @@ test('toc - missing', async t => {
 	]);
 });
 
-test('toc - missing items', async t => {
+test('toc - missing items', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/3.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 6,
 			ruleId: 'awesome-toc',
@@ -52,9 +49,9 @@ test('toc - missing items', async t => {
 	]);
 });
 
-test('toc - exceed max depth', async t => {
+test('toc - exceed max depth', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/4.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-toc',
@@ -63,12 +60,12 @@ test('toc - exceed max depth', async t => {
 	]);
 });
 
-test('toc - success ignore contributing section', async t => {
+test('toc - success ignore contributing section', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/5.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('toc - success html intro', async t => {
+test('toc - success html intro', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/6.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });

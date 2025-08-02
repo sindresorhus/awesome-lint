@@ -1,18 +1,15 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
 import headingRule from '../../rules/heading.js';
 
 const config = {
-	plugins: [
-		remarkLint,
-		headingRule,
-	],
+	plugins: [remarkLint, headingRule],
 };
 
-test('heading - missing', async t => {
+test('heading - missing', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/error0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
@@ -21,9 +18,9 @@ test('heading - missing', async t => {
 	]);
 });
 
-test('heading - not in title case', async t => {
+test('heading - not in title case', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/error1.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
@@ -32,9 +29,9 @@ test('heading - not in title case', async t => {
 	]);
 });
 
-test('heading - more than one heading', async t => {
+test('heading - more than one heading', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/error2.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 3,
 			ruleId: 'awesome-heading',
@@ -43,9 +40,9 @@ test('heading - more than one heading', async t => {
 	]);
 });
 
-test('heading - depth is bigger than 1', async t => {
+test('heading - depth is bigger than 1', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/error3.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: 1,
 			ruleId: 'awesome-heading',
@@ -54,12 +51,12 @@ test('heading - depth is bigger than 1', async t => {
 	]);
 });
 
-test('heading - success', async t => {
+test('heading - success', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/success0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
 
-test('heading - success (with acronyms)', async t => {
+test('heading - success (with acronyms)', async () => {
 	const messages = await lint({config, filename: 'test/fixtures/heading/success1.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });

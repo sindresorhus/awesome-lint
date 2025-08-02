@@ -1,41 +1,40 @@
-import test from 'ava';
+import {
+	test, expect, beforeEach, afterEach,
+} from 'vitest';
 import sinon from 'sinon';
 import lint from '../_lint.js';
 import gitRepoAge from '../../rules/git-repo-age.js';
 
 const config = {
-	plugins: [
-		gitRepoAge,
-	],
+	plugins: [gitRepoAge],
 };
 
 let sandbox;
 
-test.beforeEach(() => {
+beforeEach(() => {
 	sandbox = sinon.createSandbox();
 });
 
-test.afterEach.always(() => {
+afterEach(() => {
 	sandbox.restore();
 });
 
-test.serial.failing('git-repo-age - error invalid git repo', async t => {
+test.fails('git-repo-age - error invalid git repo', async () => {
 	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
-
-	execaStub
-		.throws(new Error('"git" command not found'));
+	execaStub.throws(new Error('"git" command not found'));
 
 	const messages = await lint({config, filename: 'test/fixtures/git-repo-age/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-git-repo-age',
-			message: 'Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)',
+			message:
+        'Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)',
 		},
 	]);
 });
 
-test.serial.failing('git-repo-age - error repo is not old enough', async t => {
+test.fails('git-repo-age - error repo is not old enough', async () => {
 	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
 
 	execaStub
@@ -47,7 +46,7 @@ test.serial.failing('git-repo-age - error repo is not old enough', async t => {
 		.returns('2030-08-01 12:55:53 +0200');
 
 	const messages = await lint({config, filename: 'test/fixtures/git-repo-age/0.md'});
-	t.deepEqual(messages, [
+	expect(messages).toEqual([
 		{
 			line: null,
 			ruleId: 'awesome-git-repo-age',
@@ -56,7 +55,7 @@ test.serial.failing('git-repo-age - error repo is not old enough', async t => {
 	]);
 });
 
-test.serial.failing('git-repo-age - valid repo is old enough', async t => {
+test.fails('git-repo-age - valid repo is old enough', async () => {
 	const execaStub = sandbox.stub(gitRepoAge.execa, 'stdout');
 
 	execaStub
@@ -68,5 +67,5 @@ test.serial.failing('git-repo-age - valid repo is old enough', async t => {
 		.returns('2016-08-01 12:55:53 +0200');
 
 	const messages = await lint({config, filename: 'test/fixtures/git-repo-age/0.md'});
-	t.deepEqual(messages, []);
+	expect(messages).toEqual([]);
 });
