@@ -82,3 +82,13 @@ test('toc - success ignore contributing and footnote subsections', async t => {
 	const messages = await lint({config, filename: 'test/fixtures/toc/8.md'});
 	t.deepEqual(messages, []);
 });
+
+test('toc - success ignore related lists section', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/toc/9.md'});
+	t.deepEqual(messages, []);
+});
+
+test('toc - success ignore related lists subsections', async t => {
+	const messages = await lint({config, filename: 'test/fixtures/toc/10.md'});
+	t.deepEqual(messages, []);
+});

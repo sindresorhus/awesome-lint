@@ -14,6 +14,7 @@ const maxListItemDepth = 1;
 const sectionHeadingDenylist = new Set([
 	'Contributing',
 	'Footnotes',
+	'Related Lists',
 ]);
 
 const tocRule = lintRule('remark-lint:awesome-toc', (ast, file) => {
