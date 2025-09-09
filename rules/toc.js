@@ -92,6 +92,23 @@ function buildHeadingLinks(ast) {
 	return links;
 }
 
+function isHeadingUnderDeniedSection(ast, heading) {
+	// Find all level 2 headings before this heading
+	const level2HeadingsBefore = findAllBefore(ast, heading, {
+		type: 'heading',
+		depth: 2,
+	});
+
+	// Get the most recent (last) level 2 heading - this is the parent section
+	const parentSection = level2HeadingsBefore.at(-1);
+	if (parentSection) {
+		const parentText = toString(parentSection);
+		return sectionHeadingDenylist.has(parentText);
+	}
+
+	return false;
+}
+
 function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 	let index = 0;
 
@@ -150,13 +167,18 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			if (subList) {
 				if (depth < maxListItemDepth) {
 					const nextHeading = headings[index + 1];
-					const subHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
+					const allSubHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
 						type: 'heading',
 						depth: depth + 3,
 					}) : findAllAfter(ast, heading, {
 						type: 'heading',
 						depth: depth + 3,
 					});
+
+					// Filter out subheadings that are under denied sections
+					const subHeadings = allSubHeadings.filter(subHeading =>
+						!isHeadingUnderDeniedSection(ast, subHeading),
+					);
 
 					validateListItems({
 						ast,
