@@ -14,7 +14,7 @@ const wordBreakCharacterAllowList = new Set([
 function compilePattern(pattern) {
 	if (typeof pattern === 'string') {
 		// Simple string - create case-insensitive word boundary regex
-		return new RegExp(`\\b${pattern.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+		return new RegExp(`\\b${pattern.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)}\\b`, 'gi');
 	}
 
 	// Already a regex - compile it fresh

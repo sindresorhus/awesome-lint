@@ -168,18 +168,19 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 			if (subList) {
 				if (depth < maxListItemDepth) {
 					const nextHeading = headings[index + 1];
-					const allSubHeadings = nextHeading ? findAllBetween(ast, heading, nextHeading, {
-						type: 'heading',
-						depth: depth + 3,
-					}) : findAllAfter(ast, heading, {
-						type: 'heading',
-						depth: depth + 3,
-					});
+					const allSubHeadings = nextHeading
+						? findAllBetween(ast, heading, nextHeading, {
+							type: 'heading',
+							depth: depth + 3,
+						})
+						: findAllAfter(ast, heading, {
+							type: 'heading',
+							depth: depth + 3,
+						});
 
 					// Filter out subheadings that are under denied sections
 					const subHeadings = allSubHeadings.filter(subHeading =>
-						!isHeadingUnderDeniedSection(ast, subHeading),
-					);
+						!isHeadingUnderDeniedSection(ast, subHeading));
 
 					validateListItems({
 						ast,

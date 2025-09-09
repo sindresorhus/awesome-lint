@@ -14,7 +14,6 @@ import headingStyle from 'remark-lint-heading-style';
 import linkTitleStyle from 'remark-lint-link-title-style';
 import listItemBulletIndent from 'remark-lint-list-item-bullet-indent';
 import listItemIndent from 'remark-lint-list-item-indent';
-import noAutoLinkWithoutProtocol from 'remark-lint-no-auto-link-without-protocol';
 import noBlockquoteWithoutMarker from 'remark-lint-no-blockquote-without-marker';
 import noEmphasisAsHeading from 'remark-lint-no-emphasis-as-heading';
 import noFileNameArticles from 'remark-lint-no-file-name-articles';
@@ -25,7 +24,6 @@ import noFileNameOuterDashes from 'remark-lint-no-file-name-outer-dashes';
 import noHeadingContentIndent from 'remark-lint-no-heading-content-indent';
 import noHeadingIndent from 'remark-lint-no-heading-indent';
 import noHeadingPunctuation from 'remark-lint-no-heading-punctuation';
-import noInlinePadding from 'remark-lint-no-inline-padding';
 import noMultipleToplevelHeadings from 'remark-lint-no-multiple-toplevel-headings';
 import noShellDollars from 'remark-lint-no-shell-dollars';
 import noTableIndentation from 'remark-lint-no-table-indentation';
@@ -67,7 +65,6 @@ const plugins = [
 	// require('remark-lint-list-item-content-indent'),
 	listItemBulletIndent,
 	[listItemIndent, 'one'],
-	noAutoLinkWithoutProtocol,
 	noBlockquoteWithoutMarker,
 	noEmphasisAsHeading,
 	noFileNameArticles,
@@ -78,7 +75,6 @@ const plugins = [
 	noHeadingContentIndent,
 	noHeadingIndent,
 	noHeadingPunctuation,
-	noInlinePadding,
 	[noMultipleToplevelHeadings, 1],
 	noShellDollars,
 	noTableIndentation,
