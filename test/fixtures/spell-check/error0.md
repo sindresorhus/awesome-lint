@@ -50,3 +50,54 @@ Test spell-check on basic text nodes.
 - Git Lab is cool but GitLab is cooler
 - gitlab is cool but GitLab is cooler
 - git lab is cool but GitLab is cooler
+
+- typescript is cool but TypeScript is cooler
+- Typescript is cool but TypeScript is cooler
+- TypeScript is already correct
+
+- vuejs is cool but Vue.js is cooler
+- vue.js is cool but Vue.js is cooler
+- VueJS is cool but Vue.js is cooler
+
+- postgres is cool but PostgreSQL is cooler
+- postgresql is cool but PostgreSQL is cooler
+- Postgres is cool but PostgreSQL is cooler
+
+- mysql is cool but MySQL is cooler
+- MySql is cool but MySQL is cooler
+- MYSQL is cool but MySQL is cooler
+
+- mongodb is cool but MongoDB is cooler
+- mongo db is cool but MongoDB is cooler
+- MongoDb is cool but MongoDB is cooler
+
+- docker is cool but Docker is cooler
+- DOCKER is cool but Docker is cooler
+
+- kubernetes is cool but Kubernetes is cooler
+- k8s should map to Kubernetes
+- KUBERNETES is cool but Kubernetes is cooler
+
+- webassembly is cool but WebAssembly is cooler
+- web assembly is cool but WebAssembly is cooler
+- wasm should map to WebAssembly
+- WASM should map to WebAssembly
+
+- graphql is cool but GraphQL is cooler
+- graph ql is cool but GraphQL is cooler
+- GraphQl is cool but GraphQL is cooler
+
+- ffmpeg is cool but FFmpeg is cooler
+
+- react is popular but React is correct
+- angular framework but Angular is correct  
+- python language but Python is correct
+- docker containers but Docker is correct
+- kubernetes orchestration but Kubernetes is correct
+- tensorflow for ML but TensorFlow is correct
+- pytorch for deep learning but PyTorch is correct
+- vscode editor but VSCode is correct
+- linux operating system but Linux is correct
+- redis database but Redis is correct
+- jest testing framework but Jest is correct
+- webpack bundler but Webpack is correct
