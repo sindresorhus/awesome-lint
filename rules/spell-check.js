@@ -8,6 +8,7 @@ import spellCheckRules from '../lib/spell-check-rules.js';
 const wordBreakCharacterAllowList = new Set([
 	'-',
 	'_', // Allow underscores for package names like awesome_package
+	'.', // Allow dots for names like .NET
 ]);
 
 // Convert string/regex patterns to compiled regexes

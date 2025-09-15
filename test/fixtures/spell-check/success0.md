@@ -140,3 +140,10 @@ You might also like [awesome-nodejs](https://github.com/sindresorhus/awesome-nod
 - Code examples: `docker run` and `kubectl apply` should not trigger errors
 - Package names: awesome_typescript, vue_components, react_hooks should not trigger errors
 - URLs: https://react.dev, https://angular.io, https://python.org should not trigger errors
+
+## .NET
+
+[.NET](https://dotnet.microsoft.com) - .NET framework
+- Using .NET Core
+- Building with .NET 8
+- The .NET ecosystem

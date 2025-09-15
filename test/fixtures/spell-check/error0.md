@@ -101,3 +101,7 @@ Test spell-check on basic text nodes.
 - redis database but Redis is correct
 - jest testing framework but Jest is correct
 - webpack bundler but Webpack is correct
+
+- net framework should be .NET
+- Using NET Core should be .NET Core
+- Building with net 8 should be .NET 8
