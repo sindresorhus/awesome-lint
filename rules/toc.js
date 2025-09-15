@@ -30,7 +30,7 @@ const tocRule = lintRule('remark-lint:awesome-toc', (ast, file) => {
 	));
 
 	if (!toc) {
-		file.message('Missing or invalid Table of Contents', ast);
+		// Table of Contents is now optional - don't report an error if missing
 		return;
 	}
 

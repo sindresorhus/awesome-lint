@@ -22,15 +22,15 @@ describe('rules › toc', () => {
 		assert.deepEqual(messages, []);
 	});
 
-	it('toc - missing', async () => {
+	it('toc - optional (no ToC present)', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/toc/11.md'});
+		assert.deepEqual(messages, []);
+	});
+
+	it('toc - invalid heading text (not "Contents")', async () => {
 		const messages = await lint({config, filename: 'test/fixtures/toc/2.md'});
-		assert.deepEqual(messages, [
-			{
-				line: 1,
-				ruleId: 'awesome-toc',
-				message: 'Missing or invalid Table of Contents',
-			},
-		]);
+		// Should pass without errors now since ToC is optional
+		assert.deepEqual(messages, []);
 	});
 
 	it('toc - missing items', async () => {
