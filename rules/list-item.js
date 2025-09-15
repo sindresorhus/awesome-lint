@@ -109,10 +109,26 @@ function validateList(list, file) {
 		let [link, ...description] = paragraph.children;
 
 		// Might have children like: '{image} {text} {link} { - description}'
-		// Keep discarding prefix elements until we find something link-like.
-		while (link.type !== 'linkReference' && link.type !== 'link' && description.length > 1) {
-			link = description[0];
-			description = description.slice(1);
+		// Find the link that is followed by a dash separator, not just any link-like element.
+		const isLink = node => node.type === 'linkReference' || node.type === 'link';
+		const isFollowedByDash = index =>
+			index < paragraph.children.length - 1
+			&& paragraph.children[index + 1].type === 'text'
+			&& paragraph.children[index + 1].value?.startsWith(' - ');
+
+		// First, try to find a link followed by dash separator
+		let linkIndex = paragraph.children.findIndex((node, index) =>
+			isLink(node) && isFollowedByDash(index));
+
+		// If no link with dash separator found, use original algorithm (first link-like element)
+		if (linkIndex === -1) {
+			linkIndex = paragraph.children.findIndex(node => isLink(node));
+		}
+
+		// If we found a valid link, use it; otherwise keep the original first element
+		if (linkIndex > 0) {
+			link = paragraph.children[linkIndex];
+			description = paragraph.children.slice(linkIndex + 1);
 		}
 
 		if (!validateListItemLink(link, file)) {

@@ -23,7 +23,7 @@ describe('rules › toc', () => {
 	});
 
 	it('toc - optional (no ToC present)', async () => {
-		const messages = await lint({config, filename: 'test/fixtures/toc/11.md'});
+		const messages = await lint({config, filename: 'test/fixtures/list-item/5.md'});
 		assert.deepEqual(messages, []);
 	});
 

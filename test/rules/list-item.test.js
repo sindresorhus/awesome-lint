@@ -45,4 +45,9 @@ describe('rules › list-item', () => {
 		console.log('list-item disable/enable/ignore comments messages:', messages);
 		assert.ok(Array.isArray(messages));
 	});
+
+	it('list-item - multiple badges before link', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/5.md'});
+		assert.deepEqual(messages, []);
+	});
 });
