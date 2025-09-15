@@ -126,7 +126,7 @@ function validateList(list, file) {
 		}
 
 		// If we found a valid link, use it; otherwise keep the original first element
-		if (linkIndex > 0) {
+		if (linkIndex >= 0) {
 			link = paragraph.children[linkIndex];
 			description = paragraph.children.slice(linkIndex + 1);
 		}

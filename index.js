@@ -29,6 +29,7 @@ const lint = options => {
 
 	const readmeVFile = readVFileSync(path.resolve(readmeFile));
 	const {dirname} = readmeVFile;
+	readmeVFile.repoURL = options.repoURL; // Pass repoURL to all rules
 	const processTasks = [{
 		vfile: readmeVFile,
 		plugins: options.config,

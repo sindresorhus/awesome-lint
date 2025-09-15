@@ -1,13 +1,56 @@
+import process from 'node:process';
 import {execa} from 'execa';
 import {lintRule} from 'unified-lint-rule';
+import gh from 'github-url-to-object';
 
 const oneDay = 24 * 60 * 60 * 1000;
 const minGitRepoAgeDays = 30;
 const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
 
 const gitRepoAgeRule = lintRule('remark-lint:awesome-git-repo-age', async (ast, file) => {
-	const {dirname} = file;
+	const {dirname, repoURL} = file;
 
+	// If we have a repoURL, use GitHub API to check repo age
+	if (repoURL) {
+		try {
+			const githubUrls = gh(repoURL);
+			if (!githubUrls) {
+				file.message('Repository should be on GitHub');
+				return;
+			}
+
+			const headers = {
+				Accept: 'application/vnd.github.v3+json',
+				'User-Agent': 'awesome-lint',
+			};
+			if (process.env.github_token) {
+				headers.Authorization = `token ${process.env.github_token}`;
+			}
+
+			const response = await fetch(githubUrls.api_url, {headers});
+			if (!response.ok) {
+				return;
+			}
+
+			const data = await response.json();
+			if (!data.created_at) {
+				return;
+			}
+
+			const createdAt = new Date(data.created_at);
+			const now = new Date();
+
+			if (now - createdAt < minGitRepoAgeMs) {
+				file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
+			}
+		} catch {
+			// Silently ignore API errors for remote repos
+		}
+
+		return;
+	}
+
+	// For local repos, use git commands
 	try {
 		const {stdout: firstCommitHash} = await execa('git', [
 			'rev-list',
