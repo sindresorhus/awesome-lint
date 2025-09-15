@@ -8,6 +8,7 @@ import listItem from './list-item.js';
 import noCiBadge from './no-ci-badge.js';
 import spellCheck from './spell-check.js';
 import toc from './toc.js';
+import doubleLink from './double-link.js';
 
 const rules = [
 	heading,
@@ -23,6 +24,7 @@ const rules = [
 	noCiBadge,
 	spellCheck,
 	toc,
+	doubleLink,
 ];
 
 export default rules;

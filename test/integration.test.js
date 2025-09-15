@@ -35,10 +35,10 @@ describe('integration', () => {
 
 		noUnwantedVMessages(readme, [
 			'match-punctuation',
-			'double-link',
 			'awesome-heading',
 			'awesome-list-item',
 			'awesome-spell-check',
+			'double-link',
 		]);
 
 		noUnwantedVMessages(codeOfConduct, [

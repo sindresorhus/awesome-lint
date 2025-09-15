@@ -113,38 +113,6 @@ jobs:
 
 You may add [branch protection rules](https://docs.github.com/en/github/administering-a-repository/configuring-protected-branches) to prevent merging branches not passing `awesome-lint`.
 
-#### Travis
-
-Add it as a `test` script in package.json and activate Travis CI to lint on new commits and pull requests.
-
-**Note:** [Travis CI only clones repositories to a maximum of 50 commits by default](https://docs.travis-ci.com/user/customizing-the-build/#git-clone-depth), which may result in a false positive of `awesome/git-repo-age`, and so you should set `depth` to `false` in `.travis.yml` if needed.
-
-**Note:** Avoid rate limit problems on Travis CI by defining a [GitHub personal access token](https://github.com/settings/tokens/new) in an environment variable named `github_token`. See [defining variables in repository settings](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings).
-
-###### package.json
-
-```json
-{
-	"scripts": {
-		"test": "awesome-lint"
-	},
-	"devDependencies": {
-		"awesome-lint": "*"
-	}
-}
-```
-
-###### .travis.yml
-
-```
-language: node_js
-node_js:
-  - 'node'
-# git:
-#   depth: false
-```
-
-
 ## API
 
 ### Install
@@ -158,15 +126,51 @@ npm install awesome-lint
 ```js
 import awesomeLint from 'awesome-lint';
 
-awesomeLint.report();
+// Lint the current directory's readme.md
+await awesomeLint.report();
+
+// Lint a specific file
+await awesomeLint.report({filename: 'my-awesome-list.md'});
+
+// Lint a GitHub repository
+await awesomeLint.report({filename: 'https://github.com/sindresorhus/awesome'});
+
+// Get raw results without console output
+const files = await awesomeLint();
 ```
 
-### Docs
+### API
 
-#### awesomeLint()
+#### awesomeLint(options?)
 
-Returns a `Promise` for a list of [`VFile`](https://github.com/vfile/vfile) objects.
+Returns a `Promise` for an array of [`VFile`](https://github.com/vfile/vfile) objects containing lint results.
 
-#### awesomeLint.report()
+##### options
 
-Show the lint output. This can be custom reported by setting `options.reporter=<function>` and passing in `options` as a parameter.
+Type: `object`
+
+###### filename
+
+Type: `string`
+Default: `'readme.md'`
+
+Path to the file to lint, or a GitHub repository URL.
+
+###### config
+
+Type: `Array`
+Default: `config` (from `config.js`)
+
+Custom remark plugins configuration.
+
+#### awesomeLint.report(options?)
+
+Lint and display results to the console. Returns a `Promise` that resolves when linting is complete.
+
+Takes the same options as `awesomeLint()`, plus:
+
+##### options.reporter
+
+Type: `Function`
+
+Custom reporter function to format the output.

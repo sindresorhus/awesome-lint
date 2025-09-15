@@ -41,7 +41,6 @@ import tablePipes from 'remark-lint-table-pipes';
 import unorderedListMarkerStyle from 'remark-lint-unordered-list-marker-style';
 import matchPunctuation from 'remark-lint-match-punctuation';
 import noRepeatPunctuation from 'remark-lint-no-repeat-punctuation';
-import doubleLink from 'remark-lint-double-link';
 import customRules from './rules/index.js';
 
 const plugins = [
@@ -97,7 +96,6 @@ const plugins = [
 
 	matchPunctuation,
 	noRepeatPunctuation,
-	doubleLink,
 
 	// Custom plugins
 	...customRules,
