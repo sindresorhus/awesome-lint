@@ -10,21 +10,39 @@ import spellCheck from './spell-check.js';
 import toc from './toc.js';
 import doubleLink from './double-link.js';
 
-const rules = [
-	heading,
-	badge,
-	contributing,
+// Factory function to create rules with project website configuration
+const createRules = (options = {}) => {
+	const {projectWebsite} = options;
+	const ignoreUrls = [];
 
-	// Disabled for now as it means we cannot sparsely check out the repo.
-	// gitRepoAge,
+	// Add project website to ignore list if available
+	if (projectWebsite) {
+		ignoreUrls.push(projectWebsite);
+	}
 
-	github,
-	license,
-	listItem,
-	noCiBadge,
-	spellCheck,
-	toc,
-	doubleLink,
-];
+	const rules = [
+		heading,
+		badge,
+		contributing,
+
+		// Disabled for now as it means we cannot sparsely check out the repo.
+		// gitRepoAge,
+
+		github,
+		license,
+		listItem,
+		noCiBadge,
+		spellCheck,
+		toc,
+		// Configure double-link to ignore project website URLs
+		ignoreUrls.length > 0 ? [doubleLink, {ignore: ignoreUrls}] : doubleLink,
+	];
+
+	return rules;
+};
+
+// Default rules for backward compatibility
+const rules = createRules();
 
 export default rules;
+export {createRules};

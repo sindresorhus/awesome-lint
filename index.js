@@ -11,20 +11,29 @@ import {readSync as readVFileSync} from 'to-vfile';
 import vfileReporterPretty from 'vfile-reporter-pretty';
 import {execa} from 'execa';
 import config from './config.js';
+import {createRules} from './rules/index.js';
+import {fetchGitHubData} from './lib/github-api.js';
 import findReadmeFile from './lib/find-readme-file.js';
 import codeOfConductRule from './rules/code-of-conduct.js';
 
-const lint = options => {
+const lint = async options => {
+	// Fetch project website if repoURL is provided
+	let projectWebsite;
+	if (options.repoURL && !options.config) {
+		const data = await fetchGitHubData(options.repoURL);
+		projectWebsite = data?.homepage;
+	}
+
 	options = {
 		...options,
-		config: options.config ?? config,
+		config: options.config ?? (options.repoURL ? createRules({repoURL: options.repoURL, projectWebsite}) : config),
 		filename: options.filename ?? 'readme.md',
 	};
 
 	const readmeFile = globbySync(options.filename.replaceAll('\\', '/'), {caseSensitiveMatch: false})[0];
 
 	if (!readmeFile) {
-		return Promise.reject(new Error(`Couldn't find the file ${options.filename}`));
+		throw new Error(`Couldn't find the file ${options.filename}`);
 	}
 
 	const readmeVFile = readVFileSync(path.resolve(readmeFile));

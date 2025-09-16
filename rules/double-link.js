@@ -4,8 +4,29 @@ import {visit} from 'unist-util-visit';
 
 // TODO(sindresorhus): I plan to extract this to a package at some point.
 
-const doubleLinkRule = lintRule('remark-lint:double-link', (ast, file) => {
+const doubleLinkRule = lintRule('remark-lint:double-link', (ast, file, options = {}) => {
 	const linkNodes = new Map();
+	const ignoreUrls = options.ignore || [];
+
+	const normalizeUrlOptions = {
+		removeDirectoryIndex: [/^index\.[a-z]+$/],
+		stripHash: false, // Keep hash fragments for uniqueness
+		stripProtocol: true,
+	};
+
+	const normalizeUrlSafely = url => {
+		if (url.startsWith('#')) {
+			// Anchor links - use as-is
+			return url;
+		}
+
+		try {
+			return normalizeUrl(url, normalizeUrlOptions);
+		} catch {
+			// If normalization fails, use original URL
+			return url;
+		}
+	};
 
 	visit(ast, 'link', node => {
 		const {url} = node;
@@ -14,23 +35,20 @@ const doubleLinkRule = lintRule('remark-lint:double-link', (ast, file) => {
 			return;
 		}
 
-		// Normalize URL for comparison, but preserve hash fragments for uniqueness
-		let normalizedUrl;
-		if (url.startsWith('#')) {
-			// Anchor links - use as-is
-			normalizedUrl = url;
-		} else {
-			// External URLs - normalize but keep hash fragments
+		const normalizedUrl = normalizeUrlSafely(url);
+
+		// Check if this URL should be ignored
+		const shouldIgnore = ignoreUrls.some(ignoreUrl => {
 			try {
-				normalizedUrl = normalizeUrl(url, {
-					removeDirectoryIndex: [/^index\.[a-z]+$/],
-					stripHash: false, // Keep hash fragments for uniqueness
-					stripProtocol: true,
-				});
+				const normalizedIgnoreUrl = normalizeUrl(ignoreUrl, normalizeUrlOptions);
+				return normalizedUrl === normalizedIgnoreUrl;
 			} catch {
-				// If normalization fails, use original URL
-				normalizedUrl = url;
+				return url === ignoreUrl;
 			}
+		});
+
+		if (shouldIgnore) {
+			return;
 		}
 
 		if (linkNodes.has(normalizedUrl)) {

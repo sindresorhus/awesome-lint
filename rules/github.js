@@ -1,19 +1,15 @@
-import process from 'node:process';
 import {execa} from 'execa';
 import gh from 'github-url-to-object';
 import {lintRule} from 'unified-lint-rule';
+import {fetchGitHubData} from '../lib/github-api.js';
 
 const githubRule = lintRule('remark-lint:awesome-github', async (ast, file) => {
 	const {dirname, repoURL} = file;
-	let githubUrls;
 
-	// If we have a repoURL, use it directly
+	// Get the repository URL to fetch from GitHub API
+	let targetRepoURL;
 	if (repoURL) {
-		githubUrls = gh(repoURL);
-		if (!githubUrls) {
-			file.message('Repository should be on GitHub');
-			return;
-		}
+		targetRepoURL = repoURL;
 	} else {
 		// For local repos, get the remote URL from git
 		try {
@@ -36,36 +32,22 @@ const githubRule = lintRule('remark-lint:awesome-github', async (ast, file) => {
 			}
 
 			const {stdout: remoteUrl} = await execa('git', ['remote', 'get-url', '--push', remoteName], {cwd: dirname});
-			githubUrls = gh(remoteUrl);
-			if (!githubUrls) {
-				file.message('Repository should be on GitHub');
-				return;
-			}
+			targetRepoURL = remoteUrl;
 		} catch {
 			file.message('Awesome list must reside in a valid git repository');
 			return;
 		}
 	}
 
-	// Now use the GitHub API to check repository details
-	const headers = {
-		Accept: 'application/vnd.github.mercy-preview+json',
-		'User-Agent': 'awesome-lint',
-	};
-	if (process.env.github_token) {
-		headers.Authorization = `token ${process.env.github_token}`;
+	// Validate that it's a GitHub URL and fetch data
+	if (!gh(targetRepoURL)) {
+		file.message('Repository should be on GitHub');
+		return;
 	}
 
-	let data;
-	try {
-		const response = await fetch(githubUrls.api_url, {headers});
-		if (!response.ok) {
-			return;
-		}
-
-		data = await response.json();
-	} catch {
-		// Handle network errors
+	// Use the GitHub API to check repository details
+	const data = await fetchGitHubData(targetRepoURL);
+	if (!data) {
 		return;
 	}
 
