@@ -77,7 +77,7 @@ const plugins = [
 	[noMultipleToplevelHeadings, 1],
 	noShellDollars,
 	noTableIndentation,
-	noUndefinedReferences,
+	[noUndefinedReferences, {allow: [/^!(?:note|tip|important|warning|caution)$/i]}], // Allow GitHub alerts
 	noUnneededFullReferenceImage,
 	noUnneededFullReferenceLink,
 	noUnusedDefinitions,
@@ -95,7 +95,7 @@ const plugins = [
 	// require('remark-lint-no-empty-sections'),
 
 	matchPunctuation,
-	noRepeatPunctuation,
+	[noRepeatPunctuation, '！!~～,，·?？'], // Exclude dots to allow ellipsis (...)
 
 	// Custom plugins
 	...customRules,
