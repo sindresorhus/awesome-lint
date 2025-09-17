@@ -50,4 +50,9 @@ describe('rules › list-item', () => {
 		const messages = await lint({config, filename: 'test/fixtures/list-item/5.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('list-item - link references', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/6.md'});
+		assert.deepEqual(messages, []);
+	});
 });

@@ -135,7 +135,8 @@ function validateList(list, file) {
 			continue;
 		}
 
-		if (!validateListItemLinkChildren(link, file)) {
+		// Skip children validation for linkReference nodes as they have different structure
+		if (link.type !== 'linkReference' && !validateListItemLinkChildren(link, file)) {
 			continue;
 		}
 
