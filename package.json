@@ -55,6 +55,7 @@
 		"parse-github-url": "^1.0.3",
 		"read-pkg": "^9.0.1",
 		"remark": "^15.0.1",
+		"remark-gfm": "^4.0.1",
 		"remark-lint": "^10.0.1",
 		"remark-lint-blockquote-indentation": "^4.0.1",
 		"remark-lint-checkbox-character-style": "^5.0.1",

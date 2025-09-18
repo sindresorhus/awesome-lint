@@ -1,4 +1,5 @@
 import remarkLint from 'remark-lint';
+import remarkGfm from 'remark-gfm';
 import blockquoteIndentation from 'remark-lint-blockquote-indentation';
 import checkboxCharacterStyle from 'remark-lint-checkbox-character-style';
 import checkboxContentIndent from 'remark-lint-checkbox-content-indent';
@@ -45,6 +46,7 @@ import customRules from './rules/index.js';
 
 const plugins = [
 	remarkLint,
+	remarkGfm, // Enable GitHub Flavored Markdown (including footnotes)
 
 	// Official plugins
 	[blockquoteIndentation, 2],
@@ -77,7 +79,12 @@ const plugins = [
 	[noMultipleToplevelHeadings, 1],
 	noShellDollars,
 	noTableIndentation,
-	[noUndefinedReferences, {allow: [/^!(?:note|tip|important|warning|caution)$/i]}], // Allow GitHub alerts
+	[noUndefinedReferences, {
+		allow: [
+			/^!(?:note|tip|important|warning|caution)$/i, // Allow GitHub alerts
+			/^\^.+$/, // Allow footnotes
+		],
+	}],
 	noUnneededFullReferenceImage,
 	noUnneededFullReferenceLink,
 	noUnusedDefinitions,
