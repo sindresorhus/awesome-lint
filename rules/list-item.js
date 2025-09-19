@@ -296,7 +296,13 @@ function validateListItemPrefixCasing(prefix, file) {
 		return false;
 	}
 
-	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replaceAll(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["“'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
+	// Allow common symbol prefixes (e.g., /path/, @username, #hashtag, $variable)
+	// Check the original stripped prefix, not the tokenized first word
+	if (/^[/@#$~&%]/.test(strippedPrefix.trim())) {
+		return true;
+	}
+
+	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replaceAll(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
 		file.message('List item description must start with valid casing', prefix);
 		return false;
 	}

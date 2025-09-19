@@ -55,4 +55,9 @@ describe('rules › list-item', () => {
 		const messages = await lint({config, filename: 'test/fixtures/list-item/6.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('list-item - symbol prefixes', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/7.md'});
+		assert.deepEqual(messages, []);
+	});
 });
