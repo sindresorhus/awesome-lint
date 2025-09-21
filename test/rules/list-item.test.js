@@ -60,4 +60,9 @@ describe('rules › list-item', () => {
 		const messages = await lint({config, filename: 'test/fixtures/list-item/7.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('list-item - bold text in links', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/8.md'});
+		assert.deepEqual(messages, []);
+	});
 });

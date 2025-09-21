@@ -23,6 +23,7 @@ const listItemPrefixCaseAllowList = new Set([
 const listItemLinkNodeAllowList = new Set([
 	'emphasis',
 	'inlineCode',
+	'strong',
 	'text',
 ]);
 
