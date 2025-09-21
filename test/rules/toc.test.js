@@ -94,4 +94,9 @@ describe('rules › toc', () => {
 		const messages = await lint({config, filename: 'test/fixtures/toc/10.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('toc - success with emoji variation selectors', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/toc/emoji-variation-selectors.md'});
+		assert.deepEqual(messages, []);
+	});
 });

@@ -84,7 +84,11 @@ function buildHeadingLinks(ast) {
 
 	visit(ast, 'heading', node => {
 		const text = toString(node);
-		const slug = slugger.slug(text);
+
+		// Normalize text to remove variation selectors that GitHub ignores
+		const normalizedText = text.replaceAll('\uFE0F', '');
+
+		const slug = slugger.slug(normalizedText);
 		const link = `#${slug}`;
 
 		links[link] = node;
