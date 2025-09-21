@@ -65,4 +65,9 @@ describe('rules › list-item', () => {
 		const messages = await lint({config, filename: 'test/fixtures/list-item/8.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('list-item - non-Latin scripts without case distinction', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/9.md'});
+		assert.deepEqual(messages, []);
+	});
 });

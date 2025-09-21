@@ -288,6 +288,35 @@ function tokenizeWords(text) {
 	return text.split(/[- ;./']/).filter(Boolean);
 }
 
+function requiresCasingValidation(text) {
+	// Only enforce casing rules for scripts that have case distinction:
+	// Latin, Greek, and Cyrillic scripts
+	// All other scripts (Chinese, Japanese, Arabic, Hindi, etc.) don't need casing validation
+	if (!text || typeof text !== 'string') {
+		return true; // Default to validating if we can't determine
+	}
+
+	// Check if the text starts with Latin, Greek, or Cyrillic script
+	return /^\p{Script=Latin}|\p{Script=Greek}|\p{Script=Cyrillic}/u.test(text);
+}
+
+function hasValidCasing(word) {
+	const cleanedWord = word.replaceAll(/\W+/g, '');
+	return listItemPrefixCaseAllowList.has(caseOf(cleanedWord));
+}
+
+function startsWithNumber(word) {
+	return /\d/.test(word);
+}
+
+function startsWithQuote(word) {
+	return /^["'(]/.test(word);
+}
+
+function isAllowedIdentifier(word) {
+	return identifierAllowList.has(word);
+}
+
 function validateListItemPrefixCasing(prefix, file) {
 	const strippedPrefix = prefix.value.slice(3);
 	const [firstWord] = tokenizeWords(strippedPrefix);
@@ -303,12 +332,18 @@ function validateListItemPrefixCasing(prefix, file) {
 		return true;
 	}
 
-	if (!listItemPrefixCaseAllowList.has(caseOf(firstWord.replaceAll(/\W+/g, ''))) && !/\d/.test(firstWord) && !/^["'(]/.test(firstWord) && !identifierAllowList.has(firstWord)) {
-		file.message('List item description must start with valid casing', prefix);
-		return false;
+	// Skip casing validation for scripts that don't have case distinction
+	if (!requiresCasingValidation(firstWord)) {
+		return true;
 	}
 
-	return true;
+	// Check if word passes any of the allowed patterns
+	if (hasValidCasing(firstWord) || startsWithNumber(firstWord) || startsWithQuote(firstWord) || isAllowedIdentifier(firstWord)) {
+		return true;
+	}
+
+	file.message('List item description must start with valid casing', prefix);
+	return false;
 }
 
 function validateListItemPrefix(descriptionText, prefixText) {
