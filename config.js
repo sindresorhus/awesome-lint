@@ -101,7 +101,8 @@ const plugins = [
 	// Disabled as it throws `file.warn is not a function`
 	// require('remark-lint-no-empty-sections'),
 
-	matchPunctuation,
+	// Configure to exclude single quotes to avoid false positives with apostrophes (e.g., don't, isn't)
+	[matchPunctuation, ['""', '『』', '（）', '《》', '「」', '【】']],
 	[noRepeatPunctuation, '！!~～,，·?？'], // Exclude dots to allow ellipsis (...)
 
 	// Custom plugins
