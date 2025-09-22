@@ -2,9 +2,32 @@ import {execa} from 'execa';
 import {lintRule} from 'unified-lint-rule';
 import {fetchGitHubData} from '../lib/github-api.js';
 
-const oneDay = 24 * 60 * 60 * 1000;
-const minGitRepoAgeDays = 30;
-const minGitRepoAgeMs = minGitRepoAgeDays * oneDay;
+const millisecondsPerDay = 24 * 60 * 60 * 1000;
+const minimumRepositoryAgeDays = 30;
+
+function formatRepositoryAgeMessage(repositoryAgeMilliseconds) {
+	const daysOld = Math.floor(repositoryAgeMilliseconds / millisecondsPerDay);
+	const daysLeft = minimumRepositoryAgeDays - daysOld;
+
+	if (daysLeft <= 0) {
+		return; // Repository is old enough
+	}
+
+	const daysText = daysLeft === 1 ? 'day' : 'days';
+	return `Repository is ${daysOld} days old, but must be at least ${minimumRepositoryAgeDays} days old `
+		+ `(${daysLeft} ${daysText} left). New repositories need time to mature before being added `
+		+ 'to the main awesome list.';
+}
+
+function checkRepositoryAge(repositoryDate, file) {
+	const now = new Date();
+	const repositoryAgeMilliseconds = now - repositoryDate;
+
+	const message = formatRepositoryAgeMessage(repositoryAgeMilliseconds);
+	if (message !== undefined) {
+		file.message(message);
+	}
+}
 
 const gitRepoAgeRule = lintRule('remark-lint:awesome-git-repo-age', async (ast, file) => {
 	const {dirname, repoURL} = file;
@@ -16,13 +39,8 @@ const gitRepoAgeRule = lintRule('remark-lint:awesome-git-repo-age', async (ast, 
 			return;
 		}
 
-		const createdAt = new Date(data.created_at);
-		const now = new Date();
-
-		if (now - createdAt < minGitRepoAgeMs) {
-			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
-		}
-
+		const repositoryCreationDate = new Date(data.created_at);
+		checkRepositoryAge(repositoryCreationDate, file);
 		return;
 	}
 
@@ -45,15 +63,12 @@ const gitRepoAgeRule = lintRule('remark-lint:awesome-git-repo-age', async (ast, 
 			cwd: dirname,
 		});
 
-		const date = new Date(firstCommitDate);
-		const now = new Date();
-
-		if (now - date < minGitRepoAgeMs) {
-			file.message(`Git repository must be at least ${minGitRepoAgeDays} days old`);
-		}
+		const repositoryCreationDate = new Date(firstCommitDate);
+		checkRepositoryAge(repositoryCreationDate, file);
 	} catch {
 		file.message('Awesome list must reside in a valid deep-cloned Git repository (see https://github.com/sindresorhus/awesome-lint#tip for more information)');
 	}
 });
 
 export default gitRepoAgeRule;
+export {formatRepositoryAgeMessage};
