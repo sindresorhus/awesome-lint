@@ -65,4 +65,9 @@ describe('rules › heading', () => {
 		const messages = await lint({config, filename: 'test/fixtures/heading/success1.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('heading - success (with .js extension - Node.js)', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/heading/success2.md'});
+		assert.deepEqual(messages, []);
+	});
 });
