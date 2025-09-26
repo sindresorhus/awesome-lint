@@ -102,7 +102,7 @@ const plugins = [
 	// require('remark-lint-no-empty-sections'),
 
 	// Configure to exclude single quotes to avoid false positives with apostrophes (e.g., don't, isn't)
-	[matchPunctuation, ['""', '『』', '（）', '《》', '「」', '【】']],
+	[matchPunctuation, [['"', '"'], ['『', '』'], ['（', '）'], ['《', '》'], ['「', '」'], ['【', '】']]],
 	[noRepeatPunctuation, '！!~～,，·?？'], // Exclude dots to allow ellipsis (...)
 
 	// Custom plugins
