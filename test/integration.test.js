@@ -22,6 +22,7 @@ describe('integration', () => {
 		noUnwantedVMessages(readme, [
 			'match-punctuation',
 			'awesome-heading',
+			'no-repeat-item-in-description',
 			'awesome-spell-check',
 		]);
 
@@ -37,6 +38,7 @@ describe('integration', () => {
 			'match-punctuation',
 			'awesome-heading',
 			'awesome-list-item',
+			'no-repeat-item-in-description',
 			'awesome-spell-check',
 			'double-link',
 		]);

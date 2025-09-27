@@ -6,6 +6,7 @@ import github from './github.js';
 import license from './license.js';
 import listItem from './list-item.js';
 import noCiBadge from './no-ci-badge.js';
+import noRepeatItemInDescription from './no-repeat-item-in-description.js';
 import spellCheck from './spell-check.js';
 import toc from './toc.js';
 import doubleLink from './double-link.js';
@@ -32,6 +33,7 @@ const createRules = (options = {}) => {
 		license,
 		listItem,
 		noCiBadge,
+		noRepeatItemInDescription,
 		spellCheck,
 		toc,
 		// Configure double-link to ignore project website URLs
