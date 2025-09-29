@@ -113,6 +113,22 @@ jobs:
 
 You may add [branch protection rules](https://docs.github.com/en/github/administering-a-repository/configuring-protected-branches) to prevent merging branches not passing `awesome-lint`.
 
+#### Pre-commit
+
+You can use [pre-commit](https://pre-commit.com) to run `awesome-lint` as a Git pre-commit hook.
+
+Add this to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/sindresorhus/awesome-lint
+    rev: v2.1.2  # Use the latest version
+    hooks:
+      - id: awesome-lint
+```
+
+Then run `pre-commit install` to set up the Git hook.
+
 ## API
 
 ### Install
