@@ -70,4 +70,14 @@ describe('rules › heading', () => {
 		const messages = await lint({config, filename: 'test/fixtures/heading/success2.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('heading - success (with HTML image heading)', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/heading/success-html.md'});
+		assert.deepEqual(messages, []);
+	});
+
+	it('heading - success (with h1 tag and image)', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/heading/success-h1.md'});
+		assert.deepEqual(messages, []);
+	});
 });

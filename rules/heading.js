@@ -12,7 +12,27 @@ const listHeadingCaseAllowList = new Set([
 const headingRule = lintRule('remark-lint:awesome-heading', (ast, file) => {
 	let headings = 0;
 
-	visit(ast, (node, index) => {
+	visit(ast, (node, index, parent) => {
+		// Check for HTML heading elements (commonly used for image-based headings)
+		// Note: index is the child's index within its parent, not global position
+		if (node.type === 'html' && parent === ast && index === 0) {
+			const html = node.value.toLowerCase();
+			// Check if it's an HTML heading element with an image
+			// Must be either:
+			// 1. An actual heading tag (h1-h6) with content
+			// 2. A centered div with substantial content (not just a random image)
+			const isHeadingTag = /<h[1-6][\s>]/i.test(node.value);
+			const isCenteredDiv = html.includes('align="center"') || html.includes('align=\'center\'');
+			const hasImage = html.includes('<img');
+
+			// More strict: require either a heading tag OR (centered div WITH image)
+			// This prevents random divs with images from being counted as headings
+			if (isHeadingTag || (isCenteredDiv && hasImage)) {
+				headings++;
+				return;
+			}
+		}
+
 		if (node.type !== 'heading') {
 			return;
 		}
