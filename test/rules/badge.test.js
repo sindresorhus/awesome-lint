@@ -18,7 +18,7 @@ describe('rules › badge', () => {
 			{
 				line: 1,
 				ruleId: 'awesome-badge',
-				message: 'Missing Awesome badge after the main heading',
+				message: 'Missing Awesome badge next to the main heading',
 			},
 		]);
 	});
