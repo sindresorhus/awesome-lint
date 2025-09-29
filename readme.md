@@ -37,7 +37,7 @@ Type the command `npx awesome-lint` followed by the URL of the repo you want to 
 
 You can enable, disable, and ignore rules using special comments. This is based on [remark-message-control](https://github.com/remarkjs/remark-message-control#markers).
 
-By default, all rules are turned on. For example, 4 errors (2 of `no-dead-urls` and 2 of `awesome-list-item`) will be generated for following code snippets.
+By default, all rules are turned on. For example, 2 errors of `awesome-list-item` will be generated for following code snippets.
 
 ```md
 - [foo](https://foo.com) - an invalid description.
@@ -50,7 +50,7 @@ The `disable` keyword turns off all messages of the given rule identifiers. If n
 
 **Don't leave spaces after the last rule identifier.**
 
-For example, only the 2 `no-dead-urls` errors are left:
+For example, when `awesome-list-item` is disabled, no errors are reported:
 
 ```md
 <!--lint disable awesome-list-item-->
