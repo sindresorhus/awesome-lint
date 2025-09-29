@@ -2,7 +2,7 @@ import {describe, it} from 'node:test';
 import assert from 'node:assert/strict';
 import remarkLint from 'remark-lint';
 import lint from '../_lint.js';
-import doubleLinkRule from '../../rules/double-link.js';
+import doubleLinkRule, {createAwesomeListIgnore} from '../../rules/double-link.js';
 
 describe('rules › double-link', () => {
 	const config = {
@@ -191,5 +191,71 @@ describe('rules › double-link', () => {
 		} finally {
 			globalThis.fetch = originalFetch;
 		}
+	});
+
+	it('links in descriptions are not counted as duplicates with awesome-list behavior', async () => {
+		// Test that links appearing in list item descriptions are not flagged as duplicates when using awesome-list behavior
+		const configWithAwesomeList = {
+			plugins: [
+				remarkLint,
+				[doubleLinkRule, {shouldIgnore: createAwesomeListIgnore}],
+			],
+		};
+
+		const messages = await lint({config: configWithAwesomeList, filename: 'test/fixtures/double-link/links-in-descriptions.md'});
+
+		// Should not report any duplicate link errors for unicorn links that appear in descriptions
+		assert.deepEqual(messages, []);
+	});
+
+	it('general behavior - all links checked when no shouldIgnore provided', async () => {
+		// Test that without shouldIgnore, all duplicate links are flagged (general behavior)
+		const configGeneral = {
+			plugins: [
+				remarkLint,
+				doubleLinkRule, // No options = general behavior
+			],
+		};
+
+		const messages = await lint({
+			config: configGeneral,
+			filename: 'test/fixtures/double-link/links-in-descriptions.md',
+		});
+
+		// Should report duplicate link errors for unicorn links that appear in descriptions
+		assert.deepEqual(messages, [
+			{
+				line: 3,
+				ruleId: 'double-link',
+				message: 'Duplicate link: https://github.com/sindresorhus/unicorn',
+			},
+			{
+				line: 4,
+				ruleId: 'double-link',
+				message: 'Duplicate link: https://github.com/sindresorhus/unicorn',
+			},
+		]);
+	});
+
+	it('custom shouldIgnore factory function works', async () => {
+		// Test that a custom shouldIgnore factory function works
+		const configWithCustomIgnore = {
+			plugins: [
+				remarkLint,
+				[doubleLinkRule, {
+					shouldIgnore: _ast => node =>
+						// Ignore links to sindresorhus/unicorn
+						node.url && node.url.includes('sindresorhus/unicorn'),
+				}],
+			],
+		};
+
+		const messages = await lint({
+			config: configWithCustomIgnore,
+			filename: 'test/fixtures/double-link/links-in-descriptions.md',
+		});
+
+		// Should not report any duplicates since all sindresorhus/unicorn links are ignored
+		assert.deepEqual(messages, []);
 	});
 });

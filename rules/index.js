@@ -9,7 +9,7 @@ import noCiBadge from './no-ci-badge.js';
 import noRepeatItemInDescription from './no-repeat-item-in-description.js';
 import spellCheck from './spell-check.js';
 import toc from './toc.js';
-import doubleLink from './double-link.js';
+import doubleLink, {createAwesomeListIgnore} from './double-link.js';
 
 // Factory function to create rules with project website configuration
 const createRules = (options = {}) => {
@@ -36,8 +36,11 @@ const createRules = (options = {}) => {
 		noRepeatItemInDescription,
 		spellCheck,
 		toc,
-		// Configure double-link to ignore project website URLs
-		ignoreUrls.length > 0 ? [doubleLink, {ignore: ignoreUrls}] : doubleLink,
+		// Configure double-link with awesome-list behavior and project website ignoring
+		[doubleLink, {
+			ignore: ignoreUrls,
+			shouldIgnore: createAwesomeListIgnore,
+		}],
 	];
 
 	return rules;
