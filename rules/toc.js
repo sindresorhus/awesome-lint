@@ -195,7 +195,7 @@ function validateListItems({ast, file, list, headingLinks, headings, depth}) {
 						depth: depth + 1,
 					});
 				} else {
-					file.message(`Exceeded max depth of ${maxListItemDepth + 1} levels`);
+					file.message(`Exceeded max depth of ${maxListItemDepth + 1} levels`, listItem);
 				}
 			} else {
 				// No need to enforce the existence of a subList, even if there are corresponding

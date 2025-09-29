@@ -14,7 +14,7 @@ describe('rules › code-of-conduct', () => {
 		const messages = await lint({config, filename: 'test/fixtures/code-of-conduct/error0/readme.md'});
 		assert.deepEqual(messages, [
 			{
-				line: undefined,
+				line: 1,
 				ruleId: 'awesome-code-of-conduct',
 				message: 'code-of-conduct.md file must not be empty',
 			},

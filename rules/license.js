@@ -9,7 +9,7 @@ const licenseRule = lintRule('remark-lint:awesome-license', (ast, file) => {
 	));
 
 	if (license) {
-		file.message('Forbidden license section found', ast);
+		file.message('Forbidden license section found', license);
 	}
 });
 

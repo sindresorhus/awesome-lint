@@ -7,7 +7,7 @@ const authorEmail = 'sindresorhus@gmail.com';
 
 const codeOfConductRule = lintRule('remark-lint:awesome-code-of-conduct', (ast, file) => {
 	if (ast.children.length === 0) {
-		file.message('code-of-conduct.md file must not be empty');
+		file.message('code-of-conduct.md file must not be empty', ast);
 		return;
 	}
 

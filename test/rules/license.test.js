@@ -16,7 +16,7 @@ describe('rules › license', () => {
 		const messages = await lint({config, filename: 'test/fixtures/license/error0.md'});
 		assert.deepEqual(messages, [
 			{
-				line: 1,
+				line: 11,
 				ruleId: 'awesome-license',
 				message: 'Forbidden license section found',
 			},
@@ -27,7 +27,7 @@ describe('rules › license', () => {
 		const messages = await lint({config, filename: 'test/fixtures/license/error1.md'});
 		assert.deepEqual(messages, [
 			{
-				line: 1,
+				line: 11,
 				ruleId: 'awesome-license',
 				message: 'Forbidden license section found',
 			},
@@ -38,7 +38,7 @@ describe('rules › license', () => {
 		const messages = await lint({config, filename: 'test/fixtures/license/error2.md'});
 		assert.deepEqual(messages, [
 			{
-				line: 1,
+				line: 7,
 				ruleId: 'awesome-license',
 				message: 'Forbidden license section found',
 			},
@@ -49,7 +49,7 @@ describe('rules › license', () => {
 		const messages = await lint({config, filename: 'test/fixtures/license/error3.md'});
 		assert.deepEqual(messages, [
 			{
-				line: 1,
+				line: 11,
 				ruleId: 'awesome-license',
 				message: 'Forbidden license section found',
 			},

@@ -63,7 +63,7 @@ const headingRule = lintRule('remark-lint:awesome-heading', (ast, file) => {
 	});
 
 	if (headings === 0) {
-		file.message('Missing main list heading');
+		file.message('Missing main list heading', ast);
 	}
 });
 

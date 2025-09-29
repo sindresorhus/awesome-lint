@@ -58,7 +58,7 @@ describe('rules › toc', () => {
 		const messages = await lint({config, filename: 'test/fixtures/toc/4.md'});
 		assert.deepEqual(messages, [
 			{
-				line: 1,
+				line: 6,
 				ruleId: 'awesome-toc',
 				message: 'Exceeded max depth of 2 levels',
 			},
