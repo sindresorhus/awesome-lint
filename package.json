@@ -73,7 +73,6 @@
 		"remark-lint-list-item-bullet-indent": "^5.0.1",
 		"remark-lint-list-item-content-indent": "^4.0.1",
 		"remark-lint-list-item-indent": "^4.0.1",
-		"remark-lint-match-punctuation": "^0.2.1",
 		"remark-lint-no-blockquote-without-marker": "^6.0.1",
 		"remark-lint-no-emphasis-as-heading": "^4.0.1",
 		"remark-lint-no-file-name-articles": "^3.0.1",

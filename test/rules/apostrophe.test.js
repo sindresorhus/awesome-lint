@@ -20,7 +20,7 @@ describe('apostrophe handling', () => {
 
 		const [vFile] = await lint({filename: 'readme.md', contents: markdown});
 
-		const apostropheErrors = vFile.messages.filter(message => message.ruleId === 'match-punctuation' && message.message.includes('\''));
+		const apostropheErrors = vFile.messages.filter(message => message.ruleId === 'balanced-punctuation' && message.message.includes('\''));
 
 		assert.equal(apostropheErrors.length, 0);
 	});

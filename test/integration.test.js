@@ -20,7 +20,6 @@ describe('integration', () => {
 		const [readme, codeOfConduct] = await lint({filename: findReadmeFile('test/canonical/awesome')});
 
 		noUnwantedVMessages(readme, [
-			'match-punctuation',
 			'no-repeat-item-in-description',
 			'awesome-spell-check',
 		]);
@@ -34,7 +33,6 @@ describe('integration', () => {
 		const [readme, codeOfConduct] = await lint({filename: findReadmeFile('test/canonical/awesome-nodejs')});
 
 		noUnwantedVMessages(readme, [
-			'match-punctuation',
 			'awesome-list-item',
 			'no-repeat-item-in-description',
 			'awesome-spell-check',

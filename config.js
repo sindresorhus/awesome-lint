@@ -40,7 +40,6 @@ import tableCellPadding from 'remark-lint-table-cell-padding';
 import tablePipeAlignment from 'remark-lint-table-pipe-alignment';
 import tablePipes from 'remark-lint-table-pipes';
 import unorderedListMarkerStyle from 'remark-lint-unordered-list-marker-style';
-import matchPunctuation from 'remark-lint-match-punctuation';
 import noRepeatPunctuation from 'remark-lint-no-repeat-punctuation';
 import customRules from './rules/index.js';
 
@@ -101,8 +100,6 @@ const plugins = [
 	// Disabled as it throws `file.warn is not a function`
 	// require('remark-lint-no-empty-sections'),
 
-	// Configure to exclude single quotes to avoid false positives with apostrophes (e.g., don't, isn't)
-	[matchPunctuation, [['"', '"'], ['『', '』'], ['（', '）'], ['《', '》'], ['「', '」'], ['【', '】']]],
 	[noRepeatPunctuation, '！!~～,，·?？'], // Exclude dots to allow ellipsis (...)
 
 	// Custom plugins

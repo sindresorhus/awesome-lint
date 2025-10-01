@@ -5,6 +5,7 @@ import contributing from './contributing.js';
 import github from './github.js';
 import license from './license.js';
 import listItem from './list-item.js';
+import balancedPunctuation from './balanced-punctuation.js';
 import noCiBadge from './no-ci-badge.js';
 import noRepeatItemInDescription from './no-repeat-item-in-description.js';
 import spellCheck from './spell-check.js';
@@ -32,6 +33,7 @@ const createRules = (options = {}) => {
 		github,
 		license,
 		listItem,
+		balancedPunctuation,
 		noCiBadge,
 		noRepeatItemInDescription,
 		spellCheck,
