@@ -130,7 +130,7 @@ You might also like [awesome-nodejs](https://github.com/sindresorhus/awesome-nod
 [GitHub]( https://github.com) is awesome.
 - https://github.com/sindresorhus/awesome is meta awesome.
 - awesome-docker should not trigger Docker spell-check
-- vue-cli should not trigger Vue.js spell-check  
+- vue-cli should not trigger Vue.js spell-check
 - typescript-eslint should not trigger TypeScript spell-check
 - ffmpeg-python should not trigger FFmpeg spell-check
 - react-router should not trigger React spell-check
@@ -147,3 +147,17 @@ You might also like [awesome-nodejs](https://github.com/sindresorhus/awesome-nod
 - Using .NET Core
 - Building with .NET 8
 - The .NET ecosystem
+
+## Words that should NOT be flagged as framework/tech names
+
+- How to react to user feedback
+- Teams react quickly
+- The angular velocity is high
+- A svelte figure
+- Guard rails for safety
+- Open windows for ventilation
+- Julia Smith is our CEO
+- The nano particles are small
+- The net result was positive
+- Calculate the net profit
+- [Agroforestry Net](https://example.com) - Network for farmers

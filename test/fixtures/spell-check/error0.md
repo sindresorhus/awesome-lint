@@ -89,8 +89,8 @@ Test spell-check on basic text nodes.
 
 - ffmpeg is cool but FFmpeg is cooler
 
-- react is popular but React is correct
-- angular framework but Angular is correct  
+- react component is useful but React is correct
+- angular framework but Angular is correct
 - python language but Python is correct
 - docker containers but Docker is correct
 - kubernetes orchestration but Kubernetes is correct
