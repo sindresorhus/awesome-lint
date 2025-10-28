@@ -30,7 +30,10 @@ const lint = async options => {
 		filename: options.filename ?? 'readme.md',
 	};
 
-	const readmeFile = globbySync(options.filename.replaceAll('\\', '/'), {caseSensitiveMatch: false})[0];
+	const readmeFiles = globbySync(options.filename.replaceAll('\\','/'), {caseSensitiveMatch: false});
+	if (!readmeFile.length) throw new Error(`Could not find the file ${options.filename}`);
+	const readmefile = readmeFiles[0] //take the first for now
+	if (readmeFiles.length > 1) console.warn(`Multiple README files found, using ${readmeVFile}`)
 
 	if (!readmeFile) {
 		throw new Error(`Couldn't find the file ${options.filename}`);
@@ -70,10 +73,17 @@ lint.report = async options => {
 
 lint._report = async (options, spinner) => {
 	let temporary = null;
+	try {
+		temporary = temporaryDirectory();
+		await execa('git', ['clone', '--depth', '1', '--', options.filename, temporary]);
+	}finally{
+		if (temporary) await rmfr(temporary);
+	}
 
 	if (isUrl(options.filename)) {
 		if (!isGithubUrl(options.filename, {repository: true})) {
-			throw new Error(`Invalid GitHub repo URL: ${options.filename}`);
+			console.warn(`Warning: ${options.filename} is not a Github repo, skipping clone.`);
+			return;
 		}
 
 		temporary = temporaryDirectory();
@@ -118,6 +128,9 @@ lint._report = async (options, spinner) => {
 	process.exitCode = 1;
 
 	const reporter = options.reporter || vfileReporterPretty;
+	if (options.outputJson){
+		fs.writeFileSync('lint-result.json', JSON.stringify(messages, null, 2));
+	}
 	console.log(reporter(vfiles));
 };
 
