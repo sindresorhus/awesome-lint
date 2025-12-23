@@ -6,7 +6,7 @@
 	<br>
 </h1>
 
-> Linter for [Awesome](https://awesome.re) lists
+Linter for [Awesome](https://awesome.re) lists
 
 Intended to make it easier to create and maintain Awesome lists.
 
