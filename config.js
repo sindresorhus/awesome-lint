@@ -41,9 +41,9 @@ import tablePipeAlignment from 'remark-lint-table-pipe-alignment';
 import tablePipes from 'remark-lint-table-pipes';
 import unorderedListMarkerStyle from 'remark-lint-unordered-list-marker-style';
 import noRepeatPunctuation from 'remark-lint-no-repeat-punctuation';
-import customRules from './rules/index.js';
+import defaultCustomRules from './rules/index.js';
 
-const plugins = [
+export const createConfig = (customRules = defaultCustomRules) => [
 	remarkLint,
 	remarkGfm, // Enable GitHub Flavored Markdown (including footnotes)
 
@@ -106,5 +106,7 @@ const plugins = [
 	...customRules,
 ];
 
-export default plugins;
+const config = createConfig();
+
+export default config;
 

@@ -10,7 +10,7 @@ import {temporaryDirectory} from 'tempy';
 import {readSync as readVFileSync} from 'to-vfile';
 import vfileReporterPretty from 'vfile-reporter-pretty';
 import {execa} from 'execa';
-import config from './config.js';
+import config, {createConfig} from './config.js';
 import {createRules} from './rules/index.js';
 import {fetchGitHubData} from './lib/github-api.js';
 import findReadmeFile from './lib/find-readme-file.js';
@@ -26,7 +26,7 @@ const lint = async options => {
 
 	options = {
 		...options,
-		config: options.config ?? (options.repoURL ? createRules({repoURL: options.repoURL, projectWebsite}) : config),
+		config: options.config ?? (options.repoURL ? createConfig(createRules({repoURL: options.repoURL, projectWebsite})) : config),
 		filename: options.filename ?? 'readme.md',
 	};
 
