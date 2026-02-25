@@ -1,7 +1,8 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 import {lintRule} from 'unified-lint-rule';
 import {visit} from 'unist-util-visit';
-import path from 'node:path';
-import fs from 'node:fs';
 
 const BADGE_SOURCE_ALLOW_LIST = new Set([
 	'https://awesome.re/badge.svg',
