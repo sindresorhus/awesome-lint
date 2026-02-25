@@ -22,6 +22,7 @@ describe('integration', () => {
 		noUnwantedVMessages(readme, [
 			'no-repeat-item-in-description',
 			'awesome-spell-check',
+			'awesome-header-image',
 		]);
 
 		noUnwantedVMessages(codeOfConduct, [
@@ -36,6 +37,7 @@ describe('integration', () => {
 			'awesome-list-item',
 			'no-repeat-item-in-description',
 			'awesome-spell-check',
+			'awesome-header-image',
 			'double-link',
 		]);
 
