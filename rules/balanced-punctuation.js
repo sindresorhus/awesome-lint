@@ -296,9 +296,34 @@ function processText(context) {
 		const character = text[index];
 		const position = positions[index];
 
-		// Skip apostrophes (contractions like "don't", "it's")
+		// Skip apostrophes (contractions like "don't", "it's").
+		// The original match-punctuation plugin (from remark-lint-plugins) had a
+		// similar false-positive bug, reported in #104 and
+		// https://github.com/laysent/remark-lint-plugins/issues/44.
+		// The fix in 234526338dee handled it, but af84612b5d0c replaced the
+		// plugin with this custom balanced-punctuation implementation and
+		// reintroduced the issue: a right single quote (U+2019) after a word
+		// character was always treated as an apostrophe, even when it was the
+		// closing half of a quoted span (e.g. the ' in 'steal').
 		if ((character === '\u2019' || character === '\'') && isApostrophe(text, index)) {
-			continue;
+			const after = text[index + 1];
+			if (isWordCharacter(after)) {
+				// Between word characters: always an apostrophe ("don't", "it's").
+				continue;
+			}
+
+			// At word boundary ("students'" or closing quote in "'steal'"):
+			// check if there's a matching opening quote on the stack.
+			const hasMatchingOpen = character === '\u2019'
+				? stack.some(item => item?.pair?.left === '\u2018')
+				: symmetricState.get(character);
+
+			if (!hasMatchingOpen) {
+				// No opening to match: treat as apostrophe ("students'").
+				continue;
+			}
+
+			// Matching opening exists: fall through to handle as closing quote.
 		}
 
 		// Check for symmetric pairs (example: straight quotes)
