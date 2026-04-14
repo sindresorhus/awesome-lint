@@ -50,7 +50,17 @@ const listItemDescriptionSuffixNodeAllowList = new Set([
 	'text',
 ]);
 
+function isListItemLink(node) {
+	return node?.type === 'linkReference' || node?.type === 'link';
+}
+
 const listItemRule = lintRule('remark-lint:awesome-list-item', (ast, file) => {
+	visit(ast, 'paragraph', paragraph => {
+		if (hasMissingSpaceAfterListMarker(paragraph)) {
+			file.message('List item marker must be followed by a space', paragraph.children[0]);
+		}
+	});
+
 	let lists = findAllLists(ast);
 
 	const toc = find(ast, node => (
@@ -111,7 +121,6 @@ function validateList(list, file) {
 
 		// Might have children like: '{image} {text} {link} { - description}'
 		// Find the link that is followed by a dash separator, not just any link-like element.
-		const isLink = node => node.type === 'linkReference' || node.type === 'link';
 		const isFollowedByDash = index =>
 			index < paragraph.children.length - 1
 			&& paragraph.children[index + 1].type === 'text'
@@ -119,11 +128,11 @@ function validateList(list, file) {
 
 		// First, try to find a link followed by dash separator
 		let linkIndex = paragraph.children.findIndex((node, index) =>
-			isLink(node) && isFollowedByDash(index));
+			isListItemLink(node) && isFollowedByDash(index));
 
 		// If no link with dash separator found, use original algorithm (first link-like element)
 		if (linkIndex === -1) {
-			linkIndex = paragraph.children.findIndex(node => isLink(node));
+			linkIndex = paragraph.children.findIndex(node => isListItemLink(node));
 		}
 
 		// If we found a valid link, use it; otherwise keep the original first element
@@ -143,6 +152,12 @@ function validateList(list, file) {
 
 		validateListItemDescription(description, file);
 	}
+}
+
+function hasMissingSpaceAfterListMarker(paragraph) {
+	return paragraph.children[0]?.type === 'text'
+		&& paragraph.children[0].value === '-'
+		&& isListItemLink(paragraph.children[1]);
 }
 
 function validateListItemLinkChildren(link, file) {

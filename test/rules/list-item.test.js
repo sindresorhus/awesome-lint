@@ -70,4 +70,15 @@ describe('rules › list-item', () => {
 		const messages = await lint({config, filename: 'test/fixtures/list-item/9.md'});
 		assert.deepEqual(messages, []);
 	});
+
+	it('list-item - missing space after list marker', async () => {
+		const messages = await lint({config, filename: 'test/fixtures/list-item/10.md'});
+		assert.deepEqual(messages, [
+			{
+				line: 1,
+				ruleId: 'awesome-list-item',
+				message: 'List item marker must be followed by a space',
+			},
+		]);
+	});
 });
