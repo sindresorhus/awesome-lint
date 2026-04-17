@@ -23,32 +23,32 @@ const createRules = (options = {}) => {
 	}
 
 	const rules = [
-		heading,
-		badge,
-		contributing,
+		[heading, ['error']],
+		[badge, ['error']],
+		[contributing, ['error']],
 
 		// Disabled for now as it means we cannot sparsely check out the repo.
 		// gitRepoAge,
 
-		github,
-		license,
-		listItem,
-		balancedPunctuation,
-		noCiBadge,
-		noRepeatItemInDescription,
-		spellCheck,
-		toc,
+		[github, ['error']],
+		[license, ['error']],
+		[listItem, ['error']],
+		[balancedPunctuation, ['error']],
+		[noCiBadge, ['error']],
+		[noRepeatItemInDescription, ['error']],
+		[spellCheck, ['warn']], // Spell-check violations are warnings, not errors
+		[toc, ['error']],
 		// Configure double-link with awesome-list behavior and project website ignoring
-		[doubleLink, {
+		[doubleLink, ['error', {
 			ignore: ignoreUrls,
 			shouldIgnore: createAwesomeListIgnore,
-		}],
+		}]],
 	];
 
 	return rules;
 };
 
-// Default rules for backward compatibility
+// Default rules used when no repo URL is provided
 const rules = createRules();
 
 export default rules;

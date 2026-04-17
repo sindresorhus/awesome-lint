@@ -1,4 +1,4 @@
-This file should generate a bunch of spell-check errors.
+This file should generate a bunch of spell-check warnings.
 
 ---
 

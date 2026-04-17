@@ -16,19 +16,63 @@ import {fetchGitHubData} from './lib/github-api.js';
 import findReadmeFile from './lib/find-readme-file.js';
 import codeOfConductRule from './rules/code-of-conduct.js';
 
-const lint = async options => {
-	// Fetch project website if repoURL is provided
+const ruleIdFromPlugin = plugin => plugin?.name?.replace(/^remark-lint:/, '');
+
+const getConfiguredPlugins = config => Array.isArray(config) ? config : (config?.plugins ?? []);
+
+const getDirectRuleIds = config => {
+	const ruleIds = new Set();
+
+	for (const plugin of getConfiguredPlugins(config)) {
+		const rule = Array.isArray(plugin) ? plugin[0] : plugin;
+		const ruleId = ruleIdFromPlugin(rule);
+
+		if (ruleId) {
+			ruleIds.add(ruleId);
+		}
+	}
+
+	return ruleIds;
+};
+
+const getWarnRuleIds = config => {
+	const warnRuleIds = new Set();
+
+	for (const plugin of getConfiguredPlugins(config)) {
+		if (!Array.isArray(plugin)) {
+			continue;
+		}
+
+		const [rule, options] = plugin;
+		if (!Array.isArray(options) || options[0] !== 'warn') {
+			continue;
+		}
+
+		const ruleId = ruleIdFromPlugin(rule);
+		if (ruleId) {
+			warnRuleIds.add(ruleId);
+		}
+	}
+
+	return warnRuleIds;
+};
+
+const resolveOptions = async options => {
 	let projectWebsite;
 	if (options.repoURL && !options.config) {
 		const data = await fetchGitHubData(options.repoURL);
 		projectWebsite = data?.homepage;
 	}
 
-	options = {
+	return {
 		...options,
 		config: options.config ?? (options.repoURL ? createConfig(createRules({repoURL: options.repoURL, projectWebsite})) : config),
 		filename: options.filename ?? 'readme.md',
 	};
+};
+
+const lint = async options => {
+	options = await resolveOptions(options);
 
 	const readmeFile = globbySync(options.filename.replaceAll('\\', '/'), {caseSensitiveMatch: false})[0];
 
@@ -50,7 +94,7 @@ const lint = async options => {
 		codeOfConductVFile.repoURL = options.repoURL;
 		processTasks.push({
 			vfile: codeOfConductVFile,
-			plugins: [codeOfConductRule],
+			plugins: [[codeOfConductRule, ['error']]],
 		});
 	}
 
@@ -89,7 +133,11 @@ lint._report = async (options, spinner) => {
 		options.filename = readme;
 	}
 
+	// Resolve here so we can inspect the final config for severity classification. `lint()` calls `resolveOptions` again, but it's a no-op once `config` is set.
+	options = await resolveOptions(options);
 	const vfiles = await lint(options);
+	const directRuleIds = getDirectRuleIds(options.config);
+	const warnRuleIds = getWarnRuleIds(options.config);
 	const messages = [];
 	for (const vfile of vfiles) {
 		vfile.path = path.basename(vfile.path);
@@ -110,12 +158,38 @@ lint._report = async (options, spinner) => {
 		return;
 	}
 
-	for (const message of messages) {
-		message.fatal = true; // TODO: because of https://github.com/wooorm/remark-lint/issues/65
-	}
+	/*
+	Classify each message as error or warning.
 
-	spinner.fail();
-	process.exitCode = 1;
+	remark-lint defaults a rule's severity to warn (`fatal: false`) when no severity is passed, so a plain `[plugin]` entry would pass-through as non-fatal. To preserve the historical "any violation fails the run" behavior, any message from a rule configured directly at the top level is treated as an error unless it was explicitly given `['warn']`. Messages from transitive rules (pulled in via presets) are left as warnings.
+
+	- `fatal === true`: always an error (plugin called `file.fail`, or severity was `['error']`).
+	- Rule in `warnRuleIds`: explicit `['warn']` — warning.
+	- `fatal === false` and rule not in our top-level config: transitive — warning.
+	- Otherwise (direct rule, non-fatal message): error.
+	*/
+	const hasErrors = messages.some(message => {
+		if (message.fatal === true) {
+			return true;
+		}
+
+		if (warnRuleIds.has(message.ruleId)) {
+			return false;
+		}
+
+		if (message.fatal === false && !directRuleIds.has(message.ruleId)) {
+			return false;
+		}
+
+		return true;
+	});
+
+	if (hasErrors) {
+		spinner.fail();
+		process.exitCode = 1;
+	} else {
+		spinner.succeed();
+	}
 
 	const reporter = options.reporter || vfileReporterPretty;
 	console.log(reporter(vfiles));

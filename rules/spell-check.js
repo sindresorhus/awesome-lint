@@ -28,9 +28,9 @@ const compiledRules = spellCheckRules.map(rule => ({
 	value: rule.value,
 }));
 
-// Create spell-check error message
+// Create spell-check warning message
 function createSpellCheckMessage(incorrect, correct) {
-	return `Text "${incorrect}" should be written as "${correct}"`;
+	return `Text "${incorrect}" should be written as "${correct}" (if referring to the technology)`;
 }
 
 // Cache for processed text to avoid duplicate work
