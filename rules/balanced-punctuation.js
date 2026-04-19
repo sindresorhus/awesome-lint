@@ -212,7 +212,7 @@ For proper nesting, we check if the last stack item matches. If not, we report a
 @param {object} context - Execution context with all necessary data.
 */
 function handleSymmetricPair(context) {
-	const {character, position, stack, symmetricState, symmetricPairs, file} = context;
+	const {character, position, stack, symmetricState, symmetricPairs, file, textIndex} = context;
 	const pair = symmetricPairs.get(character);
 	const expectingClose = symmetricState.get(character);
 
@@ -239,7 +239,7 @@ function handleSymmetricPair(context) {
 	}
 
 	// This is an opening quote
-	stack.push({pair, position});
+	stack.push({pair, position, textIndex});
 	symmetricState.set(character, true);
 }
 
@@ -296,9 +296,48 @@ function processText(context) {
 		const character = text[index];
 		const position = positions[index];
 
-		// Skip apostrophes (contractions like "don't", "it's")
+		// Skip apostrophes (contractions like "don't", "it's").
+		// The original match-punctuation plugin (from remark-lint-plugins) had a
+		// similar false-positive bug, reported in #104 and
+		// https://github.com/laysent/remark-lint-plugins/issues/44.
+		// The fix in 234526338dee handled it, but af84612b5d0c replaced the
+		// plugin with this custom balanced-punctuation implementation and
+		// reintroduced the issue: a right single quote (U+2019) after a word
+		// character was always treated as an apostrophe, even when it was the
+		// closing half of a quoted span (e.g. the ' in 'steal').
 		if ((character === '\u2019' || character === '\'') && isApostrophe(text, index)) {
-			continue;
+			const after = text[index + 1];
+			if (isWordCharacter(after)) {
+				// Between word characters: always an apostrophe ("don't", "it's").
+				continue;
+			}
+
+			// At word boundary ("students'" or closing quote in "'steal'"):
+			// find the most recent matching opening quote on the stack.
+			const matchingOpenerIndex = character === '\u2019'
+				? stack.findLastIndex(item => item?.pair?.left === '\u2018')
+				: (symmetricState.get(character)
+					? stack.findLastIndex(item => item?.pair?.left === character)
+					: -1);
+
+			if (matchingOpenerIndex === -1) {
+				// No opening to match: treat as apostrophe ("students'").
+				continue;
+			}
+
+			// Check whether there is whitespace between the opener and
+			// this position. Possessive apostrophes within a longer
+			// phrase (like 'The students') have whitespace between the
+			// opening quote and the apostrophe. Single-word quotes
+			// (like 'steal') do not.
+			const opener = stack[matchingOpenerIndex];
+			const textBetween = text.slice(opener.textIndex + 1, index);
+			if (/\s/.test(textBetween)) {
+				continue;
+			}
+
+			// No whitespace: single-word quote. Fall through to handle
+			// as closing quote.
 		}
 
 		// Check for symmetric pairs (example: straight quotes)
@@ -310,6 +349,7 @@ function processText(context) {
 				symmetricState,
 				symmetricPairs,
 				file,
+				textIndex: index,
 			});
 
 			continue;
@@ -318,7 +358,7 @@ function processText(context) {
 		// Check for asymmetric left punctuation (opening)
 		if (leftCharacters.has(character)) {
 			const pair = leftCharacters.get(character);
-			stack.push({pair, position});
+			stack.push({pair, position, textIndex: index});
 			continue;
 		}
 
