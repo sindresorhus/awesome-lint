@@ -12,8 +12,8 @@ const badgeSourceUrlAllowList = new Set([
 	'https://awesome.re/badge-flat2.svg',
 ]);
 
-const isValidBadgeUrl = url => badgeUrlAllowList.has(url);
-const isValidBadgeSourceUrl = url => badgeSourceUrlAllowList.has(url);
+export const isValidBadgeUrl = url => badgeUrlAllowList.has(url);
+export const isValidBadgeSourceUrl = url => badgeSourceUrlAllowList.has(url);
 
 const badgeRule = lintRule('remark-lint:awesome-badge', (ast, file) => {
 	visit(ast, 'heading', (node, index) => {

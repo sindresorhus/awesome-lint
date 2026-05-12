@@ -1,5 +1,6 @@
 import heading from './heading.js';
 import badge from './badge.js';
+import headerImage from './header-image.js';
 import contributing from './contributing.js';
 /// import gitRepoAge from './git-repo-age.js';
 import github from './github.js';
@@ -25,6 +26,7 @@ const createRules = (options = {}) => {
 	const rules = [
 		[heading, ['error']],
 		[badge, ['error']],
+		[headerImage, ['error']],
 		[contributing, ['error']],
 
 		// Disabled for now as it means we cannot sparsely check out the repo.
