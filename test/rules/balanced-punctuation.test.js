@@ -64,6 +64,43 @@ describe('balanced-punctuation', () => {
 		assert.ok(errors.length > 0, 'Should detect straight quotes');
 	});
 
+	// Regression test for #104 and https://github.com/laysent/remark-lint-plugins/issues/44.
+	// The custom balanced-punctuation rule (af84612b5d0c) reintroduced the
+	// apostrophe false-positive that was fixed in match-punctuation (234526338dee).
+	it('should not false-positive on apostrophes in possessives and contractions', async () => {
+		const config = {
+			plugins: [
+				remarkLint,
+				balancedPunctuationRule,
+			],
+		};
+
+		const messages = await lint({
+			config,
+			filename: 'test/fixtures/balanced-punctuation/apostrophes-valid.md',
+		});
+
+		const errors = messages.filter(m => m.ruleId === 'balanced-punctuation');
+		assert.equal(errors.length, 0, `Expected no errors but got: ${JSON.stringify(errors, null, 2)}`);
+	});
+
+	it('should detect unmatched curly single quotes that are not apostrophes', async () => {
+		const config = {
+			plugins: [
+				remarkLint,
+				balancedPunctuationRule,
+			],
+		};
+
+		const messages = await lint({
+			config,
+			filename: 'test/fixtures/balanced-punctuation/apostrophes-invalid.md',
+		});
+
+		const errors = messages.filter(m => m.ruleId === 'balanced-punctuation');
+		assert.ok(errors.length > 0, 'Should detect unmatched curly single quotes');
+	});
+
 	it('should not detect defaults when using custom config', async () => {
 		const config = {
 			plugins: [
